@@ -139,7 +139,7 @@ namespace EveOPreview.Services.Implementation
                 // If we are in a flatpak, then use flatpak-spawn to run wmctrl outside the sandbox
                 if (Environment.GetEnvironmentVariable("container") == "flatpak")
                 {
-                    cmd = $"-c \"flatpak-spawn --host {this._wmctrlLocation}/wmctrl -a \"\"" + windowName + "\"\"\"";
+                    cmd = $"-c \"flatpak-spawn --host wmctrl -a \"\"" + windowName + "\"\"\"";
                 } 
                 else 
                 {
