@@ -31,1175 +31,1173 @@ namespace EveOPreview.View
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ToolStripMenuItem RestoreWindowMenuItem;
-			System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-			System.Windows.Forms.ToolStripMenuItem TitleMenuItem;
-			System.Windows.Forms.ToolStripSeparator SeparatorMenuItem;
-			System.Windows.Forms.TabControl ContentTabControl;
-			System.Windows.Forms.TabPage GeneralTabPage;
-			System.Windows.Forms.Panel GeneralSettingsPanel;
-			System.Windows.Forms.Label label4;
-			System.Windows.Forms.TabPage ThumbnailTabPage;
-			System.Windows.Forms.Panel ThumbnailSettingsPanel;
-			System.Windows.Forms.Label HeigthLabel;
-			System.Windows.Forms.Label WidthLabel;
-			System.Windows.Forms.Label OpacityLabel;
-			System.Windows.Forms.Panel ZoomSettingsPanel;
-			System.Windows.Forms.Label ZoomFactorLabel;
-			System.Windows.Forms.Label ZoomAnchorLabel;
-			System.Windows.Forms.TabPage OverlayTabPage;
-			System.Windows.Forms.Panel OverlaySettingsPanel;
-			System.Windows.Forms.TabPage ClientsTabPage;
-			System.Windows.Forms.Panel ClientsPanel;
-			System.Windows.Forms.Label ThumbnailsListLabel;
-			System.Windows.Forms.TabPage AboutTabPage;
-			System.Windows.Forms.Panel AboutPanel;
-			System.Windows.Forms.Label CreditMaintLabel;
-			System.Windows.Forms.Label DocumentationLinkLabel;
-			System.Windows.Forms.Label DescriptionLabel;
+			components = new System.ComponentModel.Container();
+			ToolStripMenuItem RestoreWindowMenuItem;
+			ToolStripMenuItem ExitMenuItem;
+			ToolStripMenuItem TitleMenuItem;
+			ToolStripSeparator SeparatorMenuItem;
+			TabControl ContentTabControl;
+			TabPage GeneralTabPage;
+			Panel GeneralSettingsPanel;
+			Label label4;
+			TabPage ThumbnailTabPage;
+			Panel ThumbnailSettingsPanel;
+			Label HeigthLabel;
+			Label WidthLabel;
+			Label OpacityLabel;
+			Panel ZoomSettingsPanel;
+			Label ZoomFactorLabel;
+			Label ZoomAnchorLabel;
+			TabPage OverlayTabPage;
+			Panel OverlaySettingsPanel;
+			TabPage ClientsTabPage;
+			Panel ClientsPanel;
+			Label ThumbnailsListLabel;
+			TabPage AboutTabPage;
+			Panel AboutPanel;
+			Label CreditMaintLabel;
+			Label DocumentationLinkLabel;
+			Label DescriptionLabel;
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			System.Windows.Forms.Label NameLabel;
-			this.AnimationStyleCombo = new System.Windows.Forms.ComboBox();
-			this.MinimizeInactiveClientsCheckBox = new System.Windows.Forms.CheckBox();
-			this.EnableClientLayoutTrackingCheckBox = new System.Windows.Forms.CheckBox();
-			this.HideActiveClientThumbnailCheckBox = new System.Windows.Forms.CheckBox();
-			this.ShowThumbnailsAlwaysOnTopCheckBox = new System.Windows.Forms.CheckBox();
-			this.HideThumbnailsOnLostFocusCheckBox = new System.Windows.Forms.CheckBox();
-			this.EnablePerClientThumbnailsLayoutsCheckBox = new System.Windows.Forms.CheckBox();
-			this.MinimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
-			this.ThumbnailSnapToGridCheckBox = new System.Windows.Forms.CheckBox();
-			this.ThumbnailSnapToGridSizeYNumericEdit = new System.Windows.Forms.NumericUpDown();
-			this.SnapYLabel = new System.Windows.Forms.Label();
-			this.ThumbnailSnapToGridSizeXNumericEdit = new System.Windows.Forms.NumericUpDown();
-			this.SnapXLabel = new System.Windows.Forms.Label();
-			this.LockThumbnailLocationCheckbox = new System.Windows.Forms.CheckBox();
-			this.ThumbnailsWidthNumericEdit = new System.Windows.Forms.NumericUpDown();
-			this.ThumbnailsHeightNumericEdit = new System.Windows.Forms.NumericUpDown();
-			this.ThumbnailOpacityTrackBar = new System.Windows.Forms.TrackBar();
-			this.ZoomTabPage = new System.Windows.Forms.TabPage();
-			this.ZoomAnchorPanel = new System.Windows.Forms.Panel();
-			this.ZoomAanchorNWRadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorNRadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorNERadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorWRadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorSERadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorCRadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorSRadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorERadioButton = new System.Windows.Forms.RadioButton();
-			this.ZoomAanchorSWRadioButton = new System.Windows.Forms.RadioButton();
-			this.EnableThumbnailZoomCheckBox = new System.Windows.Forms.CheckBox();
-			this.ThumbnailZoomFactorNumericEdit = new System.Windows.Forms.NumericUpDown();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.OverlayLabelColorButton = new System.Windows.Forms.Panel();
-			this.OverlayLabelSizeNumericEdit = new System.Windows.Forms.NumericUpDown();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.OverlayLabelNWRadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelNRadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelNERadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelWRadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelSERadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelCRadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelSRadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelERadioButton = new System.Windows.Forms.RadioButton();
-			this.OverlayLabelSWRadioButton = new System.Windows.Forms.RadioButton();
-			this.label1 = new System.Windows.Forms.Label();
-			this.HighlightColorLabel = new System.Windows.Forms.Label();
-			this.ActiveClientHighlightColorButton = new System.Windows.Forms.Panel();
-			this.EnableActiveClientHighlightCheckBox = new System.Windows.Forms.CheckBox();
-			this.ShowThumbnailOverlaysCheckBox = new System.Windows.Forms.CheckBox();
-			this.ShowThumbnailFramesCheckBox = new System.Windows.Forms.CheckBox();
-			this.ThumbnailsList = new System.Windows.Forms.CheckedListBox();
-			this.VersionLabel = new System.Windows.Forms.Label();
-			this.DocumentationLink = new System.Windows.Forms.LinkLabel();
-			this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.TrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			RestoreWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			TitleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			SeparatorMenuItem = new System.Windows.Forms.ToolStripSeparator();
-			ContentTabControl = new System.Windows.Forms.TabControl();
-			GeneralTabPage = new System.Windows.Forms.TabPage();
-			GeneralSettingsPanel = new System.Windows.Forms.Panel();
-			label4 = new System.Windows.Forms.Label();
-			ThumbnailTabPage = new System.Windows.Forms.TabPage();
-			ThumbnailSettingsPanel = new System.Windows.Forms.Panel();
-			HeigthLabel = new System.Windows.Forms.Label();
-			WidthLabel = new System.Windows.Forms.Label();
-			OpacityLabel = new System.Windows.Forms.Label();
-			ZoomSettingsPanel = new System.Windows.Forms.Panel();
-			ZoomFactorLabel = new System.Windows.Forms.Label();
-			ZoomAnchorLabel = new System.Windows.Forms.Label();
-			OverlayTabPage = new System.Windows.Forms.TabPage();
-			OverlaySettingsPanel = new System.Windows.Forms.Panel();
-			ClientsTabPage = new System.Windows.Forms.TabPage();
-			ClientsPanel = new System.Windows.Forms.Panel();
-			ThumbnailsListLabel = new System.Windows.Forms.Label();
-			AboutTabPage = new System.Windows.Forms.TabPage();
-			AboutPanel = new System.Windows.Forms.Panel();
-			CreditMaintLabel = new System.Windows.Forms.Label();
-			DocumentationLinkLabel = new System.Windows.Forms.Label();
-			DescriptionLabel = new System.Windows.Forms.Label();
-			NameLabel = new System.Windows.Forms.Label();
+			Label NameLabel;
+			AnimationStyleCombo = new ComboBox();
+			MinimizeInactiveClientsCheckBox = new CheckBox();
+			EnableClientLayoutTrackingCheckBox = new CheckBox();
+			HideActiveClientThumbnailCheckBox = new CheckBox();
+			ShowThumbnailsAlwaysOnTopCheckBox = new CheckBox();
+			HideThumbnailsOnLostFocusCheckBox = new CheckBox();
+			EnablePerClientThumbnailsLayoutsCheckBox = new CheckBox();
+			MinimizeToTrayCheckBox = new CheckBox();
+			ThumbnailSnapToGridCheckBox = new CheckBox();
+			ThumbnailSnapToGridSizeYNumericEdit = new NumericUpDown();
+			SnapYLabel = new Label();
+			ThumbnailSnapToGridSizeXNumericEdit = new NumericUpDown();
+			SnapXLabel = new Label();
+			LockThumbnailLocationCheckbox = new CheckBox();
+			ThumbnailsWidthNumericEdit = new NumericUpDown();
+			ThumbnailsHeightNumericEdit = new NumericUpDown();
+			ThumbnailOpacityTrackBar = new TrackBar();
+			ZoomTabPage = new TabPage();
+			ZoomAnchorPanel = new Panel();
+			ZoomAanchorNWRadioButton = new RadioButton();
+			ZoomAanchorNRadioButton = new RadioButton();
+			ZoomAanchorNERadioButton = new RadioButton();
+			ZoomAanchorWRadioButton = new RadioButton();
+			ZoomAanchorSERadioButton = new RadioButton();
+			ZoomAanchorCRadioButton = new RadioButton();
+			ZoomAanchorSRadioButton = new RadioButton();
+			ZoomAanchorERadioButton = new RadioButton();
+			ZoomAanchorSWRadioButton = new RadioButton();
+			EnableThumbnailZoomCheckBox = new CheckBox();
+			ThumbnailZoomFactorNumericEdit = new NumericUpDown();
+			label3 = new Label();
+			label2 = new Label();
+			OverlayLabelColorButton = new Panel();
+			OverlayLabelSizeNumericEdit = new NumericUpDown();
+			panel1 = new Panel();
+			OverlayLabelNWRadioButton = new RadioButton();
+			OverlayLabelNRadioButton = new RadioButton();
+			OverlayLabelNERadioButton = new RadioButton();
+			OverlayLabelWRadioButton = new RadioButton();
+			OverlayLabelSERadioButton = new RadioButton();
+			OverlayLabelCRadioButton = new RadioButton();
+			OverlayLabelSRadioButton = new RadioButton();
+			OverlayLabelERadioButton = new RadioButton();
+			OverlayLabelSWRadioButton = new RadioButton();
+			label1 = new Label();
+			HighlightColorLabel = new Label();
+			ActiveClientHighlightColorButton = new Panel();
+			EnableActiveClientHighlightCheckBox = new CheckBox();
+			ShowThumbnailOverlaysCheckBox = new CheckBox();
+			ShowThumbnailFramesCheckBox = new CheckBox();
+			ThumbnailsList = new CheckedListBox();
+			VersionLabel = new Label();
+			DocumentationLink = new LinkLabel();
+			NotifyIcon = new NotifyIcon(components);
+			TrayMenu = new ContextMenuStrip(components);
+			RestoreWindowMenuItem = new ToolStripMenuItem();
+			ExitMenuItem = new ToolStripMenuItem();
+			TitleMenuItem = new ToolStripMenuItem();
+			SeparatorMenuItem = new ToolStripSeparator();
+			ContentTabControl = new TabControl();
+			GeneralTabPage = new TabPage();
+			GeneralSettingsPanel = new Panel();
+			label4 = new Label();
+			ThumbnailTabPage = new TabPage();
+			ThumbnailSettingsPanel = new Panel();
+			HeigthLabel = new Label();
+			WidthLabel = new Label();
+			OpacityLabel = new Label();
+			ZoomSettingsPanel = new Panel();
+			ZoomFactorLabel = new Label();
+			ZoomAnchorLabel = new Label();
+			OverlayTabPage = new TabPage();
+			OverlaySettingsPanel = new Panel();
+			ClientsTabPage = new TabPage();
+			ClientsPanel = new Panel();
+			ThumbnailsListLabel = new Label();
+			AboutTabPage = new TabPage();
+			AboutPanel = new Panel();
+			CreditMaintLabel = new Label();
+			DocumentationLinkLabel = new Label();
+			DescriptionLabel = new Label();
+			NameLabel = new Label();
 			ContentTabControl.SuspendLayout();
 			GeneralTabPage.SuspendLayout();
 			GeneralSettingsPanel.SuspendLayout();
 			ThumbnailTabPage.SuspendLayout();
 			ThumbnailSettingsPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailSnapToGridSizeYNumericEdit)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailSnapToGridSizeXNumericEdit)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailsWidthNumericEdit)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailsHeightNumericEdit)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailOpacityTrackBar)).BeginInit();
-			this.ZoomTabPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)ThumbnailSnapToGridSizeYNumericEdit).BeginInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailSnapToGridSizeXNumericEdit).BeginInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailsWidthNumericEdit).BeginInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailsHeightNumericEdit).BeginInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailOpacityTrackBar).BeginInit();
+			ZoomTabPage.SuspendLayout();
 			ZoomSettingsPanel.SuspendLayout();
-			this.ZoomAnchorPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailZoomFactorNumericEdit)).BeginInit();
+			ZoomAnchorPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)ThumbnailZoomFactorNumericEdit).BeginInit();
 			OverlayTabPage.SuspendLayout();
 			OverlaySettingsPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.OverlayLabelSizeNumericEdit)).BeginInit();
-			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)OverlayLabelSizeNumericEdit).BeginInit();
+			panel1.SuspendLayout();
 			ClientsTabPage.SuspendLayout();
 			ClientsPanel.SuspendLayout();
 			AboutTabPage.SuspendLayout();
 			AboutPanel.SuspendLayout();
-			this.TrayMenu.SuspendLayout();
-			this.SuspendLayout();
+			TrayMenu.SuspendLayout();
+			SuspendLayout();
 			// 
 			// RestoreWindowMenuItem
 			// 
 			RestoreWindowMenuItem.Name = "RestoreWindowMenuItem";
-			RestoreWindowMenuItem.Size = new System.Drawing.Size(151, 22);
+			RestoreWindowMenuItem.Size = new Size(201, 32);
 			RestoreWindowMenuItem.Text = "Restore";
-			RestoreWindowMenuItem.Click += new System.EventHandler(this.RestoreMainForm_Handler);
+			RestoreWindowMenuItem.Click += RestoreMainForm_Handler;
 			// 
 			// ExitMenuItem
 			// 
 			ExitMenuItem.Name = "ExitMenuItem";
-			ExitMenuItem.Size = new System.Drawing.Size(151, 22);
+			ExitMenuItem.Size = new Size(201, 32);
 			ExitMenuItem.Text = "Exit";
-			ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick_Handler);
+			ExitMenuItem.Click += ExitMenuItemClick_Handler;
 			// 
 			// TitleMenuItem
 			// 
 			TitleMenuItem.Enabled = false;
 			TitleMenuItem.Name = "TitleMenuItem";
-			TitleMenuItem.Size = new System.Drawing.Size(151, 22);
+			TitleMenuItem.Size = new Size(201, 32);
 			TitleMenuItem.Text = "EVE-O-Preview";
 			// 
 			// SeparatorMenuItem
 			// 
 			SeparatorMenuItem.Name = "SeparatorMenuItem";
-			SeparatorMenuItem.Size = new System.Drawing.Size(148, 6);
+			SeparatorMenuItem.Size = new Size(198, 6);
 			// 
 			// ContentTabControl
 			// 
-			ContentTabControl.Alignment = System.Windows.Forms.TabAlignment.Left;
+			ContentTabControl.Alignment = TabAlignment.Left;
 			ContentTabControl.Controls.Add(GeneralTabPage);
 			ContentTabControl.Controls.Add(ThumbnailTabPage);
-			ContentTabControl.Controls.Add(this.ZoomTabPage);
+			ContentTabControl.Controls.Add(ZoomTabPage);
 			ContentTabControl.Controls.Add(OverlayTabPage);
 			ContentTabControl.Controls.Add(ClientsTabPage);
 			ContentTabControl.Controls.Add(AboutTabPage);
-			ContentTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			ContentTabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-			ContentTabControl.ItemSize = new System.Drawing.Size(35, 120);
-			ContentTabControl.Location = new System.Drawing.Point(0, 0);
+			ContentTabControl.Dock = DockStyle.Fill;
+			ContentTabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+			ContentTabControl.ItemSize = new Size(35, 120);
+			ContentTabControl.Location = new Point(0, 0);
+			ContentTabControl.Margin = new Padding(5, 6, 5, 6);
 			ContentTabControl.Multiline = true;
 			ContentTabControl.Name = "ContentTabControl";
 			ContentTabControl.SelectedIndex = 0;
-			ContentTabControl.Size = new System.Drawing.Size(390, 218);
-			ContentTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+			ContentTabControl.Size = new Size(650, 419);
+			ContentTabControl.SizeMode = TabSizeMode.Fixed;
 			ContentTabControl.TabIndex = 6;
-			ContentTabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ContentTabControl_DrawItem);
+			ContentTabControl.DrawItem += ContentTabControl_DrawItem;
 			// 
 			// GeneralTabPage
 			// 
-			GeneralTabPage.BackColor = System.Drawing.SystemColors.Control;
+			GeneralTabPage.BackColor = SystemColors.Control;
 			GeneralTabPage.Controls.Add(GeneralSettingsPanel);
-			GeneralTabPage.Location = new System.Drawing.Point(124, 4);
+			GeneralTabPage.Location = new Point(124, 4);
+			GeneralTabPage.Margin = new Padding(5, 6, 5, 6);
 			GeneralTabPage.Name = "GeneralTabPage";
-			GeneralTabPage.Padding = new System.Windows.Forms.Padding(3);
-			GeneralTabPage.Size = new System.Drawing.Size(262, 210);
+			GeneralTabPage.Padding = new Padding(5, 6, 5, 6);
+			GeneralTabPage.Size = new Size(522, 411);
 			GeneralTabPage.TabIndex = 0;
 			GeneralTabPage.Text = "General";
 			// 
 			// GeneralSettingsPanel
 			// 
-			GeneralSettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			GeneralSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
 			GeneralSettingsPanel.Controls.Add(label4);
-			GeneralSettingsPanel.Controls.Add(this.AnimationStyleCombo);
-			GeneralSettingsPanel.Controls.Add(this.MinimizeInactiveClientsCheckBox);
-			GeneralSettingsPanel.Controls.Add(this.EnableClientLayoutTrackingCheckBox);
-			GeneralSettingsPanel.Controls.Add(this.HideActiveClientThumbnailCheckBox);
-			GeneralSettingsPanel.Controls.Add(this.ShowThumbnailsAlwaysOnTopCheckBox);
-			GeneralSettingsPanel.Controls.Add(this.HideThumbnailsOnLostFocusCheckBox);
-			GeneralSettingsPanel.Controls.Add(this.EnablePerClientThumbnailsLayoutsCheckBox);
-			GeneralSettingsPanel.Controls.Add(this.MinimizeToTrayCheckBox);
-			GeneralSettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			GeneralSettingsPanel.Location = new System.Drawing.Point(3, 3);
+			GeneralSettingsPanel.Controls.Add(AnimationStyleCombo);
+			GeneralSettingsPanel.Controls.Add(MinimizeInactiveClientsCheckBox);
+			GeneralSettingsPanel.Controls.Add(EnableClientLayoutTrackingCheckBox);
+			GeneralSettingsPanel.Controls.Add(HideActiveClientThumbnailCheckBox);
+			GeneralSettingsPanel.Controls.Add(ShowThumbnailsAlwaysOnTopCheckBox);
+			GeneralSettingsPanel.Controls.Add(HideThumbnailsOnLostFocusCheckBox);
+			GeneralSettingsPanel.Controls.Add(EnablePerClientThumbnailsLayoutsCheckBox);
+			GeneralSettingsPanel.Controls.Add(MinimizeToTrayCheckBox);
+			GeneralSettingsPanel.Dock = DockStyle.Fill;
+			GeneralSettingsPanel.Location = new Point(5, 6);
+			GeneralSettingsPanel.Margin = new Padding(5, 6, 5, 6);
 			GeneralSettingsPanel.Name = "GeneralSettingsPanel";
-			GeneralSettingsPanel.Size = new System.Drawing.Size(256, 204);
+			GeneralSettingsPanel.Size = new Size(512, 399);
 			GeneralSettingsPanel.TabIndex = 18;
-			GeneralSettingsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.GeneralSettingsPanel_Paint);
+			GeneralSettingsPanel.Paint += GeneralSettingsPanel_Paint;
 			// 
 			// label4
 			// 
 			label4.AutoSize = true;
-			label4.Location = new System.Drawing.Point(5, 100);
+			label4.Location = new Point(8, 192);
+			label4.Margin = new Padding(5, 0, 5, 0);
 			label4.Name = "label4";
-			label4.Size = new System.Drawing.Size(79, 13);
+			label4.Size = new Size(136, 25);
 			label4.TabIndex = 27;
 			label4.Text = "Animation Style";
 			// 
 			// AnimationStyleCombo
 			// 
-			this.AnimationStyleCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.AnimationStyleCombo.FormattingEnabled = true;
-			this.AnimationStyleCombo.Location = new System.Drawing.Point(90, 97);
-			this.AnimationStyleCombo.Name = "AnimationStyleCombo";
-			this.AnimationStyleCombo.Size = new System.Drawing.Size(152, 21);
-			this.AnimationStyleCombo.TabIndex = 26;
-			this.AnimationStyleCombo.SelectedIndexChanged += new System.EventHandler(this.OptionChanged_Handler);
+			AnimationStyleCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+			AnimationStyleCombo.FormattingEnabled = true;
+			AnimationStyleCombo.Location = new Point(150, 187);
+			AnimationStyleCombo.Margin = new Padding(5, 6, 5, 6);
+			AnimationStyleCombo.Name = "AnimationStyleCombo";
+			AnimationStyleCombo.Size = new Size(251, 33);
+			AnimationStyleCombo.TabIndex = 26;
+			AnimationStyleCombo.SelectedIndexChanged += OptionChanged_Handler;
 			// 
 			// MinimizeInactiveClientsCheckBox
 			// 
-			this.MinimizeInactiveClientsCheckBox.AutoSize = true;
-			this.MinimizeInactiveClientsCheckBox.Location = new System.Drawing.Point(8, 78);
-			this.MinimizeInactiveClientsCheckBox.Name = "MinimizeInactiveClientsCheckBox";
-			this.MinimizeInactiveClientsCheckBox.Size = new System.Drawing.Size(163, 17);
-			this.MinimizeInactiveClientsCheckBox.TabIndex = 24;
-			this.MinimizeInactiveClientsCheckBox.Text = "Minimize inactive EVE clients";
-			this.MinimizeInactiveClientsCheckBox.UseVisualStyleBackColor = true;
-			this.MinimizeInactiveClientsCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			MinimizeInactiveClientsCheckBox.AutoSize = true;
+			MinimizeInactiveClientsCheckBox.Location = new Point(13, 150);
+			MinimizeInactiveClientsCheckBox.Margin = new Padding(5, 6, 5, 6);
+			MinimizeInactiveClientsCheckBox.Name = "MinimizeInactiveClientsCheckBox";
+			MinimizeInactiveClientsCheckBox.Size = new Size(261, 29);
+			MinimizeInactiveClientsCheckBox.TabIndex = 24;
+			MinimizeInactiveClientsCheckBox.Text = "Minimize inactive EVE clients";
+			MinimizeInactiveClientsCheckBox.UseVisualStyleBackColor = true;
+			MinimizeInactiveClientsCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// EnableClientLayoutTrackingCheckBox
 			// 
-			this.EnableClientLayoutTrackingCheckBox.AutoSize = true;
-			this.EnableClientLayoutTrackingCheckBox.Location = new System.Drawing.Point(8, 31);
-			this.EnableClientLayoutTrackingCheckBox.Name = "EnableClientLayoutTrackingCheckBox";
-			this.EnableClientLayoutTrackingCheckBox.Size = new System.Drawing.Size(127, 17);
-			this.EnableClientLayoutTrackingCheckBox.TabIndex = 19;
-			this.EnableClientLayoutTrackingCheckBox.Text = "Track client locations";
-			this.EnableClientLayoutTrackingCheckBox.UseVisualStyleBackColor = true;
-			this.EnableClientLayoutTrackingCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			EnableClientLayoutTrackingCheckBox.AutoSize = true;
+			EnableClientLayoutTrackingCheckBox.Location = new Point(13, 60);
+			EnableClientLayoutTrackingCheckBox.Margin = new Padding(5, 6, 5, 6);
+			EnableClientLayoutTrackingCheckBox.Name = "EnableClientLayoutTrackingCheckBox";
+			EnableClientLayoutTrackingCheckBox.Size = new Size(199, 29);
+			EnableClientLayoutTrackingCheckBox.TabIndex = 19;
+			EnableClientLayoutTrackingCheckBox.Text = "Track client locations";
+			EnableClientLayoutTrackingCheckBox.UseVisualStyleBackColor = true;
+			EnableClientLayoutTrackingCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// HideActiveClientThumbnailCheckBox
 			// 
-			this.HideActiveClientThumbnailCheckBox.AutoSize = true;
-			this.HideActiveClientThumbnailCheckBox.Checked = true;
-			this.HideActiveClientThumbnailCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.HideActiveClientThumbnailCheckBox.Location = new System.Drawing.Point(8, 55);
-			this.HideActiveClientThumbnailCheckBox.Name = "HideActiveClientThumbnailCheckBox";
-			this.HideActiveClientThumbnailCheckBox.Size = new System.Drawing.Size(184, 17);
-			this.HideActiveClientThumbnailCheckBox.TabIndex = 20;
-			this.HideActiveClientThumbnailCheckBox.Text = "Hide preview of active EVE client";
-			this.HideActiveClientThumbnailCheckBox.UseVisualStyleBackColor = true;
-			this.HideActiveClientThumbnailCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			HideActiveClientThumbnailCheckBox.AutoSize = true;
+			HideActiveClientThumbnailCheckBox.Checked = true;
+			HideActiveClientThumbnailCheckBox.CheckState = CheckState.Checked;
+			HideActiveClientThumbnailCheckBox.Location = new Point(13, 106);
+			HideActiveClientThumbnailCheckBox.Margin = new Padding(5, 6, 5, 6);
+			HideActiveClientThumbnailCheckBox.Name = "HideActiveClientThumbnailCheckBox";
+			HideActiveClientThumbnailCheckBox.Size = new Size(293, 29);
+			HideActiveClientThumbnailCheckBox.TabIndex = 20;
+			HideActiveClientThumbnailCheckBox.Text = "Hide preview of active EVE client";
+			HideActiveClientThumbnailCheckBox.UseVisualStyleBackColor = true;
+			HideActiveClientThumbnailCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ShowThumbnailsAlwaysOnTopCheckBox
 			// 
-			this.ShowThumbnailsAlwaysOnTopCheckBox.AutoSize = true;
-			this.ShowThumbnailsAlwaysOnTopCheckBox.Checked = true;
-			this.ShowThumbnailsAlwaysOnTopCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.ShowThumbnailsAlwaysOnTopCheckBox.Location = new System.Drawing.Point(8, 124);
-			this.ShowThumbnailsAlwaysOnTopCheckBox.Name = "ShowThumbnailsAlwaysOnTopCheckBox";
-			this.ShowThumbnailsAlwaysOnTopCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.ShowThumbnailsAlwaysOnTopCheckBox.Size = new System.Drawing.Size(137, 17);
-			this.ShowThumbnailsAlwaysOnTopCheckBox.TabIndex = 21;
-			this.ShowThumbnailsAlwaysOnTopCheckBox.Text = "Previews always on top";
-			this.ShowThumbnailsAlwaysOnTopCheckBox.UseVisualStyleBackColor = true;
-			this.ShowThumbnailsAlwaysOnTopCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ShowThumbnailsAlwaysOnTopCheckBox.AutoSize = true;
+			ShowThumbnailsAlwaysOnTopCheckBox.Checked = true;
+			ShowThumbnailsAlwaysOnTopCheckBox.CheckState = CheckState.Checked;
+			ShowThumbnailsAlwaysOnTopCheckBox.Location = new Point(13, 238);
+			ShowThumbnailsAlwaysOnTopCheckBox.Margin = new Padding(5, 6, 5, 6);
+			ShowThumbnailsAlwaysOnTopCheckBox.Name = "ShowThumbnailsAlwaysOnTopCheckBox";
+			ShowThumbnailsAlwaysOnTopCheckBox.RightToLeft = RightToLeft.No;
+			ShowThumbnailsAlwaysOnTopCheckBox.Size = new Size(222, 29);
+			ShowThumbnailsAlwaysOnTopCheckBox.TabIndex = 21;
+			ShowThumbnailsAlwaysOnTopCheckBox.Text = "Previews always on top";
+			ShowThumbnailsAlwaysOnTopCheckBox.UseVisualStyleBackColor = true;
+			ShowThumbnailsAlwaysOnTopCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// HideThumbnailsOnLostFocusCheckBox
 			// 
-			this.HideThumbnailsOnLostFocusCheckBox.AutoSize = true;
-			this.HideThumbnailsOnLostFocusCheckBox.Checked = true;
-			this.HideThumbnailsOnLostFocusCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.HideThumbnailsOnLostFocusCheckBox.Location = new System.Drawing.Point(8, 148);
-			this.HideThumbnailsOnLostFocusCheckBox.Name = "HideThumbnailsOnLostFocusCheckBox";
-			this.HideThumbnailsOnLostFocusCheckBox.Size = new System.Drawing.Size(234, 17);
-			this.HideThumbnailsOnLostFocusCheckBox.TabIndex = 22;
-			this.HideThumbnailsOnLostFocusCheckBox.Text = "Hide previews when EVE client is not active";
-			this.HideThumbnailsOnLostFocusCheckBox.UseVisualStyleBackColor = true;
-			this.HideThumbnailsOnLostFocusCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			HideThumbnailsOnLostFocusCheckBox.AutoSize = true;
+			HideThumbnailsOnLostFocusCheckBox.Checked = true;
+			HideThumbnailsOnLostFocusCheckBox.CheckState = CheckState.Checked;
+			HideThumbnailsOnLostFocusCheckBox.Location = new Point(13, 285);
+			HideThumbnailsOnLostFocusCheckBox.Margin = new Padding(5, 6, 5, 6);
+			HideThumbnailsOnLostFocusCheckBox.Name = "HideThumbnailsOnLostFocusCheckBox";
+			HideThumbnailsOnLostFocusCheckBox.Size = new Size(375, 29);
+			HideThumbnailsOnLostFocusCheckBox.TabIndex = 22;
+			HideThumbnailsOnLostFocusCheckBox.Text = "Hide previews when EVE client is not active";
+			HideThumbnailsOnLostFocusCheckBox.UseVisualStyleBackColor = true;
+			HideThumbnailsOnLostFocusCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// EnablePerClientThumbnailsLayoutsCheckBox
 			// 
-			this.EnablePerClientThumbnailsLayoutsCheckBox.AutoSize = true;
-			this.EnablePerClientThumbnailsLayoutsCheckBox.Checked = true;
-			this.EnablePerClientThumbnailsLayoutsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.EnablePerClientThumbnailsLayoutsCheckBox.Location = new System.Drawing.Point(8, 172);
-			this.EnablePerClientThumbnailsLayoutsCheckBox.Name = "EnablePerClientThumbnailsLayoutsCheckBox";
-			this.EnablePerClientThumbnailsLayoutsCheckBox.Size = new System.Drawing.Size(185, 17);
-			this.EnablePerClientThumbnailsLayoutsCheckBox.TabIndex = 23;
-			this.EnablePerClientThumbnailsLayoutsCheckBox.Text = "Unique layout for each EVE client";
-			this.EnablePerClientThumbnailsLayoutsCheckBox.UseVisualStyleBackColor = true;
-			this.EnablePerClientThumbnailsLayoutsCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			EnablePerClientThumbnailsLayoutsCheckBox.AutoSize = true;
+			EnablePerClientThumbnailsLayoutsCheckBox.Checked = true;
+			EnablePerClientThumbnailsLayoutsCheckBox.CheckState = CheckState.Checked;
+			EnablePerClientThumbnailsLayoutsCheckBox.Location = new Point(13, 331);
+			EnablePerClientThumbnailsLayoutsCheckBox.Margin = new Padding(5, 6, 5, 6);
+			EnablePerClientThumbnailsLayoutsCheckBox.Name = "EnablePerClientThumbnailsLayoutsCheckBox";
+			EnablePerClientThumbnailsLayoutsCheckBox.Size = new Size(297, 29);
+			EnablePerClientThumbnailsLayoutsCheckBox.TabIndex = 23;
+			EnablePerClientThumbnailsLayoutsCheckBox.Text = "Unique layout for each EVE client";
+			EnablePerClientThumbnailsLayoutsCheckBox.UseVisualStyleBackColor = true;
+			EnablePerClientThumbnailsLayoutsCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// MinimizeToTrayCheckBox
 			// 
-			this.MinimizeToTrayCheckBox.AutoSize = true;
-			this.MinimizeToTrayCheckBox.Location = new System.Drawing.Point(8, 7);
-			this.MinimizeToTrayCheckBox.Name = "MinimizeToTrayCheckBox";
-			this.MinimizeToTrayCheckBox.Size = new System.Drawing.Size(139, 17);
-			this.MinimizeToTrayCheckBox.TabIndex = 18;
-			this.MinimizeToTrayCheckBox.Text = "Minimize to System Tray";
-			this.MinimizeToTrayCheckBox.UseVisualStyleBackColor = true;
-			this.MinimizeToTrayCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			MinimizeToTrayCheckBox.AutoSize = true;
+			MinimizeToTrayCheckBox.Location = new Point(13, 13);
+			MinimizeToTrayCheckBox.Margin = new Padding(5, 6, 5, 6);
+			MinimizeToTrayCheckBox.Name = "MinimizeToTrayCheckBox";
+			MinimizeToTrayCheckBox.Size = new Size(229, 29);
+			MinimizeToTrayCheckBox.TabIndex = 18;
+			MinimizeToTrayCheckBox.Text = "Minimize to System Tray";
+			MinimizeToTrayCheckBox.UseVisualStyleBackColor = true;
+			MinimizeToTrayCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailTabPage
 			// 
-			ThumbnailTabPage.BackColor = System.Drawing.SystemColors.Control;
+			ThumbnailTabPage.BackColor = SystemColors.Control;
 			ThumbnailTabPage.Controls.Add(ThumbnailSettingsPanel);
-			ThumbnailTabPage.Location = new System.Drawing.Point(124, 4);
+			ThumbnailTabPage.Location = new Point(124, 4);
+			ThumbnailTabPage.Margin = new Padding(5, 6, 5, 6);
 			ThumbnailTabPage.Name = "ThumbnailTabPage";
-			ThumbnailTabPage.Padding = new System.Windows.Forms.Padding(3);
-			ThumbnailTabPage.Size = new System.Drawing.Size(262, 210);
+			ThumbnailTabPage.Padding = new Padding(5, 6, 5, 6);
+			ThumbnailTabPage.Size = new Size(522, 411);
 			ThumbnailTabPage.TabIndex = 1;
 			ThumbnailTabPage.Text = "Thumbnail";
 			// 
 			// ThumbnailSettingsPanel
 			// 
-			ThumbnailSettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			ThumbnailSettingsPanel.Controls.Add(this.ThumbnailSnapToGridCheckBox);
-			ThumbnailSettingsPanel.Controls.Add(this.ThumbnailSnapToGridSizeYNumericEdit);
-			ThumbnailSettingsPanel.Controls.Add(this.SnapYLabel);
-			ThumbnailSettingsPanel.Controls.Add(this.ThumbnailSnapToGridSizeXNumericEdit);
-			ThumbnailSettingsPanel.Controls.Add(this.SnapXLabel);
-			ThumbnailSettingsPanel.Controls.Add(this.LockThumbnailLocationCheckbox);
+			ThumbnailSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailSettingsPanel.Controls.Add(ThumbnailSnapToGridCheckBox);
+			ThumbnailSettingsPanel.Controls.Add(ThumbnailSnapToGridSizeYNumericEdit);
+			ThumbnailSettingsPanel.Controls.Add(SnapYLabel);
+			ThumbnailSettingsPanel.Controls.Add(ThumbnailSnapToGridSizeXNumericEdit);
+			ThumbnailSettingsPanel.Controls.Add(SnapXLabel);
+			ThumbnailSettingsPanel.Controls.Add(LockThumbnailLocationCheckbox);
 			ThumbnailSettingsPanel.Controls.Add(HeigthLabel);
 			ThumbnailSettingsPanel.Controls.Add(WidthLabel);
-			ThumbnailSettingsPanel.Controls.Add(this.ThumbnailsWidthNumericEdit);
-			ThumbnailSettingsPanel.Controls.Add(this.ThumbnailsHeightNumericEdit);
-			ThumbnailSettingsPanel.Controls.Add(this.ThumbnailOpacityTrackBar);
+			ThumbnailSettingsPanel.Controls.Add(ThumbnailsWidthNumericEdit);
+			ThumbnailSettingsPanel.Controls.Add(ThumbnailsHeightNumericEdit);
+			ThumbnailSettingsPanel.Controls.Add(ThumbnailOpacityTrackBar);
 			ThumbnailSettingsPanel.Controls.Add(OpacityLabel);
-			ThumbnailSettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			ThumbnailSettingsPanel.Location = new System.Drawing.Point(3, 3);
+			ThumbnailSettingsPanel.Dock = DockStyle.Fill;
+			ThumbnailSettingsPanel.Location = new Point(5, 6);
+			ThumbnailSettingsPanel.Margin = new Padding(5, 6, 5, 6);
 			ThumbnailSettingsPanel.Name = "ThumbnailSettingsPanel";
-			ThumbnailSettingsPanel.Size = new System.Drawing.Size(256, 204);
+			ThumbnailSettingsPanel.Size = new Size(512, 399);
 			ThumbnailSettingsPanel.TabIndex = 19;
 			// 
 			// ThumbnailSnapToGridCheckBox
 			// 
-			this.ThumbnailSnapToGridCheckBox.AutoSize = true;
-			this.ThumbnailSnapToGridCheckBox.Location = new System.Drawing.Point(11, 104);
-			this.ThumbnailSnapToGridCheckBox.Name = "ThumbnailSnapToGridCheckBox";
-			this.ThumbnailSnapToGridCheckBox.Size = new System.Drawing.Size(137, 17);
-			this.ThumbnailSnapToGridCheckBox.TabIndex = 32;
-			this.ThumbnailSnapToGridCheckBox.Text = "Thumbnail Snap to Grid";
-			this.ThumbnailSnapToGridCheckBox.UseVisualStyleBackColor = true;
-			this.ThumbnailSnapToGridCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ThumbnailSnapToGridCheckBox.AutoSize = true;
+			ThumbnailSnapToGridCheckBox.Location = new Point(18, 200);
+			ThumbnailSnapToGridCheckBox.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailSnapToGridCheckBox.Name = "ThumbnailSnapToGridCheckBox";
+			ThumbnailSnapToGridCheckBox.Size = new Size(226, 29);
+			ThumbnailSnapToGridCheckBox.TabIndex = 32;
+			ThumbnailSnapToGridCheckBox.Text = "Thumbnail Snap to Grid";
+			ThumbnailSnapToGridCheckBox.UseVisualStyleBackColor = true;
+			ThumbnailSnapToGridCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailSnapToGridSizeYNumericEdit
 			// 
-			this.ThumbnailSnapToGridSizeYNumericEdit.BackColor = System.Drawing.SystemColors.Window;
-			this.ThumbnailSnapToGridSizeYNumericEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ThumbnailSnapToGridSizeYNumericEdit.CausesValidation = false;
-			this.ThumbnailSnapToGridSizeYNumericEdit.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.ThumbnailSnapToGridSizeYNumericEdit.Location = new System.Drawing.Point(130, 122);
-			this.ThumbnailSnapToGridSizeYNumericEdit.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-			this.ThumbnailSnapToGridSizeYNumericEdit.Name = "ThumbnailSnapToGridSizeYNumericEdit";
-			this.ThumbnailSnapToGridSizeYNumericEdit.Size = new System.Drawing.Size(48, 20);
-			this.ThumbnailSnapToGridSizeYNumericEdit.TabIndex = 31;
-			this.ThumbnailSnapToGridSizeYNumericEdit.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			this.ThumbnailSnapToGridSizeYNumericEdit.ValueChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ThumbnailSnapToGridSizeYNumericEdit.BackColor = SystemColors.Window;
+			ThumbnailSnapToGridSizeYNumericEdit.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailSnapToGridSizeYNumericEdit.CausesValidation = false;
+			ThumbnailSnapToGridSizeYNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+			ThumbnailSnapToGridSizeYNumericEdit.Location = new Point(217, 235);
+			ThumbnailSnapToGridSizeYNumericEdit.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailSnapToGridSizeYNumericEdit.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+			ThumbnailSnapToGridSizeYNumericEdit.Name = "ThumbnailSnapToGridSizeYNumericEdit";
+			ThumbnailSnapToGridSizeYNumericEdit.Size = new Size(80, 31);
+			ThumbnailSnapToGridSizeYNumericEdit.TabIndex = 31;
+			ThumbnailSnapToGridSizeYNumericEdit.Value = new decimal(new int[] { 100, 0, 0, 0 });
+			ThumbnailSnapToGridSizeYNumericEdit.ValueChanged += OptionChanged_Handler;
 			// 
 			// SnapYLabel
 			// 
-			this.SnapYLabel.AutoSize = true;
-			this.SnapYLabel.Location = new System.Drawing.Point(110, 124);
-			this.SnapYLabel.Name = "SnapYLabel";
-			this.SnapYLabel.Size = new System.Drawing.Size(14, 13);
-			this.SnapYLabel.TabIndex = 30;
-			this.SnapYLabel.Text = "Y";
+			SnapYLabel.AutoSize = true;
+			SnapYLabel.Location = new Point(183, 238);
+			SnapYLabel.Margin = new Padding(5, 0, 5, 0);
+			SnapYLabel.Name = "SnapYLabel";
+			SnapYLabel.Size = new Size(22, 25);
+			SnapYLabel.TabIndex = 30;
+			SnapYLabel.Text = "Y";
 			// 
 			// ThumbnailSnapToGridSizeXNumericEdit
 			// 
-			this.ThumbnailSnapToGridSizeXNumericEdit.BackColor = System.Drawing.SystemColors.Window;
-			this.ThumbnailSnapToGridSizeXNumericEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ThumbnailSnapToGridSizeXNumericEdit.CausesValidation = false;
-			this.ThumbnailSnapToGridSizeXNumericEdit.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.ThumbnailSnapToGridSizeXNumericEdit.Location = new System.Drawing.Point(56, 122);
-			this.ThumbnailSnapToGridSizeXNumericEdit.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-			this.ThumbnailSnapToGridSizeXNumericEdit.Name = "ThumbnailSnapToGridSizeXNumericEdit";
-			this.ThumbnailSnapToGridSizeXNumericEdit.Size = new System.Drawing.Size(48, 20);
-			this.ThumbnailSnapToGridSizeXNumericEdit.TabIndex = 29;
-			this.ThumbnailSnapToGridSizeXNumericEdit.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			this.ThumbnailSnapToGridSizeXNumericEdit.ValueChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ThumbnailSnapToGridSizeXNumericEdit.BackColor = SystemColors.Window;
+			ThumbnailSnapToGridSizeXNumericEdit.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailSnapToGridSizeXNumericEdit.CausesValidation = false;
+			ThumbnailSnapToGridSizeXNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+			ThumbnailSnapToGridSizeXNumericEdit.Location = new Point(93, 235);
+			ThumbnailSnapToGridSizeXNumericEdit.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailSnapToGridSizeXNumericEdit.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+			ThumbnailSnapToGridSizeXNumericEdit.Name = "ThumbnailSnapToGridSizeXNumericEdit";
+			ThumbnailSnapToGridSizeXNumericEdit.Size = new Size(80, 31);
+			ThumbnailSnapToGridSizeXNumericEdit.TabIndex = 29;
+			ThumbnailSnapToGridSizeXNumericEdit.Value = new decimal(new int[] { 100, 0, 0, 0 });
+			ThumbnailSnapToGridSizeXNumericEdit.ValueChanged += OptionChanged_Handler;
 			// 
 			// SnapXLabel
 			// 
-			this.SnapXLabel.AutoSize = true;
-			this.SnapXLabel.Location = new System.Drawing.Point(8, 124);
-			this.SnapXLabel.Name = "SnapXLabel";
-			this.SnapXLabel.Size = new System.Drawing.Size(42, 13);
-			this.SnapXLabel.TabIndex = 28;
-			this.SnapXLabel.Text = "Snap X";
+			SnapXLabel.AutoSize = true;
+			SnapXLabel.Location = new Point(13, 238);
+			SnapXLabel.Margin = new Padding(5, 0, 5, 0);
+			SnapXLabel.Name = "SnapXLabel";
+			SnapXLabel.Size = new Size(68, 25);
+			SnapXLabel.TabIndex = 28;
+			SnapXLabel.Text = "Snap X";
 			// 
 			// LockThumbnailLocationCheckbox
 			// 
-			this.LockThumbnailLocationCheckbox.AutoSize = true;
-			this.LockThumbnailLocationCheckbox.Location = new System.Drawing.Point(11, 81);
-			this.LockThumbnailLocationCheckbox.Name = "LockThumbnailLocationCheckbox";
-			this.LockThumbnailLocationCheckbox.Size = new System.Drawing.Size(146, 17);
-			this.LockThumbnailLocationCheckbox.TabIndex = 26;
-			this.LockThumbnailLocationCheckbox.Text = "Lock Thumbnail Location";
-			this.LockThumbnailLocationCheckbox.UseVisualStyleBackColor = true;
-			this.LockThumbnailLocationCheckbox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			LockThumbnailLocationCheckbox.AutoSize = true;
+			LockThumbnailLocationCheckbox.Location = new Point(18, 156);
+			LockThumbnailLocationCheckbox.Margin = new Padding(5, 6, 5, 6);
+			LockThumbnailLocationCheckbox.Name = "LockThumbnailLocationCheckbox";
+			LockThumbnailLocationCheckbox.Size = new Size(234, 29);
+			LockThumbnailLocationCheckbox.TabIndex = 26;
+			LockThumbnailLocationCheckbox.Text = "Lock Thumbnail Location";
+			LockThumbnailLocationCheckbox.UseVisualStyleBackColor = true;
+			LockThumbnailLocationCheckbox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// HeigthLabel
 			// 
 			HeigthLabel.AutoSize = true;
-			HeigthLabel.Location = new System.Drawing.Point(8, 57);
+			HeigthLabel.Location = new Point(13, 110);
+			HeigthLabel.Margin = new Padding(5, 0, 5, 0);
 			HeigthLabel.Name = "HeigthLabel";
-			HeigthLabel.Size = new System.Drawing.Size(90, 13);
+			HeigthLabel.Size = new Size(153, 25);
 			HeigthLabel.TabIndex = 24;
 			HeigthLabel.Text = "Thumbnail Height";
 			// 
 			// WidthLabel
 			// 
 			WidthLabel.AutoSize = true;
-			WidthLabel.Location = new System.Drawing.Point(8, 33);
+			WidthLabel.Location = new Point(13, 63);
+			WidthLabel.Margin = new Padding(5, 0, 5, 0);
 			WidthLabel.Name = "WidthLabel";
-			WidthLabel.Size = new System.Drawing.Size(87, 13);
+			WidthLabel.Size = new Size(148, 25);
 			WidthLabel.TabIndex = 23;
 			WidthLabel.Text = "Thumbnail Width";
 			// 
 			// ThumbnailsWidthNumericEdit
 			// 
-			this.ThumbnailsWidthNumericEdit.BackColor = System.Drawing.SystemColors.Window;
-			this.ThumbnailsWidthNumericEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ThumbnailsWidthNumericEdit.CausesValidation = false;
-			this.ThumbnailsWidthNumericEdit.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.ThumbnailsWidthNumericEdit.Location = new System.Drawing.Point(105, 31);
-			this.ThumbnailsWidthNumericEdit.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-			this.ThumbnailsWidthNumericEdit.Name = "ThumbnailsWidthNumericEdit";
-			this.ThumbnailsWidthNumericEdit.Size = new System.Drawing.Size(48, 20);
-			this.ThumbnailsWidthNumericEdit.TabIndex = 21;
-			this.ThumbnailsWidthNumericEdit.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			this.ThumbnailsWidthNumericEdit.ValueChanged += new System.EventHandler(this.ThumbnailSizeChanged_Handler);
+			ThumbnailsWidthNumericEdit.BackColor = SystemColors.Window;
+			ThumbnailsWidthNumericEdit.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailsWidthNumericEdit.CausesValidation = false;
+			ThumbnailsWidthNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+			ThumbnailsWidthNumericEdit.Location = new Point(175, 60);
+			ThumbnailsWidthNumericEdit.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailsWidthNumericEdit.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+			ThumbnailsWidthNumericEdit.Name = "ThumbnailsWidthNumericEdit";
+			ThumbnailsWidthNumericEdit.Size = new Size(80, 31);
+			ThumbnailsWidthNumericEdit.TabIndex = 21;
+			ThumbnailsWidthNumericEdit.Value = new decimal(new int[] { 100, 0, 0, 0 });
+			ThumbnailsWidthNumericEdit.ValueChanged += ThumbnailSizeChanged_Handler;
 			// 
 			// ThumbnailsHeightNumericEdit
 			// 
-			this.ThumbnailsHeightNumericEdit.BackColor = System.Drawing.SystemColors.Window;
-			this.ThumbnailsHeightNumericEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ThumbnailsHeightNumericEdit.CausesValidation = false;
-			this.ThumbnailsHeightNumericEdit.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.ThumbnailsHeightNumericEdit.Location = new System.Drawing.Point(105, 55);
-			this.ThumbnailsHeightNumericEdit.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-			this.ThumbnailsHeightNumericEdit.Name = "ThumbnailsHeightNumericEdit";
-			this.ThumbnailsHeightNumericEdit.Size = new System.Drawing.Size(48, 20);
-			this.ThumbnailsHeightNumericEdit.TabIndex = 22;
-			this.ThumbnailsHeightNumericEdit.Value = new decimal(new int[] {
-            70,
-            0,
-            0,
-            0});
-			this.ThumbnailsHeightNumericEdit.ValueChanged += new System.EventHandler(this.ThumbnailSizeChanged_Handler);
+			ThumbnailsHeightNumericEdit.BackColor = SystemColors.Window;
+			ThumbnailsHeightNumericEdit.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailsHeightNumericEdit.CausesValidation = false;
+			ThumbnailsHeightNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+			ThumbnailsHeightNumericEdit.Location = new Point(175, 106);
+			ThumbnailsHeightNumericEdit.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailsHeightNumericEdit.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+			ThumbnailsHeightNumericEdit.Name = "ThumbnailsHeightNumericEdit";
+			ThumbnailsHeightNumericEdit.Size = new Size(80, 31);
+			ThumbnailsHeightNumericEdit.TabIndex = 22;
+			ThumbnailsHeightNumericEdit.Value = new decimal(new int[] { 70, 0, 0, 0 });
+			ThumbnailsHeightNumericEdit.ValueChanged += ThumbnailSizeChanged_Handler;
 			// 
 			// ThumbnailOpacityTrackBar
 			// 
-			this.ThumbnailOpacityTrackBar.AutoSize = false;
-			this.ThumbnailOpacityTrackBar.LargeChange = 10;
-			this.ThumbnailOpacityTrackBar.Location = new System.Drawing.Point(61, 6);
-			this.ThumbnailOpacityTrackBar.Maximum = 100;
-			this.ThumbnailOpacityTrackBar.Minimum = 20;
-			this.ThumbnailOpacityTrackBar.Name = "ThumbnailOpacityTrackBar";
-			this.ThumbnailOpacityTrackBar.Size = new System.Drawing.Size(191, 22);
-			this.ThumbnailOpacityTrackBar.TabIndex = 20;
-			this.ThumbnailOpacityTrackBar.TickFrequency = 10;
-			this.ThumbnailOpacityTrackBar.Value = 20;
-			this.ThumbnailOpacityTrackBar.ValueChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ThumbnailOpacityTrackBar.AutoSize = false;
+			ThumbnailOpacityTrackBar.LargeChange = 10;
+			ThumbnailOpacityTrackBar.Location = new Point(102, 12);
+			ThumbnailOpacityTrackBar.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailOpacityTrackBar.Maximum = 100;
+			ThumbnailOpacityTrackBar.Minimum = 20;
+			ThumbnailOpacityTrackBar.Name = "ThumbnailOpacityTrackBar";
+			ThumbnailOpacityTrackBar.Size = new Size(318, 42);
+			ThumbnailOpacityTrackBar.TabIndex = 20;
+			ThumbnailOpacityTrackBar.TickFrequency = 10;
+			ThumbnailOpacityTrackBar.Value = 20;
+			ThumbnailOpacityTrackBar.ValueChanged += OptionChanged_Handler;
 			// 
 			// OpacityLabel
 			// 
 			OpacityLabel.AutoSize = true;
-			OpacityLabel.Location = new System.Drawing.Point(8, 9);
+			OpacityLabel.Location = new Point(13, 17);
+			OpacityLabel.Margin = new Padding(5, 0, 5, 0);
 			OpacityLabel.Name = "OpacityLabel";
-			OpacityLabel.Size = new System.Drawing.Size(43, 13);
+			OpacityLabel.Size = new Size(73, 25);
 			OpacityLabel.TabIndex = 19;
 			OpacityLabel.Text = "Opacity";
 			// 
 			// ZoomTabPage
 			// 
-			this.ZoomTabPage.BackColor = System.Drawing.SystemColors.Control;
-			this.ZoomTabPage.Controls.Add(ZoomSettingsPanel);
-			this.ZoomTabPage.Location = new System.Drawing.Point(124, 4);
-			this.ZoomTabPage.Name = "ZoomTabPage";
-			this.ZoomTabPage.Size = new System.Drawing.Size(262, 210);
-			this.ZoomTabPage.TabIndex = 2;
-			this.ZoomTabPage.Text = "Zoom";
+			ZoomTabPage.BackColor = SystemColors.Control;
+			ZoomTabPage.Controls.Add(ZoomSettingsPanel);
+			ZoomTabPage.Location = new Point(124, 4);
+			ZoomTabPage.Margin = new Padding(5, 6, 5, 6);
+			ZoomTabPage.Name = "ZoomTabPage";
+			ZoomTabPage.Size = new Size(522, 411);
+			ZoomTabPage.TabIndex = 2;
+			ZoomTabPage.Text = "Zoom";
 			// 
 			// ZoomSettingsPanel
 			// 
-			ZoomSettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			ZoomSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
 			ZoomSettingsPanel.Controls.Add(ZoomFactorLabel);
-			ZoomSettingsPanel.Controls.Add(this.ZoomAnchorPanel);
+			ZoomSettingsPanel.Controls.Add(ZoomAnchorPanel);
 			ZoomSettingsPanel.Controls.Add(ZoomAnchorLabel);
-			ZoomSettingsPanel.Controls.Add(this.EnableThumbnailZoomCheckBox);
-			ZoomSettingsPanel.Controls.Add(this.ThumbnailZoomFactorNumericEdit);
-			ZoomSettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			ZoomSettingsPanel.Location = new System.Drawing.Point(0, 0);
+			ZoomSettingsPanel.Controls.Add(EnableThumbnailZoomCheckBox);
+			ZoomSettingsPanel.Controls.Add(ThumbnailZoomFactorNumericEdit);
+			ZoomSettingsPanel.Dock = DockStyle.Fill;
+			ZoomSettingsPanel.Location = new Point(0, 0);
+			ZoomSettingsPanel.Margin = new Padding(5, 6, 5, 6);
 			ZoomSettingsPanel.Name = "ZoomSettingsPanel";
-			ZoomSettingsPanel.Size = new System.Drawing.Size(262, 210);
+			ZoomSettingsPanel.Size = new Size(522, 411);
 			ZoomSettingsPanel.TabIndex = 36;
 			// 
 			// ZoomFactorLabel
 			// 
 			ZoomFactorLabel.AutoSize = true;
-			ZoomFactorLabel.Location = new System.Drawing.Point(8, 33);
+			ZoomFactorLabel.Location = new Point(13, 63);
+			ZoomFactorLabel.Margin = new Padding(5, 0, 5, 0);
 			ZoomFactorLabel.Name = "ZoomFactorLabel";
-			ZoomFactorLabel.Size = new System.Drawing.Size(67, 13);
+			ZoomFactorLabel.Size = new Size(113, 25);
 			ZoomFactorLabel.TabIndex = 39;
 			ZoomFactorLabel.Text = "Zoom Factor";
 			// 
 			// ZoomAnchorPanel
 			// 
-			this.ZoomAnchorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorNWRadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorNRadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorNERadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorWRadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorSERadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorCRadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorSRadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorERadioButton);
-			this.ZoomAnchorPanel.Controls.Add(this.ZoomAanchorSWRadioButton);
-			this.ZoomAnchorPanel.Location = new System.Drawing.Point(81, 54);
-			this.ZoomAnchorPanel.Name = "ZoomAnchorPanel";
-			this.ZoomAnchorPanel.Size = new System.Drawing.Size(77, 73);
-			this.ZoomAnchorPanel.TabIndex = 38;
+			ZoomAnchorPanel.BorderStyle = BorderStyle.FixedSingle;
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorNWRadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorNRadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorNERadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorWRadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorSERadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorCRadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorSRadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorERadioButton);
+			ZoomAnchorPanel.Controls.Add(ZoomAanchorSWRadioButton);
+			ZoomAnchorPanel.Location = new Point(135, 104);
+			ZoomAnchorPanel.Margin = new Padding(5, 6, 5, 6);
+			ZoomAnchorPanel.Name = "ZoomAnchorPanel";
+			ZoomAnchorPanel.Size = new Size(127, 139);
+			ZoomAnchorPanel.TabIndex = 38;
 			// 
 			// ZoomAanchorNWRadioButton
 			// 
-			this.ZoomAanchorNWRadioButton.AutoSize = true;
-			this.ZoomAanchorNWRadioButton.Location = new System.Drawing.Point(3, 3);
-			this.ZoomAanchorNWRadioButton.Name = "ZoomAanchorNWRadioButton";
-			this.ZoomAanchorNWRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorNWRadioButton.TabIndex = 0;
-			this.ZoomAanchorNWRadioButton.TabStop = true;
-			this.ZoomAanchorNWRadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorNWRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorNWRadioButton.AutoSize = true;
+			ZoomAanchorNWRadioButton.Location = new Point(5, 6);
+			ZoomAanchorNWRadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorNWRadioButton.Name = "ZoomAanchorNWRadioButton";
+			ZoomAanchorNWRadioButton.Size = new Size(21, 20);
+			ZoomAanchorNWRadioButton.TabIndex = 0;
+			ZoomAanchorNWRadioButton.TabStop = true;
+			ZoomAanchorNWRadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorNWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorNRadioButton
 			// 
-			this.ZoomAanchorNRadioButton.AutoSize = true;
-			this.ZoomAanchorNRadioButton.Location = new System.Drawing.Point(31, 3);
-			this.ZoomAanchorNRadioButton.Name = "ZoomAanchorNRadioButton";
-			this.ZoomAanchorNRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorNRadioButton.TabIndex = 1;
-			this.ZoomAanchorNRadioButton.TabStop = true;
-			this.ZoomAanchorNRadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorNRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorNRadioButton.AutoSize = true;
+			ZoomAanchorNRadioButton.Location = new Point(52, 6);
+			ZoomAanchorNRadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorNRadioButton.Name = "ZoomAanchorNRadioButton";
+			ZoomAanchorNRadioButton.Size = new Size(21, 20);
+			ZoomAanchorNRadioButton.TabIndex = 1;
+			ZoomAanchorNRadioButton.TabStop = true;
+			ZoomAanchorNRadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorNRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorNERadioButton
 			// 
-			this.ZoomAanchorNERadioButton.AutoSize = true;
-			this.ZoomAanchorNERadioButton.Location = new System.Drawing.Point(59, 3);
-			this.ZoomAanchorNERadioButton.Name = "ZoomAanchorNERadioButton";
-			this.ZoomAanchorNERadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorNERadioButton.TabIndex = 2;
-			this.ZoomAanchorNERadioButton.TabStop = true;
-			this.ZoomAanchorNERadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorNERadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorNERadioButton.AutoSize = true;
+			ZoomAanchorNERadioButton.Location = new Point(98, 6);
+			ZoomAanchorNERadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorNERadioButton.Name = "ZoomAanchorNERadioButton";
+			ZoomAanchorNERadioButton.Size = new Size(21, 20);
+			ZoomAanchorNERadioButton.TabIndex = 2;
+			ZoomAanchorNERadioButton.TabStop = true;
+			ZoomAanchorNERadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorNERadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorWRadioButton
 			// 
-			this.ZoomAanchorWRadioButton.AutoSize = true;
-			this.ZoomAanchorWRadioButton.Location = new System.Drawing.Point(3, 29);
-			this.ZoomAanchorWRadioButton.Name = "ZoomAanchorWRadioButton";
-			this.ZoomAanchorWRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorWRadioButton.TabIndex = 3;
-			this.ZoomAanchorWRadioButton.TabStop = true;
-			this.ZoomAanchorWRadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorWRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorWRadioButton.AutoSize = true;
+			ZoomAanchorWRadioButton.Location = new Point(5, 56);
+			ZoomAanchorWRadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorWRadioButton.Name = "ZoomAanchorWRadioButton";
+			ZoomAanchorWRadioButton.Size = new Size(21, 20);
+			ZoomAanchorWRadioButton.TabIndex = 3;
+			ZoomAanchorWRadioButton.TabStop = true;
+			ZoomAanchorWRadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorSERadioButton
 			// 
-			this.ZoomAanchorSERadioButton.AutoSize = true;
-			this.ZoomAanchorSERadioButton.Location = new System.Drawing.Point(59, 55);
-			this.ZoomAanchorSERadioButton.Name = "ZoomAanchorSERadioButton";
-			this.ZoomAanchorSERadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorSERadioButton.TabIndex = 8;
-			this.ZoomAanchorSERadioButton.TabStop = true;
-			this.ZoomAanchorSERadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorSERadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorSERadioButton.AutoSize = true;
+			ZoomAanchorSERadioButton.Location = new Point(98, 106);
+			ZoomAanchorSERadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorSERadioButton.Name = "ZoomAanchorSERadioButton";
+			ZoomAanchorSERadioButton.Size = new Size(21, 20);
+			ZoomAanchorSERadioButton.TabIndex = 8;
+			ZoomAanchorSERadioButton.TabStop = true;
+			ZoomAanchorSERadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorSERadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorCRadioButton
 			// 
-			this.ZoomAanchorCRadioButton.AutoSize = true;
-			this.ZoomAanchorCRadioButton.Location = new System.Drawing.Point(31, 29);
-			this.ZoomAanchorCRadioButton.Name = "ZoomAanchorCRadioButton";
-			this.ZoomAanchorCRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorCRadioButton.TabIndex = 4;
-			this.ZoomAanchorCRadioButton.TabStop = true;
-			this.ZoomAanchorCRadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorCRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorCRadioButton.AutoSize = true;
+			ZoomAanchorCRadioButton.Location = new Point(52, 56);
+			ZoomAanchorCRadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorCRadioButton.Name = "ZoomAanchorCRadioButton";
+			ZoomAanchorCRadioButton.Size = new Size(21, 20);
+			ZoomAanchorCRadioButton.TabIndex = 4;
+			ZoomAanchorCRadioButton.TabStop = true;
+			ZoomAanchorCRadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorCRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorSRadioButton
 			// 
-			this.ZoomAanchorSRadioButton.AutoSize = true;
-			this.ZoomAanchorSRadioButton.Location = new System.Drawing.Point(31, 55);
-			this.ZoomAanchorSRadioButton.Name = "ZoomAanchorSRadioButton";
-			this.ZoomAanchorSRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorSRadioButton.TabIndex = 7;
-			this.ZoomAanchorSRadioButton.TabStop = true;
-			this.ZoomAanchorSRadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorSRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorSRadioButton.AutoSize = true;
+			ZoomAanchorSRadioButton.Location = new Point(52, 106);
+			ZoomAanchorSRadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorSRadioButton.Name = "ZoomAanchorSRadioButton";
+			ZoomAanchorSRadioButton.Size = new Size(21, 20);
+			ZoomAanchorSRadioButton.TabIndex = 7;
+			ZoomAanchorSRadioButton.TabStop = true;
+			ZoomAanchorSRadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorSRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorERadioButton
 			// 
-			this.ZoomAanchorERadioButton.AutoSize = true;
-			this.ZoomAanchorERadioButton.Location = new System.Drawing.Point(59, 29);
-			this.ZoomAanchorERadioButton.Name = "ZoomAanchorERadioButton";
-			this.ZoomAanchorERadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorERadioButton.TabIndex = 5;
-			this.ZoomAanchorERadioButton.TabStop = true;
-			this.ZoomAanchorERadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorERadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorERadioButton.AutoSize = true;
+			ZoomAanchorERadioButton.Location = new Point(98, 56);
+			ZoomAanchorERadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorERadioButton.Name = "ZoomAanchorERadioButton";
+			ZoomAanchorERadioButton.Size = new Size(21, 20);
+			ZoomAanchorERadioButton.TabIndex = 5;
+			ZoomAanchorERadioButton.TabStop = true;
+			ZoomAanchorERadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorERadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAanchorSWRadioButton
 			// 
-			this.ZoomAanchorSWRadioButton.AutoSize = true;
-			this.ZoomAanchorSWRadioButton.Location = new System.Drawing.Point(3, 55);
-			this.ZoomAanchorSWRadioButton.Name = "ZoomAanchorSWRadioButton";
-			this.ZoomAanchorSWRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.ZoomAanchorSWRadioButton.TabIndex = 6;
-			this.ZoomAanchorSWRadioButton.TabStop = true;
-			this.ZoomAanchorSWRadioButton.UseVisualStyleBackColor = true;
-			this.ZoomAanchorSWRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ZoomAanchorSWRadioButton.AutoSize = true;
+			ZoomAanchorSWRadioButton.Location = new Point(5, 106);
+			ZoomAanchorSWRadioButton.Margin = new Padding(5, 6, 5, 6);
+			ZoomAanchorSWRadioButton.Name = "ZoomAanchorSWRadioButton";
+			ZoomAanchorSWRadioButton.Size = new Size(21, 20);
+			ZoomAanchorSWRadioButton.TabIndex = 6;
+			ZoomAanchorSWRadioButton.TabStop = true;
+			ZoomAanchorSWRadioButton.UseVisualStyleBackColor = true;
+			ZoomAanchorSWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ZoomAnchorLabel
 			// 
 			ZoomAnchorLabel.AutoSize = true;
-			ZoomAnchorLabel.Location = new System.Drawing.Point(8, 57);
+			ZoomAnchorLabel.Location = new Point(13, 110);
+			ZoomAnchorLabel.Margin = new Padding(5, 0, 5, 0);
 			ZoomAnchorLabel.Name = "ZoomAnchorLabel";
-			ZoomAnchorLabel.Size = new System.Drawing.Size(41, 13);
+			ZoomAnchorLabel.Size = new Size(69, 25);
 			ZoomAnchorLabel.TabIndex = 40;
 			ZoomAnchorLabel.Text = "Anchor";
 			// 
 			// EnableThumbnailZoomCheckBox
 			// 
-			this.EnableThumbnailZoomCheckBox.AutoSize = true;
-			this.EnableThumbnailZoomCheckBox.Checked = true;
-			this.EnableThumbnailZoomCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.EnableThumbnailZoomCheckBox.Location = new System.Drawing.Point(8, 7);
-			this.EnableThumbnailZoomCheckBox.Name = "EnableThumbnailZoomCheckBox";
-			this.EnableThumbnailZoomCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.EnableThumbnailZoomCheckBox.Size = new System.Drawing.Size(98, 17);
-			this.EnableThumbnailZoomCheckBox.TabIndex = 36;
-			this.EnableThumbnailZoomCheckBox.Text = "Zoom on hover";
-			this.EnableThumbnailZoomCheckBox.UseVisualStyleBackColor = true;
-			this.EnableThumbnailZoomCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			EnableThumbnailZoomCheckBox.AutoSize = true;
+			EnableThumbnailZoomCheckBox.Checked = true;
+			EnableThumbnailZoomCheckBox.CheckState = CheckState.Checked;
+			EnableThumbnailZoomCheckBox.Location = new Point(13, 13);
+			EnableThumbnailZoomCheckBox.Margin = new Padding(5, 6, 5, 6);
+			EnableThumbnailZoomCheckBox.Name = "EnableThumbnailZoomCheckBox";
+			EnableThumbnailZoomCheckBox.RightToLeft = RightToLeft.No;
+			EnableThumbnailZoomCheckBox.Size = new Size(162, 29);
+			EnableThumbnailZoomCheckBox.TabIndex = 36;
+			EnableThumbnailZoomCheckBox.Text = "Zoom on hover";
+			EnableThumbnailZoomCheckBox.UseVisualStyleBackColor = true;
+			EnableThumbnailZoomCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailZoomFactorNumericEdit
 			// 
-			this.ThumbnailZoomFactorNumericEdit.BackColor = System.Drawing.SystemColors.Window;
-			this.ThumbnailZoomFactorNumericEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ThumbnailZoomFactorNumericEdit.Location = new System.Drawing.Point(81, 31);
-			this.ThumbnailZoomFactorNumericEdit.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.ThumbnailZoomFactorNumericEdit.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-			this.ThumbnailZoomFactorNumericEdit.Name = "ThumbnailZoomFactorNumericEdit";
-			this.ThumbnailZoomFactorNumericEdit.Size = new System.Drawing.Size(38, 20);
-			this.ThumbnailZoomFactorNumericEdit.TabIndex = 37;
-			this.ThumbnailZoomFactorNumericEdit.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-			this.ThumbnailZoomFactorNumericEdit.ValueChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ThumbnailZoomFactorNumericEdit.BackColor = SystemColors.Window;
+			ThumbnailZoomFactorNumericEdit.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailZoomFactorNumericEdit.Location = new Point(135, 60);
+			ThumbnailZoomFactorNumericEdit.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailZoomFactorNumericEdit.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+			ThumbnailZoomFactorNumericEdit.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
+			ThumbnailZoomFactorNumericEdit.Name = "ThumbnailZoomFactorNumericEdit";
+			ThumbnailZoomFactorNumericEdit.Size = new Size(63, 31);
+			ThumbnailZoomFactorNumericEdit.TabIndex = 37;
+			ThumbnailZoomFactorNumericEdit.Value = new decimal(new int[] { 2, 0, 0, 0 });
+			ThumbnailZoomFactorNumericEdit.ValueChanged += OptionChanged_Handler;
 			// 
 			// OverlayTabPage
 			// 
-			OverlayTabPage.BackColor = System.Drawing.SystemColors.Control;
+			OverlayTabPage.BackColor = SystemColors.Control;
 			OverlayTabPage.Controls.Add(OverlaySettingsPanel);
-			OverlayTabPage.Location = new System.Drawing.Point(124, 4);
+			OverlayTabPage.Location = new Point(124, 4);
+			OverlayTabPage.Margin = new Padding(5, 6, 5, 6);
 			OverlayTabPage.Name = "OverlayTabPage";
-			OverlayTabPage.Size = new System.Drawing.Size(262, 210);
+			OverlayTabPage.Size = new Size(522, 411);
 			OverlayTabPage.TabIndex = 3;
 			OverlayTabPage.Text = "Overlay";
 			// 
 			// OverlaySettingsPanel
 			// 
-			OverlaySettingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			OverlaySettingsPanel.Controls.Add(this.label3);
-			OverlaySettingsPanel.Controls.Add(this.label2);
-			OverlaySettingsPanel.Controls.Add(this.OverlayLabelColorButton);
-			OverlaySettingsPanel.Controls.Add(this.OverlayLabelSizeNumericEdit);
-			OverlaySettingsPanel.Controls.Add(this.panel1);
-			OverlaySettingsPanel.Controls.Add(this.label1);
-			OverlaySettingsPanel.Controls.Add(this.HighlightColorLabel);
-			OverlaySettingsPanel.Controls.Add(this.ActiveClientHighlightColorButton);
-			OverlaySettingsPanel.Controls.Add(this.EnableActiveClientHighlightCheckBox);
-			OverlaySettingsPanel.Controls.Add(this.ShowThumbnailOverlaysCheckBox);
-			OverlaySettingsPanel.Controls.Add(this.ShowThumbnailFramesCheckBox);
-			OverlaySettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			OverlaySettingsPanel.Location = new System.Drawing.Point(0, 0);
+			OverlaySettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			OverlaySettingsPanel.Controls.Add(label3);
+			OverlaySettingsPanel.Controls.Add(label2);
+			OverlaySettingsPanel.Controls.Add(OverlayLabelColorButton);
+			OverlaySettingsPanel.Controls.Add(OverlayLabelSizeNumericEdit);
+			OverlaySettingsPanel.Controls.Add(panel1);
+			OverlaySettingsPanel.Controls.Add(label1);
+			OverlaySettingsPanel.Controls.Add(HighlightColorLabel);
+			OverlaySettingsPanel.Controls.Add(ActiveClientHighlightColorButton);
+			OverlaySettingsPanel.Controls.Add(EnableActiveClientHighlightCheckBox);
+			OverlaySettingsPanel.Controls.Add(ShowThumbnailOverlaysCheckBox);
+			OverlaySettingsPanel.Controls.Add(ShowThumbnailFramesCheckBox);
+			OverlaySettingsPanel.Dock = DockStyle.Fill;
+			OverlaySettingsPanel.Location = new Point(0, 0);
+			OverlaySettingsPanel.Margin = new Padding(5, 6, 5, 6);
 			OverlaySettingsPanel.Name = "OverlaySettingsPanel";
-			OverlaySettingsPanel.Size = new System.Drawing.Size(262, 210);
+			OverlaySettingsPanel.Size = new Size(522, 411);
 			OverlaySettingsPanel.TabIndex = 25;
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(5, 146);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(44, 13);
-			this.label3.TabIndex = 43;
-			this.label3.Text = "Position";
+			label3.AutoSize = true;
+			label3.Location = new Point(8, 281);
+			label3.Margin = new Padding(5, 0, 5, 0);
+			label3.Name = "label3";
+			label3.Size = new Size(75, 25);
+			label3.TabIndex = 43;
+			label3.Text = "Position";
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(5, 127);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(31, 13);
-			this.label2.TabIndex = 42;
-			this.label2.Text = "Color";
+			label2.AutoSize = true;
+			label2.Location = new Point(8, 244);
+			label2.Margin = new Padding(5, 0, 5, 0);
+			label2.Name = "label2";
+			label2.Size = new Size(55, 25);
+			label2.TabIndex = 42;
+			label2.Text = "Color";
 			// 
 			// OverlayLabelColorButton
 			// 
-			this.OverlayLabelColorButton.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.OverlayLabelColorButton.Location = new System.Drawing.Point(42, 126);
-			this.OverlayLabelColorButton.Name = "OverlayLabelColorButton";
-			this.OverlayLabelColorButton.Size = new System.Drawing.Size(93, 17);
-			this.OverlayLabelColorButton.TabIndex = 41;
-			this.OverlayLabelColorButton.Click += new System.EventHandler(this.OverlayLabelColorButton_Click);
+			OverlayLabelColorButton.BorderStyle = BorderStyle.FixedSingle;
+			OverlayLabelColorButton.Location = new Point(70, 242);
+			OverlayLabelColorButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelColorButton.Name = "OverlayLabelColorButton";
+			OverlayLabelColorButton.Size = new Size(154, 31);
+			OverlayLabelColorButton.TabIndex = 41;
+			OverlayLabelColorButton.Click += OverlayLabelColorButton_Click;
 			// 
 			// OverlayLabelSizeNumericEdit
 			// 
-			this.OverlayLabelSizeNumericEdit.BackColor = System.Drawing.SystemColors.Window;
-			this.OverlayLabelSizeNumericEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.OverlayLabelSizeNumericEdit.CausesValidation = false;
-			this.OverlayLabelSizeNumericEdit.Location = new System.Drawing.Point(87, 100);
-			this.OverlayLabelSizeNumericEdit.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-			this.OverlayLabelSizeNumericEdit.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			this.OverlayLabelSizeNumericEdit.Name = "OverlayLabelSizeNumericEdit";
-			this.OverlayLabelSizeNumericEdit.Size = new System.Drawing.Size(48, 20);
-			this.OverlayLabelSizeNumericEdit.TabIndex = 40;
-			this.OverlayLabelSizeNumericEdit.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-			this.OverlayLabelSizeNumericEdit.ValueChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelSizeNumericEdit.BackColor = SystemColors.Window;
+			OverlayLabelSizeNumericEdit.BorderStyle = BorderStyle.FixedSingle;
+			OverlayLabelSizeNumericEdit.CausesValidation = false;
+			OverlayLabelSizeNumericEdit.Location = new Point(145, 192);
+			OverlayLabelSizeNumericEdit.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelSizeNumericEdit.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
+			OverlayLabelSizeNumericEdit.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
+			OverlayLabelSizeNumericEdit.Name = "OverlayLabelSizeNumericEdit";
+			OverlayLabelSizeNumericEdit.Size = new Size(80, 31);
+			OverlayLabelSizeNumericEdit.TabIndex = 40;
+			OverlayLabelSizeNumericEdit.Value = new decimal(new int[] { 30, 0, 0, 0 });
+			OverlayLabelSizeNumericEdit.ValueChanged += OptionChanged_Handler;
 			// 
 			// panel1
 			// 
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel1.Controls.Add(this.OverlayLabelNWRadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelNRadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelNERadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelWRadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelSERadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelCRadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelSRadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelERadioButton);
-			this.panel1.Controls.Add(this.OverlayLabelSWRadioButton);
-			this.panel1.Location = new System.Drawing.Point(72, 149);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(63, 57);
-			this.panel1.TabIndex = 39;
+			panel1.BorderStyle = BorderStyle.FixedSingle;
+			panel1.Controls.Add(OverlayLabelNWRadioButton);
+			panel1.Controls.Add(OverlayLabelNRadioButton);
+			panel1.Controls.Add(OverlayLabelNERadioButton);
+			panel1.Controls.Add(OverlayLabelWRadioButton);
+			panel1.Controls.Add(OverlayLabelSERadioButton);
+			panel1.Controls.Add(OverlayLabelCRadioButton);
+			panel1.Controls.Add(OverlayLabelSRadioButton);
+			panel1.Controls.Add(OverlayLabelERadioButton);
+			panel1.Controls.Add(OverlayLabelSWRadioButton);
+			panel1.Location = new Point(120, 287);
+			panel1.Margin = new Padding(5, 6, 5, 6);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(104, 108);
+			panel1.TabIndex = 39;
 			// 
 			// OverlayLabelNWRadioButton
 			// 
-			this.OverlayLabelNWRadioButton.AutoSize = true;
-			this.OverlayLabelNWRadioButton.Location = new System.Drawing.Point(3, 3);
-			this.OverlayLabelNWRadioButton.Name = "OverlayLabelNWRadioButton";
-			this.OverlayLabelNWRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelNWRadioButton.TabIndex = 0;
-			this.OverlayLabelNWRadioButton.TabStop = true;
-			this.OverlayLabelNWRadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelNWRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelNWRadioButton.AutoSize = true;
+			OverlayLabelNWRadioButton.Location = new Point(5, 6);
+			OverlayLabelNWRadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelNWRadioButton.Name = "OverlayLabelNWRadioButton";
+			OverlayLabelNWRadioButton.Size = new Size(21, 20);
+			OverlayLabelNWRadioButton.TabIndex = 0;
+			OverlayLabelNWRadioButton.TabStop = true;
+			OverlayLabelNWRadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelNWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelNRadioButton
 			// 
-			this.OverlayLabelNRadioButton.AutoSize = true;
-			this.OverlayLabelNRadioButton.Location = new System.Drawing.Point(23, 3);
-			this.OverlayLabelNRadioButton.Name = "OverlayLabelNRadioButton";
-			this.OverlayLabelNRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelNRadioButton.TabIndex = 1;
-			this.OverlayLabelNRadioButton.TabStop = true;
-			this.OverlayLabelNRadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelNRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelNRadioButton.AutoSize = true;
+			OverlayLabelNRadioButton.Location = new Point(38, 6);
+			OverlayLabelNRadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelNRadioButton.Name = "OverlayLabelNRadioButton";
+			OverlayLabelNRadioButton.Size = new Size(21, 20);
+			OverlayLabelNRadioButton.TabIndex = 1;
+			OverlayLabelNRadioButton.TabStop = true;
+			OverlayLabelNRadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelNRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelNERadioButton
 			// 
-			this.OverlayLabelNERadioButton.AutoSize = true;
-			this.OverlayLabelNERadioButton.Location = new System.Drawing.Point(43, 3);
-			this.OverlayLabelNERadioButton.Name = "OverlayLabelNERadioButton";
-			this.OverlayLabelNERadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelNERadioButton.TabIndex = 2;
-			this.OverlayLabelNERadioButton.TabStop = true;
-			this.OverlayLabelNERadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelNERadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelNERadioButton.AutoSize = true;
+			OverlayLabelNERadioButton.Location = new Point(72, 6);
+			OverlayLabelNERadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelNERadioButton.Name = "OverlayLabelNERadioButton";
+			OverlayLabelNERadioButton.Size = new Size(21, 20);
+			OverlayLabelNERadioButton.TabIndex = 2;
+			OverlayLabelNERadioButton.TabStop = true;
+			OverlayLabelNERadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelNERadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelWRadioButton
 			// 
-			this.OverlayLabelWRadioButton.AutoSize = true;
-			this.OverlayLabelWRadioButton.Location = new System.Drawing.Point(3, 22);
-			this.OverlayLabelWRadioButton.Name = "OverlayLabelWRadioButton";
-			this.OverlayLabelWRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelWRadioButton.TabIndex = 3;
-			this.OverlayLabelWRadioButton.TabStop = true;
-			this.OverlayLabelWRadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelWRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelWRadioButton.AutoSize = true;
+			OverlayLabelWRadioButton.Location = new Point(5, 42);
+			OverlayLabelWRadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelWRadioButton.Name = "OverlayLabelWRadioButton";
+			OverlayLabelWRadioButton.Size = new Size(21, 20);
+			OverlayLabelWRadioButton.TabIndex = 3;
+			OverlayLabelWRadioButton.TabStop = true;
+			OverlayLabelWRadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelSERadioButton
 			// 
-			this.OverlayLabelSERadioButton.AutoSize = true;
-			this.OverlayLabelSERadioButton.Location = new System.Drawing.Point(43, 40);
-			this.OverlayLabelSERadioButton.Name = "OverlayLabelSERadioButton";
-			this.OverlayLabelSERadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelSERadioButton.TabIndex = 8;
-			this.OverlayLabelSERadioButton.TabStop = true;
-			this.OverlayLabelSERadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelSERadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelSERadioButton.AutoSize = true;
+			OverlayLabelSERadioButton.Location = new Point(72, 77);
+			OverlayLabelSERadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelSERadioButton.Name = "OverlayLabelSERadioButton";
+			OverlayLabelSERadioButton.Size = new Size(21, 20);
+			OverlayLabelSERadioButton.TabIndex = 8;
+			OverlayLabelSERadioButton.TabStop = true;
+			OverlayLabelSERadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelSERadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelCRadioButton
 			// 
-			this.OverlayLabelCRadioButton.AutoSize = true;
-			this.OverlayLabelCRadioButton.Location = new System.Drawing.Point(23, 22);
-			this.OverlayLabelCRadioButton.Name = "OverlayLabelCRadioButton";
-			this.OverlayLabelCRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelCRadioButton.TabIndex = 4;
-			this.OverlayLabelCRadioButton.TabStop = true;
-			this.OverlayLabelCRadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelCRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelCRadioButton.AutoSize = true;
+			OverlayLabelCRadioButton.Location = new Point(38, 42);
+			OverlayLabelCRadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelCRadioButton.Name = "OverlayLabelCRadioButton";
+			OverlayLabelCRadioButton.Size = new Size(21, 20);
+			OverlayLabelCRadioButton.TabIndex = 4;
+			OverlayLabelCRadioButton.TabStop = true;
+			OverlayLabelCRadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelCRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelSRadioButton
 			// 
-			this.OverlayLabelSRadioButton.AutoSize = true;
-			this.OverlayLabelSRadioButton.Location = new System.Drawing.Point(23, 40);
-			this.OverlayLabelSRadioButton.Name = "OverlayLabelSRadioButton";
-			this.OverlayLabelSRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelSRadioButton.TabIndex = 7;
-			this.OverlayLabelSRadioButton.TabStop = true;
-			this.OverlayLabelSRadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelSRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelSRadioButton.AutoSize = true;
+			OverlayLabelSRadioButton.Location = new Point(38, 77);
+			OverlayLabelSRadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelSRadioButton.Name = "OverlayLabelSRadioButton";
+			OverlayLabelSRadioButton.Size = new Size(21, 20);
+			OverlayLabelSRadioButton.TabIndex = 7;
+			OverlayLabelSRadioButton.TabStop = true;
+			OverlayLabelSRadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelSRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelERadioButton
 			// 
-			this.OverlayLabelERadioButton.AutoSize = true;
-			this.OverlayLabelERadioButton.Location = new System.Drawing.Point(43, 22);
-			this.OverlayLabelERadioButton.Name = "OverlayLabelERadioButton";
-			this.OverlayLabelERadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelERadioButton.TabIndex = 5;
-			this.OverlayLabelERadioButton.TabStop = true;
-			this.OverlayLabelERadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelERadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelERadioButton.AutoSize = true;
+			OverlayLabelERadioButton.Location = new Point(72, 42);
+			OverlayLabelERadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelERadioButton.Name = "OverlayLabelERadioButton";
+			OverlayLabelERadioButton.Size = new Size(21, 20);
+			OverlayLabelERadioButton.TabIndex = 5;
+			OverlayLabelERadioButton.TabStop = true;
+			OverlayLabelERadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelERadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// OverlayLabelSWRadioButton
 			// 
-			this.OverlayLabelSWRadioButton.AutoSize = true;
-			this.OverlayLabelSWRadioButton.Location = new System.Drawing.Point(3, 40);
-			this.OverlayLabelSWRadioButton.Name = "OverlayLabelSWRadioButton";
-			this.OverlayLabelSWRadioButton.Size = new System.Drawing.Size(14, 13);
-			this.OverlayLabelSWRadioButton.TabIndex = 6;
-			this.OverlayLabelSWRadioButton.TabStop = true;
-			this.OverlayLabelSWRadioButton.UseVisualStyleBackColor = true;
-			this.OverlayLabelSWRadioButton.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			OverlayLabelSWRadioButton.AutoSize = true;
+			OverlayLabelSWRadioButton.Location = new Point(5, 77);
+			OverlayLabelSWRadioButton.Margin = new Padding(5, 6, 5, 6);
+			OverlayLabelSWRadioButton.Name = "OverlayLabelSWRadioButton";
+			OverlayLabelSWRadioButton.Size = new Size(21, 20);
+			OverlayLabelSWRadioButton.TabIndex = 6;
+			OverlayLabelSWRadioButton.TabStop = true;
+			OverlayLabelSWRadioButton.UseVisualStyleBackColor = true;
+			OverlayLabelSWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(5, 102);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(56, 13);
-			this.label1.TabIndex = 30;
-			this.label1.Text = "Label Size";
+			label1.AutoSize = true;
+			label1.Location = new Point(8, 196);
+			label1.Margin = new Padding(5, 0, 5, 0);
+			label1.Name = "label1";
+			label1.Size = new Size(89, 25);
+			label1.TabIndex = 30;
+			label1.Text = "Label Size";
 			// 
 			// HighlightColorLabel
 			// 
-			this.HighlightColorLabel.AutoSize = true;
-			this.HighlightColorLabel.Location = new System.Drawing.Point(5, 78);
-			this.HighlightColorLabel.Name = "HighlightColorLabel";
-			this.HighlightColorLabel.Size = new System.Drawing.Size(31, 13);
-			this.HighlightColorLabel.TabIndex = 29;
-			this.HighlightColorLabel.Text = "Color";
+			HighlightColorLabel.AutoSize = true;
+			HighlightColorLabel.Location = new Point(8, 150);
+			HighlightColorLabel.Margin = new Padding(5, 0, 5, 0);
+			HighlightColorLabel.Name = "HighlightColorLabel";
+			HighlightColorLabel.Size = new Size(55, 25);
+			HighlightColorLabel.TabIndex = 29;
+			HighlightColorLabel.Text = "Color";
 			// 
 			// ActiveClientHighlightColorButton
 			// 
-			this.ActiveClientHighlightColorButton.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ActiveClientHighlightColorButton.Location = new System.Drawing.Point(42, 77);
-			this.ActiveClientHighlightColorButton.Name = "ActiveClientHighlightColorButton";
-			this.ActiveClientHighlightColorButton.Size = new System.Drawing.Size(93, 17);
-			this.ActiveClientHighlightColorButton.TabIndex = 28;
-			this.ActiveClientHighlightColorButton.Click += new System.EventHandler(this.ActiveClientHighlightColorButton_Click);
+			ActiveClientHighlightColorButton.BorderStyle = BorderStyle.FixedSingle;
+			ActiveClientHighlightColorButton.Location = new Point(70, 148);
+			ActiveClientHighlightColorButton.Margin = new Padding(5, 6, 5, 6);
+			ActiveClientHighlightColorButton.Name = "ActiveClientHighlightColorButton";
+			ActiveClientHighlightColorButton.Size = new Size(154, 31);
+			ActiveClientHighlightColorButton.TabIndex = 28;
+			ActiveClientHighlightColorButton.Click += ActiveClientHighlightColorButton_Click;
 			// 
 			// EnableActiveClientHighlightCheckBox
 			// 
-			this.EnableActiveClientHighlightCheckBox.AutoSize = true;
-			this.EnableActiveClientHighlightCheckBox.Checked = true;
-			this.EnableActiveClientHighlightCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.EnableActiveClientHighlightCheckBox.Location = new System.Drawing.Point(8, 55);
-			this.EnableActiveClientHighlightCheckBox.Name = "EnableActiveClientHighlightCheckBox";
-			this.EnableActiveClientHighlightCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.EnableActiveClientHighlightCheckBox.Size = new System.Drawing.Size(127, 17);
-			this.EnableActiveClientHighlightCheckBox.TabIndex = 27;
-			this.EnableActiveClientHighlightCheckBox.Text = "Highlight active client";
-			this.EnableActiveClientHighlightCheckBox.UseVisualStyleBackColor = true;
-			this.EnableActiveClientHighlightCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			EnableActiveClientHighlightCheckBox.AutoSize = true;
+			EnableActiveClientHighlightCheckBox.Checked = true;
+			EnableActiveClientHighlightCheckBox.CheckState = CheckState.Checked;
+			EnableActiveClientHighlightCheckBox.Location = new Point(13, 106);
+			EnableActiveClientHighlightCheckBox.Margin = new Padding(5, 6, 5, 6);
+			EnableActiveClientHighlightCheckBox.Name = "EnableActiveClientHighlightCheckBox";
+			EnableActiveClientHighlightCheckBox.RightToLeft = RightToLeft.No;
+			EnableActiveClientHighlightCheckBox.Size = new Size(207, 29);
+			EnableActiveClientHighlightCheckBox.TabIndex = 27;
+			EnableActiveClientHighlightCheckBox.Text = "Highlight active client";
+			EnableActiveClientHighlightCheckBox.UseVisualStyleBackColor = true;
+			EnableActiveClientHighlightCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ShowThumbnailOverlaysCheckBox
 			// 
-			this.ShowThumbnailOverlaysCheckBox.AutoSize = true;
-			this.ShowThumbnailOverlaysCheckBox.Checked = true;
-			this.ShowThumbnailOverlaysCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.ShowThumbnailOverlaysCheckBox.Location = new System.Drawing.Point(8, 7);
-			this.ShowThumbnailOverlaysCheckBox.Name = "ShowThumbnailOverlaysCheckBox";
-			this.ShowThumbnailOverlaysCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.ShowThumbnailOverlaysCheckBox.Size = new System.Drawing.Size(90, 17);
-			this.ShowThumbnailOverlaysCheckBox.TabIndex = 25;
-			this.ShowThumbnailOverlaysCheckBox.Text = "Show overlay";
-			this.ShowThumbnailOverlaysCheckBox.UseVisualStyleBackColor = true;
-			this.ShowThumbnailOverlaysCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ShowThumbnailOverlaysCheckBox.AutoSize = true;
+			ShowThumbnailOverlaysCheckBox.Checked = true;
+			ShowThumbnailOverlaysCheckBox.CheckState = CheckState.Checked;
+			ShowThumbnailOverlaysCheckBox.Location = new Point(13, 13);
+			ShowThumbnailOverlaysCheckBox.Margin = new Padding(5, 6, 5, 6);
+			ShowThumbnailOverlaysCheckBox.Name = "ShowThumbnailOverlaysCheckBox";
+			ShowThumbnailOverlaysCheckBox.RightToLeft = RightToLeft.No;
+			ShowThumbnailOverlaysCheckBox.Size = new Size(144, 29);
+			ShowThumbnailOverlaysCheckBox.TabIndex = 25;
+			ShowThumbnailOverlaysCheckBox.Text = "Show overlay";
+			ShowThumbnailOverlaysCheckBox.UseVisualStyleBackColor = true;
+			ShowThumbnailOverlaysCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ShowThumbnailFramesCheckBox
 			// 
-			this.ShowThumbnailFramesCheckBox.AutoSize = true;
-			this.ShowThumbnailFramesCheckBox.Checked = true;
-			this.ShowThumbnailFramesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.ShowThumbnailFramesCheckBox.Location = new System.Drawing.Point(8, 31);
-			this.ShowThumbnailFramesCheckBox.Name = "ShowThumbnailFramesCheckBox";
-			this.ShowThumbnailFramesCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.ShowThumbnailFramesCheckBox.Size = new System.Drawing.Size(87, 17);
-			this.ShowThumbnailFramesCheckBox.TabIndex = 26;
-			this.ShowThumbnailFramesCheckBox.Text = "Show frames";
-			this.ShowThumbnailFramesCheckBox.UseVisualStyleBackColor = true;
-			this.ShowThumbnailFramesCheckBox.CheckedChanged += new System.EventHandler(this.OptionChanged_Handler);
+			ShowThumbnailFramesCheckBox.AutoSize = true;
+			ShowThumbnailFramesCheckBox.Checked = true;
+			ShowThumbnailFramesCheckBox.CheckState = CheckState.Checked;
+			ShowThumbnailFramesCheckBox.Location = new Point(13, 60);
+			ShowThumbnailFramesCheckBox.Margin = new Padding(5, 6, 5, 6);
+			ShowThumbnailFramesCheckBox.Name = "ShowThumbnailFramesCheckBox";
+			ShowThumbnailFramesCheckBox.RightToLeft = RightToLeft.No;
+			ShowThumbnailFramesCheckBox.Size = new Size(141, 29);
+			ShowThumbnailFramesCheckBox.TabIndex = 26;
+			ShowThumbnailFramesCheckBox.Text = "Show frames";
+			ShowThumbnailFramesCheckBox.UseVisualStyleBackColor = true;
+			ShowThumbnailFramesCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ClientsTabPage
 			// 
-			ClientsTabPage.BackColor = System.Drawing.SystemColors.Control;
+			ClientsTabPage.BackColor = SystemColors.Control;
 			ClientsTabPage.Controls.Add(ClientsPanel);
-			ClientsTabPage.Location = new System.Drawing.Point(124, 4);
+			ClientsTabPage.Location = new Point(124, 4);
+			ClientsTabPage.Margin = new Padding(5, 6, 5, 6);
 			ClientsTabPage.Name = "ClientsTabPage";
-			ClientsTabPage.Size = new System.Drawing.Size(262, 210);
+			ClientsTabPage.Size = new Size(522, 411);
 			ClientsTabPage.TabIndex = 4;
 			ClientsTabPage.Text = "Active Clients";
 			// 
 			// ClientsPanel
 			// 
-			ClientsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			ClientsPanel.Controls.Add(this.ThumbnailsList);
+			ClientsPanel.BorderStyle = BorderStyle.FixedSingle;
+			ClientsPanel.Controls.Add(ThumbnailsList);
 			ClientsPanel.Controls.Add(ThumbnailsListLabel);
-			ClientsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			ClientsPanel.Location = new System.Drawing.Point(0, 0);
+			ClientsPanel.Dock = DockStyle.Fill;
+			ClientsPanel.Location = new Point(0, 0);
+			ClientsPanel.Margin = new Padding(5, 6, 5, 6);
 			ClientsPanel.Name = "ClientsPanel";
-			ClientsPanel.Size = new System.Drawing.Size(262, 210);
+			ClientsPanel.Size = new Size(522, 411);
 			ClientsPanel.TabIndex = 32;
 			// 
 			// ThumbnailsList
 			// 
-			this.ThumbnailsList.BackColor = System.Drawing.SystemColors.Window;
-			this.ThumbnailsList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ThumbnailsList.CheckOnClick = true;
-			this.ThumbnailsList.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.ThumbnailsList.FormattingEnabled = true;
-			this.ThumbnailsList.IntegralHeight = false;
-			this.ThumbnailsList.Location = new System.Drawing.Point(0, 28);
-			this.ThumbnailsList.Name = "ThumbnailsList";
-			this.ThumbnailsList.Size = new System.Drawing.Size(260, 180);
-			this.ThumbnailsList.TabIndex = 34;
-			this.ThumbnailsList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ThumbnailsList_ItemCheck_Handler);
+			ThumbnailsList.BackColor = SystemColors.Window;
+			ThumbnailsList.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailsList.CheckOnClick = true;
+			ThumbnailsList.Dock = DockStyle.Bottom;
+			ThumbnailsList.FormattingEnabled = true;
+			ThumbnailsList.IntegralHeight = false;
+			ThumbnailsList.Location = new Point(0, 65);
+			ThumbnailsList.Margin = new Padding(5, 6, 5, 6);
+			ThumbnailsList.Name = "ThumbnailsList";
+			ThumbnailsList.Size = new Size(520, 344);
+			ThumbnailsList.TabIndex = 34;
+			ThumbnailsList.ItemCheck += ThumbnailsList_ItemCheck_Handler;
 			// 
 			// ThumbnailsListLabel
 			// 
 			ThumbnailsListLabel.AutoSize = true;
-			ThumbnailsListLabel.Location = new System.Drawing.Point(8, 9);
+			ThumbnailsListLabel.Location = new Point(13, 17);
+			ThumbnailsListLabel.Margin = new Padding(5, 0, 5, 0);
 			ThumbnailsListLabel.Name = "ThumbnailsListLabel";
-			ThumbnailsListLabel.Size = new System.Drawing.Size(162, 13);
+			ThumbnailsListLabel.Size = new Size(268, 25);
 			ThumbnailsListLabel.TabIndex = 33;
 			ThumbnailsListLabel.Text = "Thumbnails (check to force hide)";
 			// 
 			// AboutTabPage
 			// 
-			AboutTabPage.BackColor = System.Drawing.SystemColors.Control;
+			AboutTabPage.BackColor = SystemColors.Control;
 			AboutTabPage.Controls.Add(AboutPanel);
-			AboutTabPage.Location = new System.Drawing.Point(124, 4);
+			AboutTabPage.Location = new Point(124, 4);
+			AboutTabPage.Margin = new Padding(5, 6, 5, 6);
 			AboutTabPage.Name = "AboutTabPage";
-			AboutTabPage.Size = new System.Drawing.Size(262, 210);
+			AboutTabPage.Size = new Size(522, 411);
 			AboutTabPage.TabIndex = 5;
 			AboutTabPage.Text = "About";
 			// 
 			// AboutPanel
 			// 
-			AboutPanel.BackColor = System.Drawing.Color.Transparent;
-			AboutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			AboutPanel.BackColor = Color.Transparent;
+			AboutPanel.BorderStyle = BorderStyle.FixedSingle;
 			AboutPanel.Controls.Add(CreditMaintLabel);
 			AboutPanel.Controls.Add(DocumentationLinkLabel);
 			AboutPanel.Controls.Add(DescriptionLabel);
-			AboutPanel.Controls.Add(this.VersionLabel);
+			AboutPanel.Controls.Add(VersionLabel);
 			AboutPanel.Controls.Add(NameLabel);
-			AboutPanel.Controls.Add(this.DocumentationLink);
-			AboutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			AboutPanel.Location = new System.Drawing.Point(0, 0);
+			AboutPanel.Controls.Add(DocumentationLink);
+			AboutPanel.Dock = DockStyle.Fill;
+			AboutPanel.Location = new Point(0, 0);
+			AboutPanel.Margin = new Padding(5, 6, 5, 6);
 			AboutPanel.Name = "AboutPanel";
-			AboutPanel.Size = new System.Drawing.Size(262, 210);
+			AboutPanel.Size = new Size(522, 411);
 			AboutPanel.TabIndex = 2;
 			// 
 			// CreditMaintLabel
 			// 
 			CreditMaintLabel.AutoSize = true;
-			CreditMaintLabel.Location = new System.Drawing.Point(0, 143);
+			CreditMaintLabel.Location = new Point(0, 275);
+			CreditMaintLabel.Margin = new Padding(5, 0, 5, 0);
 			CreditMaintLabel.Name = "CreditMaintLabel";
-			CreditMaintLabel.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
-			CreditMaintLabel.Size = new System.Drawing.Size(258, 19);
+			CreditMaintLabel.Padding = new Padding(13, 6, 13, 6);
+			CreditMaintLabel.Size = new Size(435, 37);
 			CreditMaintLabel.TabIndex = 7;
 			CreditMaintLabel.Text = "Credit to previous maintainer: Phrynohyas Tig-Rah";
 			// 
 			// DocumentationLinkLabel
 			// 
 			DocumentationLinkLabel.AutoSize = true;
-			DocumentationLinkLabel.Location = new System.Drawing.Point(0, 163);
+			DocumentationLinkLabel.Location = new Point(0, 313);
+			DocumentationLinkLabel.Margin = new Padding(5, 0, 5, 0);
 			DocumentationLinkLabel.Name = "DocumentationLinkLabel";
-			DocumentationLinkLabel.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
-			DocumentationLinkLabel.Size = new System.Drawing.Size(222, 19);
+			DocumentationLinkLabel.Padding = new Padding(13, 6, 13, 6);
+			DocumentationLinkLabel.Size = new Size(389, 37);
 			DocumentationLinkLabel.TabIndex = 6;
 			DocumentationLinkLabel.Text = "For more information visit the forum thread:";
 			// 
 			// DescriptionLabel
 			// 
-			DescriptionLabel.BackColor = System.Drawing.Color.Transparent;
-			DescriptionLabel.Location = new System.Drawing.Point(0, 29);
+			DescriptionLabel.BackColor = Color.Transparent;
+			DescriptionLabel.Location = new Point(0, 56);
+			DescriptionLabel.Margin = new Padding(5, 0, 5, 0);
 			DescriptionLabel.Name = "DescriptionLabel";
-			DescriptionLabel.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
-			DescriptionLabel.Size = new System.Drawing.Size(261, 145);
+			DescriptionLabel.Padding = new Padding(13, 6, 13, 6);
+			DescriptionLabel.Size = new Size(435, 279);
 			DescriptionLabel.TabIndex = 5;
 			DescriptionLabel.Text = resources.GetString("DescriptionLabel.Text");
 			// 
 			// VersionLabel
 			// 
-			this.VersionLabel.AutoSize = true;
-			this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.VersionLabel.Location = new System.Drawing.Point(133, 9);
-			this.VersionLabel.Name = "VersionLabel";
-			this.VersionLabel.Size = new System.Drawing.Size(49, 20);
-			this.VersionLabel.TabIndex = 4;
-			this.VersionLabel.Text = "1.0.0";
+			VersionLabel.AutoSize = true;
+			VersionLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 204);
+			VersionLabel.Location = new Point(222, 17);
+			VersionLabel.Margin = new Padding(5, 0, 5, 0);
+			VersionLabel.Name = "VersionLabel";
+			VersionLabel.Size = new Size(69, 29);
+			VersionLabel.TabIndex = 4;
+			VersionLabel.Text = "1.0.0";
 			// 
 			// NameLabel
 			// 
 			NameLabel.AutoSize = true;
-			NameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			NameLabel.Location = new System.Drawing.Point(4, 9);
+			NameLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 204);
+			NameLabel.Location = new Point(7, 17);
+			NameLabel.Margin = new Padding(5, 0, 5, 0);
 			NameLabel.Name = "NameLabel";
-			NameLabel.Size = new System.Drawing.Size(130, 20);
+			NameLabel.Size = new Size(195, 29);
 			NameLabel.TabIndex = 3;
 			NameLabel.Text = "EVE-O-Preview";
 			// 
 			// DocumentationLink
 			// 
-			this.DocumentationLink.Location = new System.Drawing.Point(0, 177);
-			this.DocumentationLink.Margin = new System.Windows.Forms.Padding(30, 3, 3, 3);
-			this.DocumentationLink.Name = "DocumentationLink";
-			this.DocumentationLink.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
-			this.DocumentationLink.Size = new System.Drawing.Size(262, 33);
-			this.DocumentationLink.TabIndex = 2;
-			this.DocumentationLink.TabStop = true;
-			this.DocumentationLink.Text = "to be set from prresenter to be set from prresenter to be set from prresenter to " +
-    "be set from prresenter";
-			this.DocumentationLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DocumentationLinkClicked_Handler);
+			DocumentationLink.Location = new Point(0, 340);
+			DocumentationLink.Margin = new Padding(50, 6, 5, 6);
+			DocumentationLink.Name = "DocumentationLink";
+			DocumentationLink.Padding = new Padding(13, 6, 13, 6);
+			DocumentationLink.Size = new Size(437, 63);
+			DocumentationLink.TabIndex = 2;
+			DocumentationLink.TabStop = true;
+			DocumentationLink.Text = "to be set from prresenter to be set from prresenter to be set from prresenter to be set from prresenter";
+			DocumentationLink.LinkClicked += DocumentationLinkClicked_Handler;
 			// 
 			// NotifyIcon
 			// 
-			this.NotifyIcon.ContextMenuStrip = this.TrayMenu;
-			this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
-			this.NotifyIcon.Text = "EVE-O-Preview";
-			this.NotifyIcon.Visible = true;
-			this.NotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RestoreMainForm_Handler);
+			NotifyIcon.ContextMenuStrip = TrayMenu;
+			NotifyIcon.Icon = (Icon)resources.GetObject("NotifyIcon.Icon");
+			NotifyIcon.Text = "EVE-O-Preview";
+			NotifyIcon.Visible = true;
+			NotifyIcon.MouseDoubleClick += RestoreMainForm_Handler;
 			// 
 			// TrayMenu
 			// 
-			this.TrayMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
-			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            TitleMenuItem,
-            RestoreWindowMenuItem,
-            SeparatorMenuItem,
-            ExitMenuItem});
-			this.TrayMenu.Name = "contextMenuStrip1";
-			this.TrayMenu.Size = new System.Drawing.Size(152, 76);
+			TrayMenu.ImageScalingSize = new Size(24, 24);
+			TrayMenu.Items.AddRange(new ToolStripItem[] { TitleMenuItem, RestoreWindowMenuItem, SeparatorMenuItem, ExitMenuItem });
+			TrayMenu.Name = "contextMenuStrip1";
+			TrayMenu.Size = new Size(202, 106);
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(390, 218);
-			this.Controls.Add(ContentTabControl);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(0);
-			this.MaximizeBox = false;
-			this.Name = "MainForm";
-			this.Text = "EVE-O-Preview";
-			this.TopMost = true;
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormClosing_Handler);
-			this.Load += new System.EventHandler(this.MainFormResize_Handler);
-			this.Resize += new System.EventHandler(this.MainFormResize_Handler);
+			AutoScaleDimensions = new SizeF(10F, 25F);
+			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = SystemColors.Control;
+			ClientSize = new Size(650, 419);
+			Controls.Add(ContentTabControl);
+			FormBorderStyle = FormBorderStyle.FixedSingle;
+			Icon = (Icon)resources.GetObject("$this.Icon");
+			Margin = new Padding(0);
+			MaximizeBox = false;
+			Name = "MainForm";
+			Text = "EVE-O-Preview";
+			TopMost = true;
+			FormClosing += MainFormClosing_Handler;
+			Load += MainFormResize_Handler;
+			Resize += MainFormResize_Handler;
 			ContentTabControl.ResumeLayout(false);
 			GeneralTabPage.ResumeLayout(false);
 			GeneralSettingsPanel.ResumeLayout(false);
@@ -1207,31 +1205,31 @@ namespace EveOPreview.View
 			ThumbnailTabPage.ResumeLayout(false);
 			ThumbnailSettingsPanel.ResumeLayout(false);
 			ThumbnailSettingsPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailSnapToGridSizeYNumericEdit)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailSnapToGridSizeXNumericEdit)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailsWidthNumericEdit)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailsHeightNumericEdit)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailOpacityTrackBar)).EndInit();
-			this.ZoomTabPage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)ThumbnailSnapToGridSizeYNumericEdit).EndInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailSnapToGridSizeXNumericEdit).EndInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailsWidthNumericEdit).EndInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailsHeightNumericEdit).EndInit();
+			((System.ComponentModel.ISupportInitialize)ThumbnailOpacityTrackBar).EndInit();
+			ZoomTabPage.ResumeLayout(false);
 			ZoomSettingsPanel.ResumeLayout(false);
 			ZoomSettingsPanel.PerformLayout();
-			this.ZoomAnchorPanel.ResumeLayout(false);
-			this.ZoomAnchorPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.ThumbnailZoomFactorNumericEdit)).EndInit();
+			ZoomAnchorPanel.ResumeLayout(false);
+			ZoomAnchorPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)ThumbnailZoomFactorNumericEdit).EndInit();
 			OverlayTabPage.ResumeLayout(false);
 			OverlaySettingsPanel.ResumeLayout(false);
 			OverlaySettingsPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.OverlayLabelSizeNumericEdit)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)OverlayLabelSizeNumericEdit).EndInit();
+			panel1.ResumeLayout(false);
+			panel1.PerformLayout();
 			ClientsTabPage.ResumeLayout(false);
 			ClientsPanel.ResumeLayout(false);
 			ClientsPanel.PerformLayout();
 			AboutTabPage.ResumeLayout(false);
 			AboutPanel.ResumeLayout(false);
 			AboutPanel.PerformLayout();
-			this.TrayMenu.ResumeLayout(false);
-			this.ResumeLayout(false);
+			TrayMenu.ResumeLayout(false);
+			ResumeLayout(false);
 
 		}
 

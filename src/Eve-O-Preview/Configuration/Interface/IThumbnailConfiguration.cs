@@ -71,6 +71,8 @@ namespace EveOPreview.Configuration
 		Color OverlayLabelColor { get; set; }
 		int OverlayLabelSize { get; set; }
 
+		string IconName { get; set; }
+
 		Point LoginThumbnailLocation { get; set; }
 
 		Point GetThumbnailLocation(string currentClient, string activeClient, Point defaultLocation);

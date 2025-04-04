@@ -42,6 +42,8 @@ namespace EveOPreview.View
 		Color OverlayLabelColor { get; set; }
 		int OverlayLabelSize { get; set; }
 
+		string IconName { get; set; }
+
 		void SetDocumentationUrl(string url);
 		void SetVersionInfo(string version);
 		void SetThumbnailSizeLimitations(Size minimumSize, Size maximumSize);
