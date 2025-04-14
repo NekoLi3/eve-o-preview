@@ -125,13 +125,24 @@ namespace EveOPreview.Services
 		public void CycleNextClient(bool isForwards, Dictionary<string, int> cycleOrder)
 		{
 			IOrderedEnumerable<KeyValuePair<string, int>> clientOrder;
+			Dictionary<string, int> _cycleOrder = new Dictionary<string, int>(cycleOrder);
+
+			if ( _cycleOrder.Count == 0 ) 
+			{
+				int order = 0;
+				foreach( var x in _thumbnailViews)
+				{
+					_cycleOrder.Add(x.Value.Title, order++);
+				}
+			}
+
 			if (isForwards)
 			{
-				clientOrder = cycleOrder.OrderBy(x => x.Value);
+				clientOrder = _cycleOrder.OrderBy(x => x.Value);
 			}
 			else
 			{
-				clientOrder = cycleOrder.OrderByDescending(x => x.Value);
+				clientOrder = _cycleOrder.OrderByDescending(x => x.Value);
 			}
 
 			bool setNextClient = false;
