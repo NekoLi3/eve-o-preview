@@ -87,7 +87,7 @@ namespace EveOPreview.View
 			set
 			{
 				this.Text = value;
-				this._overlay.SetOverlayLabel(value.Replace("EVE - ", ""));
+				this._overlay.SetOverlayLabel(value.Replace("EVE - ", "").Replace("EVE Frontier - ", "*"));
 				this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelSize, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
 				SetDefaultBorderColor();
 			}

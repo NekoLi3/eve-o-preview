@@ -155,6 +155,7 @@ Some of the application options are not exposed in the GUI. They can be adjusted
 | **ThumbnailRefreshPeriod** | <div style="font-size: small">Thumbnail refresh period in milliseconds. This option accepts values between **300** and **1000** only.<br />The default value is **500** milliseconds. For LINUX build this can go down to **10**<br />For example: **"ThumbnailRefreshPeriod": 500**</div> |
 | **ThumbnailResizeTimeoutPeriod** | <div style="font-size: small">Thumbnail Resize Timeout period in milliseconds. This option accepts values between **200** and **5000** only.<br />The default value is **500** milliseconds.<br />For example: **"ThumbnailResizeTimeoutPeriod": 500**. If you are having the preview windows resize incorrectly on startup increase this value.</div> |
 | **ExecutablesToPreview** | <div style="font-size: small">List of executables to display preview windows for. List of strings.<br />The default value is **"exefile"**.<br />For example: **"ExecutablesToPreview": ["exefile","wow","Diablo IV"]**. If you are having the preview windows resize incorrectly on startup increase this value.</div> |
+| **IconName** | <div style="font-size: small">The icon you wish to use for Eve-O-Preview.<br />The default value is **""** which would equate to **IconOriginal**.<br />If an invalid or empty value is used, **IconOriginal** will be used.<br />Valid values are : **IconOriginal**, **IconDefault**, **IconAmber**, **IconBlue**, **IconCherry**, **IconDal**, **IconDark**, **IconMint**, **IconPurple** and **IconUrns**</div> |
 
 <div style="page-break-after: always;"></div>
 
@@ -221,6 +222,7 @@ You should modify this entry with a list of each of your clients replacing "Exam
 If a character appears in the list but is not currently logged in, then it will simply be skipped.
 If a character does not appear in the list, then they will never become active when cycling clients.
 If "EVE" is used instead of a character name - then this is taken to mean active clients with no active character (ie on character selection screen). This would allow you to setup a cycle group to go through clients at character selection screen. EVE-O Preview will cycle through all clients in this state.
+If no clients defined here but Hotkeys are defined then ALL active clients will be cycled through with those hotkeys.
 
 By now you may have noticed that there are multiple groups. The above configuration can be followed for a second group by using the values **CycleGroup2ForwardHotkeys**, **CycleGroup2BackwardHotkeys**, and **CycleGroup2ForwardHotkeys**
 This may provide useful if you want to have one HotKey to cycle through a group of DPS characters, while another HotKey cycles through support roles such as gate scouts, or a group of logi. Cyclegroups are numbered 1 through 5.

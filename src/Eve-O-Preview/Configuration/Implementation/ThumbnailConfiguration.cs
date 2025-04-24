@@ -131,6 +131,8 @@ namespace EveOPreview.Configuration.Implementation
 			this.OverlayLabelColor = Color.Orange;
 			this.OverlayLabelSize = 10;
 
+			this.IconName = "";
+
 			this.LoginThumbnailLocation = new Point(5, 5);
 		}
 
@@ -262,6 +264,8 @@ namespace EveOPreview.Configuration.Implementation
 		public Color ActiveClientHighlightColor { get; set; }
 		public Color OverlayLabelColor { get; set; }
 		public int OverlayLabelSize {  get; set; }
+		public string IconName { get; set; }
+
 		public int ActiveClientHighlightThickness { get; set; }
 
 		[JsonProperty("LoginThumbnailLocation")]

@@ -39,7 +39,7 @@
 	  <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>original-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>EveOPreview.Program</StartupObject>
@@ -84,7 +84,7 @@
     <EmbeddedResource Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.ico" />
+    <Content Include="original-icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LightInject">

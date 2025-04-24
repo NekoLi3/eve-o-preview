@@ -45,6 +45,8 @@ namespace EveOPreview.Presenters
 			this.View.ThumbnailStateChanged = this.UpdateThumbnailState;
 			this.View.DocumentationLinkActivated = this.OpenDocumentationLink;
 			this.View.ApplicationExitRequested = this.ExitApplication;
+
+			this.View.IconName = this._configuration.IconName;
 		}
 
 		private void Activate()
@@ -131,6 +133,8 @@ namespace EveOPreview.Presenters
 
 			this.View.OverlayLabelColor = this._configuration.OverlayLabelColor;
 			this.View.OverlayLabelSize = this._configuration.OverlayLabelSize;
+
+			this.View.IconName = this._configuration.IconName;
 		}
 
 		private async void SaveApplicationSettings()
@@ -171,6 +175,8 @@ namespace EveOPreview.Presenters
 
 			this._configuration.OverlayLabelColor = this.View.OverlayLabelColor;
 			this._configuration.OverlayLabelSize = this.View.OverlayLabelSize;
+
+			this._configuration.IconName = this.View.IconName;
 
 			this._configurationStorage.Save();
 

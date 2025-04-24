@@ -125,13 +125,24 @@ namespace EveOPreview.Services
 		public void CycleNextClient(bool isForwards, Dictionary<string, int> cycleOrder)
 		{
 			IOrderedEnumerable<KeyValuePair<string, int>> clientOrder;
+			Dictionary<string, int> _cycleOrder = new Dictionary<string, int>(cycleOrder);
+
+			if ( _cycleOrder.Count == 0 ) 
+			{
+				int order = 0;
+				foreach( var x in _thumbnailViews)
+				{
+					_cycleOrder.Add(x.Value.Title, order++);
+				}
+			}
+
 			if (isForwards)
 			{
-				clientOrder = cycleOrder.OrderBy(x => x.Value);
+				clientOrder = _cycleOrder.OrderBy(x => x.Value);
 			}
 			else
 			{
-				clientOrder = cycleOrder.OrderByDescending(x => x.Value);
+				clientOrder = _cycleOrder.OrderByDescending(x => x.Value);
 			}
 
 			bool setNextClient = false;
@@ -433,10 +444,15 @@ namespace EveOPreview.Services
 				}
 			}
 
-			// Hide, show, resize and move
+			// Hide, show, resize and move - update ZoomAnchor setting
 			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
 			{
 				IThumbnailView view = entry.Value;
+
+
+				// update ZoomAnchor regardless
+				view.ClientZoomAnchor = this._configuration.GetZoomAnchor(view.Title, this._configuration.ThumbnailZoomAnchor);
+
 
 				if (hideAllThumbnails || this._configuration.IsThumbnailDisabled(view.Title))
 				{
@@ -823,8 +839,6 @@ namespace EveOPreview.Services
 			{
 				this._windowManager.MoveWindow(clientHandle, clientLayout.X, clientLayout.Y, clientLayout.Width, clientLayout.Height);
 			}
-
-			view.ClientZoomAnchor = this._configuration.GetZoomAnchor(clientTitle, this._configuration.ThumbnailZoomAnchor);
 		}
 
 		private void UpdateClientLayouts()

@@ -1,7 +1,9 @@
 using EveOPreview.Configuration;
+using EveOPreview.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -19,6 +21,7 @@ namespace EveOPreview.View
 		private bool _suppressEvents;
 		private Size _minimumSize;
 		private Size _maximumSize;
+		private string _iconName;
 		#endregion
 
 		public MainForm(ApplicationContext context)
@@ -39,15 +42,50 @@ namespace EveOPreview.View
 			this.InitOverlayLabelMap();
 			this.InitFormSize();
 
-
 			this.AnimationStyleCombo.DataSource = Enum.GetValues(typeof(AnimationStyle));
-
 		}
 
 		public bool MinimizeToTray
 		{
 			get => this.MinimizeToTrayCheckBox.Checked;
 			set => this.MinimizeToTrayCheckBox.Checked = value;
+		}
+
+		public string IconName
+		{
+			get => this._iconName;
+			set {
+
+
+				this._iconName = value;
+
+				// Set Icon 
+				System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+				if (this._iconName == null || ((resources.GetObject(this._iconName))) == null)
+				{
+					this._iconName = "IconOriginal";
+				}
+
+				// pull icon from resources
+				try
+				{
+					var iconBytes = (byte[])resources.GetObject(this._iconName);
+					using (MemoryStream ms = new MemoryStream(iconBytes))
+					{
+						this.Icon = new Icon(ms);
+						this.NotifyIcon.Icon = this.Icon;
+					}
+				}
+				catch (Exception ex)
+				{
+					// Log ?
+				}
+
+				if (value != "")
+				{
+					this.ApplicationSettingsChanged?.Invoke();
+				}
+			}
 		}
 
 		public double ThumbnailOpacity
@@ -264,7 +302,6 @@ namespace EveOPreview.View
 				this.OverlayLabelSizeNumericEdit.Value = value;
 			}
 		}
-
 		public new void Show()
 		{
 			// Registers the current instance as the application's Main Form
