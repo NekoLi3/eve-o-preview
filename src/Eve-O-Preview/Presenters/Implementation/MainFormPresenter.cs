@@ -250,9 +250,18 @@ namespace EveOPreview.Presenters
 
 		private void OpenDocumentationLink()
 		{
+			// funtimes
+			// https://brockallen.com/2016/09/24/process-start-for-urls-on-net-core/
+			// https://github.com/dotnet/runtime/issues/17938
+
 			// TODO Move out to a separate service / presenter / message handler
+#if LINUX
+			Process.Start("xdg-open", new Uri(MainFormPresenter.FORUM_URL).AbsoluteUri);
+#else
 			ProcessStartInfo processStartInfo = new ProcessStartInfo(new Uri(MainFormPresenter.FORUM_URL).AbsoluteUri);
+			processStartInfo.UseShellExecute = true;
 			Process.Start(processStartInfo);
+#endif
 		}
 
 		private string GetApplicationVersion()
