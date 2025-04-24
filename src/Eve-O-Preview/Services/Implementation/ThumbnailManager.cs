@@ -444,10 +444,15 @@ namespace EveOPreview.Services
 				}
 			}
 
-			// Hide, show, resize and move
+			// Hide, show, resize and move - update ZoomAnchor setting
 			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
 			{
 				IThumbnailView view = entry.Value;
+
+
+				// update ZoomAnchor regardless
+				view.ClientZoomAnchor = this._configuration.GetZoomAnchor(view.Title, this._configuration.ThumbnailZoomAnchor);
+
 
 				if (hideAllThumbnails || this._configuration.IsThumbnailDisabled(view.Title))
 				{
@@ -834,8 +839,6 @@ namespace EveOPreview.Services
 			{
 				this._windowManager.MoveWindow(clientHandle, clientLayout.X, clientLayout.Y, clientLayout.Width, clientLayout.Height);
 			}
-
-			view.ClientZoomAnchor = this._configuration.GetZoomAnchor(clientTitle, this._configuration.ThumbnailZoomAnchor);
 		}
 
 		private void UpdateClientLayouts()
