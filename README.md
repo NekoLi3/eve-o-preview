@@ -222,6 +222,7 @@ You should modify this entry with a list of each of your clients replacing "Exam
 If a character appears in the list but is not currently logged in, then it will simply be skipped.
 If a character does not appear in the list, then they will never become active when cycling clients.
 If "EVE" is used instead of a character name - then this is taken to mean active clients with no active character (ie on character selection screen). This would allow you to setup a cycle group to go through clients at character selection screen. EVE-O Preview will cycle through all clients in this state.
+If no clients defined here but Hotkeys are defined then ALL active clients will be cycled through with those hotkeys.
 
 By now you may have noticed that there are multiple groups. The above configuration can be followed for a second group by using the values **CycleGroup2ForwardHotkeys**, **CycleGroup2BackwardHotkeys**, and **CycleGroup2ForwardHotkeys**
 This may provide useful if you want to have one HotKey to cycle through a group of DPS characters, while another HotKey cycles through support roles such as gate scouts, or a group of logi. Cyclegroups are numbered 1 through 5.
