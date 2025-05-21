@@ -566,6 +566,11 @@ namespace EveOPreview.Services
 			if (this._configuration.MinimizeInactiveClients && !this._configuration.IsPriorityClient(this._activeClient.Title))
 			{
 				this._windowManager.MinimizeWindow(this._activeClient.Handle, this._configuration.WindowsAnimationStyle, false);
+#if LINUX
+   			    this._windowManager.ActivateWindow(foregroundClientHandle, foregroundClientTitle);
+#else
+				this._windowManager.ActivateWindow(foregroundClientHandle, this._configuration.WindowsAnimationStyle);
+#endif
 			}
 
 			this._activeClient = (foregroundClientHandle, foregroundClientTitle);
