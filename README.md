@@ -30,6 +30,9 @@ Video Guides:
 
 * [Eve online , How To : EVE-O Preview (multiboxing; legal)](https://youtu.be/2r0NMKbogXU)
 
+Support:
+* Discord: https://discord.gg/xYt8R9AFXB
+
 ## Development Details
 We have migrated to a unified source code where Windows and Linux share the same code base. When doing do we also implemented the ability to build the source using Github Actions. If you would like to make changed to the code for yourself, fork this repo, make changes to the code as you see fit and actions will build the .exe files. If you would like to share your code changes with the community open a PR for approval.
 
