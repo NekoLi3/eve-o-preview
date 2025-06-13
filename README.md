@@ -31,18 +31,7 @@ Video Guides:
 * [Eve online , How To : EVE-O Preview (multiboxing; legal)](https://youtu.be/2r0NMKbogXU)
 
 ## Development Details
-Use this info to deploy this git in your own dev environment to play with the code and build your own EXE.
-
-1. Install VS Studio (not code)
-* DEPENDENCIES
-  * Core
-  * .NET desktop development workload w/ 4.8 framework
-2. Clone the Git - https://github.com/Proopai/eve-o-preview
-3. Open the Project/Solution
-4. You can now edit code
-5. To build, Right click the `Eve-O-Preview` project in the `Solutions Explorer` and select `Build`
-
-If you did everything correct, VS will now build the project in seconds and tell you where it placed the EXE.
+We have migrated to a unified source code where Windows and Linux share the same code base. When doing do we also implemented the ability to build the source using Github Actions. If you would like to make changed to the code for yourself, fork this repo, make changes to the code as you see fit and actions will build the .exe files. If you would like to share your code changes with the community open a PR for approval.
 
 ## System Requirements
 
