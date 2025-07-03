@@ -30,7 +30,10 @@ namespace EveOPreview.Services.Interop
 		public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+		public static extern UInt32 GetWindowLong(IntPtr hWnd, int nIndex);
+
+		[DllImport("user32.dll")]
+		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, UInt32 dwNewLong);
 
 		[DllImport("user32.dll")]
 		public static extern int GetWindowRect(IntPtr hWnd, out RECT rect);

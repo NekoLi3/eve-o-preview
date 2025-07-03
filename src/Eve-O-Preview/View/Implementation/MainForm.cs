@@ -54,7 +54,8 @@ namespace EveOPreview.View
 		public string IconName
 		{
 			get => this._iconName;
-			set {
+			set
+			{
 
 
 				this._iconName = value;
@@ -123,6 +124,11 @@ namespace EveOPreview.View
 		{
 			get => this.MinimizeInactiveClientsCheckBox.Checked;
 			set => this.MinimizeInactiveClientsCheckBox.Checked = value;
+		}
+		public bool HideCaptionOnClients
+		{
+			get => this.HideCaptionOnClientsCheckBox.Checked;
+			set => this.HideCaptionOnClientsCheckBox.Checked = value;
 		}
 		public ViewAnimationStyle WindowsAnimationStyle
 		{
@@ -534,15 +540,15 @@ namespace EveOPreview.View
 		private void InitOverlayLabelMap()
 		{
 			this._overlayLabelMap[ViewZoomAnchor.NW] = this.OverlayLabelNWRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.N] = this.OverlayLabelNRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.NE] = this.OverlayLabelNERadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.W] = this.OverlayLabelWRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.C] = this.OverlayLabelCRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.E] = this.OverlayLabelERadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.SW] = this.OverlayLabelSWRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.S] = this.OverlayLabelSRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.SE] = this.OverlayLabelSERadioButton;
-        }
+			this._overlayLabelMap[ViewZoomAnchor.N] = this.OverlayLabelNRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.NE] = this.OverlayLabelNERadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.W] = this.OverlayLabelWRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.C] = this.OverlayLabelCRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.E] = this.OverlayLabelERadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.SW] = this.OverlayLabelSWRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.S] = this.OverlayLabelSRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.SE] = this.OverlayLabelSERadioButton;
+		}
 		private void InitFormSize()
 		{
 			const int BUFFER_PIXEL_AMOUNT = 8;
@@ -557,11 +563,6 @@ namespace EveOPreview.View
 					this.Height = calculatedHeight;
 				}
 			}
-		}
-
-		private void AnimationStyleCombo_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
 		}
 
 		private void GeneralSettingsPanel_Paint(object sender, PaintEventArgs e)

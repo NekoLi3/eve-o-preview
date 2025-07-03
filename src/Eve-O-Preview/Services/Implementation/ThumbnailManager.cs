@@ -1,17 +1,19 @@
-﻿using System;
+﻿using EveOPreview.Configuration;
+using EveOPreview.Mediator.Messages;
+using EveOPreview.Services.Interop;
+using EveOPreview.UI.Hotkeys;
+using EveOPreview.View;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using EveOPreview.Configuration;
-using EveOPreview.Mediator.Messages;
-using EveOPreview.UI.Hotkeys;
-using EveOPreview.View;
-using MediatR;
 
 namespace EveOPreview.Services
 {
@@ -150,7 +152,7 @@ namespace EveOPreview.Services
 
 			foreach (var t in clientOrder)
 			{
-				if (t.Key == _activeClient.Title && t.Key != "EVE")
+				if (t.Key == _activeClient.Title && t.Key != DEFAULT_CLIENT_TITLE)
 				{
 					setNextClient = true;
 					lastClient = _thumbnailViews.FirstOrDefault(x => x.Value.Title == t.Key).Value;
@@ -158,7 +160,7 @@ namespace EveOPreview.Services
 				}
 
 				// cycle through login screens ?
-				if (t.Key == _activeClient.Title && t.Key == "EVE")
+				if (t.Key == _activeClient.Title && t.Key == DEFAULT_CLIENT_TITLE)
 				{
 					lastClient = _thumbnailViews.FirstOrDefault(x => x.Value.Title == t.Key && x.Value.Id == _activeClient.Handle).Value;
 					if (lastClient == null)
@@ -197,7 +199,7 @@ namespace EveOPreview.Services
 
 				if (_thumbnailViews.Any(x => x.Value.Title == t.Key))
 				{
-					var ptr = t.Key.Equals("EVE") ? 
+					var ptr = t.Key.Equals(DEFAULT_CLIENT_TITLE) ? 
 						(isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).First(x => x.Value.Title == t.Key)
 						: _thumbnailViews.First(x => x.Value.Title == t.Key);
 					SetActive(ptr);
@@ -210,7 +212,7 @@ namespace EveOPreview.Services
 			{
 				if (_thumbnailViews.Any(x => x.Value.Title == t.Key))
 				{
-					var ptr = t.Key.Equals("EVE") ?
+					var ptr = t.Key.Equals(DEFAULT_CLIENT_TITLE) ?
 						(isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).First(x => x.Value.Title == t.Key)
 						: _thumbnailViews.First(x => x.Value.Title == t.Key);
 					SetActive(ptr);
@@ -298,6 +300,7 @@ namespace EveOPreview.Services
 				view.RegisterHotkey(this._configuration.GetClientHotkey(view.Title));
 
 				this.ApplyClientLayout(view);
+				this.ApplyCaptionBar(view);
 
 				// TODO Add extension filter here later
 				if (view.Title != ThumbnailManager.DEFAULT_CLIENT_TITLE)
@@ -325,6 +328,7 @@ namespace EveOPreview.Services
 					view.RegisterHotkey(this._configuration.GetClientHotkey(process.Title));
 
 					this.ApplyClientLayout(view);
+					this.ApplyCaptionBar(view);
 				}
 			}
 
@@ -448,8 +452,6 @@ namespace EveOPreview.Services
 			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
 			{
 				IThumbnailView view = entry.Value;
-
-
 				// update ZoomAnchor regardless
 				view.ClientZoomAnchor = this._configuration.GetZoomAnchor(view.Title, this._configuration.ThumbnailZoomAnchor);
 
@@ -539,6 +541,7 @@ namespace EveOPreview.Services
 			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
 			{
 				entry.Value.SetFrames(this._configuration.ShowThumbnailFrames);
+				ApplyCaptionBar(entry.Value);
 			}
 
 			this.EnableViewEvents();
@@ -812,7 +815,35 @@ namespace EveOPreview.Services
 
 			return (0, 0);
 		}
+		private bool SetWindowStyle(IThumbnailView view, UInt32 styleToChange, bool remove)
+		{
+			IntPtr handle = view.Id;
+			uint style = User32NativeMethods.GetWindowLong(handle, InteropConstants.GWL_STYLE);
+			if (((style & styleToChange) == styleToChange) && remove == true)
+			{
+				style = style & ~styleToChange;
+				User32NativeMethods.SetWindowLong(handle, InteropConstants.GWL_STYLE, style);
+				return true;
+			}
+			if (((style & styleToChange) != styleToChange) && remove == false)
+			{
+				style = style | styleToChange;
+				User32NativeMethods.SetWindowLong(handle, InteropConstants.GWL_STYLE, style);
+				return true;
+			}
+			return false;
+		}
+		private void ApplyCaptionBar(IThumbnailView view)
 
+		{
+			if (view.Title == ThumbnailManager.DEFAULT_CLIENT_TITLE) return;
+			IntPtr handle = view.Id;
+
+			bool enable = this._configuration.HideCaptionOnClients;
+			bool changed = false;
+			changed = changed | SetWindowStyle(view, InteropConstants.WS_CAPTION, enable);
+			changed = changed | SetWindowStyle(view, InteropConstants.WS_THICKFRAME, enable);
+		}
 		private void ApplyClientLayout(IThumbnailView view)
 		{
 			IntPtr clientHandle = view.Id;
