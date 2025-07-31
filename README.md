@@ -349,7 +349,7 @@ You can build using :
 
 ### Forum thread
 
-https://forums.eveonline.com/t/4202
+https://forums.eveonline.com/t/eve-o-preview-v8-0-2-0/463600
 
 
 ### Original repository
