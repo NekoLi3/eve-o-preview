@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -93,6 +94,8 @@ namespace EveOPreview.Services
 
 			RegisterCycleClientHotkey(this._configuration.CycleGroup5ForwardHotkeys?.Select(x => this._configuration.StringToKey(x)), true, this._configuration.CycleGroup5ClientsOrder);
 			RegisterCycleClientHotkey(this._configuration.CycleGroup5BackwardHotkeys?.Select(x => this._configuration.StringToKey(x)), false, this._configuration.CycleGroup5ClientsOrder);
+
+			RegisterMinimizeAllClientsHotkey(this._configuration.MinimizeAllClientsHotkeys?.Select(x => this._configuration.StringToKey(x)));
 		}
 
 		public IThumbnailView GetClientByTitle(string title)
@@ -124,6 +127,13 @@ namespace EveOPreview.Services
 			newClient.Value.Refresh(true);
 		}
 
+		public void MinimizeAllClients()
+		{
+			foreach (var x in _thumbnailViews.Reverse())
+			{
+				this._windowManager.MinimizeWindow(x.Value.Id, this._configuration.WindowsAnimationStyle, false);
+			}
+		}
 		public void CycleNextClient(bool isForwards, Dictionary<string, int> cycleOrder)
 		{
 			IOrderedEnumerable<KeyValuePair<string, int>> clientOrder;
@@ -235,6 +245,26 @@ namespace EveOPreview.Services
 				newHandler.Pressed += (object s, HandledEventArgs e) =>
 				{
 					this.CycleNextClient(isForwards, cycleOrder);
+					e.Handled = true;
+				};
+
+				newHandler.Register();
+				this._cycleClientHotkeyHandlers.Add(newHandler);
+			}
+		}
+		public void RegisterMinimizeAllClientsHotkey(IEnumerable<Keys> keys)
+		{
+			foreach (var hotkey in keys)
+			{
+				if (hotkey == Keys.None)
+				{
+					return;
+				}
+
+				var newHandler = new HotkeyHandler(default(IntPtr), hotkey);
+				newHandler.Pressed += (object s, HandledEventArgs e) =>
+				{
+					this.MinimizeAllClients();
 					e.Handled = true;
 				};
 

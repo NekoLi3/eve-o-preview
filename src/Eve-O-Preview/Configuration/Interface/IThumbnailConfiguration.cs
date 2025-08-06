@@ -73,6 +73,7 @@ namespace EveOPreview.Configuration
 		int OverlayLabelSize { get; set; }
 
 		string IconName { get; set; }
+		List<string> MinimizeAllClientsHotkeys { get; set; }
 
 		Point LoginThumbnailLocation { get; set; }
 
@@ -87,7 +88,6 @@ namespace EveOPreview.Configuration
 		Keys GetClientHotkey(string currentClient);
 		void SetClientHotkey(string currentClient, Keys hotkey);
 		Keys StringToKey(string hotkey);
-
 		bool IsPriorityClient(string currentClient);
 		bool IsExecutableToPreview(string processName);
 
