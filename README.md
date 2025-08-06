@@ -239,6 +239,15 @@ Should you wish to remove these HotKeys completely, Simply set the values to emp
 	  "CycleGroup5BackwardHotkeys": [],
 	  "CycleGroup5ClientsOrder": {}
 
+### Minimize All Clients with Hotkey Setup
+
+In a similar pattern to the per client Hotkey Setup, It is possible to set a key combinations to Minimize all the Eve Windows. EVE-O Preview doesn't provide any GUI to set the these hotkeys. It should be done via editing the configuration file directly. Don't forget to make a backup copy of the file before editing it.
+
+  "MinimizeAllClientsHotkeys": [
+    "F22"
+  ],
+
+
 **Hints** 
 * Minimise the use of modifiers or standard keys to minimise issues with the client playing up. In the default example unusual Function keys (e.g. F14) are used which are then bound to a game pad or gaming mouse.
 * The Eve client can be somewhat less than stable, often getting confused as client focus switches. It is near certain that you will experience issues such as keys sticking or even in some cases D-Scan running each time the client swaps. So far I have found no perfect solution and opt for the most stable solution instead, of sticking to the F14+ keys.
