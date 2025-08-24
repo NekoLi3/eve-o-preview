@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using EveOPreview.Configuration;
 using EveOPreview.Services;
@@ -29,11 +30,16 @@ namespace EveOPreview.View
 			this.OverlayLabel.Text = label;
 		}
 
-		public void SetPropertiesOverlayLabel(int size, System.Drawing.Color c, ZoomAnchor anchor)
+		public void SetPropertiesOverlayLabel(Font f, System.Drawing.Color c, ZoomAnchor anchor)
 		{
-			if (this.OverlayLabel.Font.Size != size)
+			if (
+				this.OverlayLabel.Font.Size != f.Size ||
+				this.OverlayLabel.Font.FontFamily != f.FontFamily ||
+				this.OverlayLabel.Font.Italic != f.Italic ||
+				this.OverlayLabel.Font.Bold != f.Bold
+				)
 			{
-				this.OverlayLabel.Font = new System.Drawing.Font(this.OverlayLabel.Font.FontFamily, size);
+				this.OverlayLabel.Font = f;
 			}
 			this.OverlayLabel.ForeColor = c;
 

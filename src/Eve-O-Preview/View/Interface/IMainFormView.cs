@@ -41,7 +41,7 @@ namespace EveOPreview.View
 		bool EnableActiveClientHighlight { get; set; }
 		Color ActiveClientHighlightColor { get; set; }
 		Color OverlayLabelColor { get; set; }
-		int OverlayLabelSize { get; set; }
+		Font OverlayLabelFont { get; set; }
 
 		string IconName { get; set; }
 
