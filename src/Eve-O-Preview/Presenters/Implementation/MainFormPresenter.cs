@@ -133,7 +133,8 @@ namespace EveOPreview.Presenters
 			this.View.ActiveClientHighlightColor = this._configuration.ActiveClientHighlightColor;
 
 			this.View.OverlayLabelColor = this._configuration.OverlayLabelColor;
-			this.View.OverlayLabelSize = this._configuration.OverlayLabelSize;
+			this.View.OverlayLabelFont = this._configuration.OverlayLabelFont;
+
 
 			this.View.IconName = this._configuration.IconName;
 		}
@@ -180,7 +181,7 @@ namespace EveOPreview.Presenters
 			this._configuration.ActiveClientHighlightColor = this.View.ActiveClientHighlightColor;
 
 			this._configuration.OverlayLabelColor = this.View.OverlayLabelColor;
-			this._configuration.OverlayLabelSize = this.View.OverlayLabelSize;
+			this._configuration.OverlayLabelFont = this.View.OverlayLabelFont;
 
 			this._configuration.IconName = this.View.IconName;
 

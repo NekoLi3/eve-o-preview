@@ -131,7 +131,7 @@ namespace EveOPreview.Configuration.Implementation
 			this.ActiveClientHighlightThickness = 3;
 
 			this.OverlayLabelColor = Color.Orange;
-			this.OverlayLabelSize = 10;
+			this.OverlayLabelFont = new Font(FontFamily.GenericSansSerif,10.0F, FontStyle.Bold);
 
 			this.IconName = "";
 
@@ -266,7 +266,10 @@ namespace EveOPreview.Configuration.Implementation
 
 		public Color ActiveClientHighlightColor { get; set; }
 		public Color OverlayLabelColor { get; set; }
-		public int OverlayLabelSize {  get; set; }
+
+
+		[JsonProperty]
+		public Font OverlayLabelFont { get; set; }
 		public string IconName { get; set; }
 
 		public int ActiveClientHighlightThickness { get; set; }

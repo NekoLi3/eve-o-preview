@@ -300,14 +300,17 @@ namespace EveOPreview.View
 		}
 		private Color _OverlayLabelColor;
 
-		public int OverlayLabelSize
+		public Font OverlayLabelFont
 		{
-			get => (int)this.OverlayLabelSizeNumericEdit.Value;
+			get => (Font)this._OverlayLabelFont;
 			set
 			{
-				this.OverlayLabelSizeNumericEdit.Value = value;
+				this._OverlayLabelFont = value;
+				this.LabelOverlayLabelFont.Font = value;
 			}
 		}
+		private Font _OverlayLabelFont;
+
 		public new void Show()
 		{
 			// Registers the current instance as the application's Main Form
@@ -565,9 +568,19 @@ namespace EveOPreview.View
 			}
 		}
 
-		private void GeneralSettingsPanel_Paint(object sender, PaintEventArgs e)
+		private void btnLabelFont_Click(object sender, EventArgs e)
 		{
-
+			FontDialog fontSelector = new FontDialog();
+			fontSelector.Font = OverlayLabelFont;
+			fontSelector.ShowColor = false;
+			fontSelector.ShowApply = false;
+			fontSelector.ShowHelp = false;
+			if (fontSelector.ShowDialog() != DialogResult.Cancel)
+			{
+				OverlayLabelFont = fontSelector.Font;
+				LabelOverlayLabelFont.Font = fontSelector.Font;
+				this.OptionChanged_Handler(sender, e);
+			}
 		}
 	}
 }
