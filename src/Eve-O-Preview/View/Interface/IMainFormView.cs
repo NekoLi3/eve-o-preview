@@ -20,6 +20,7 @@ namespace EveOPreview.View
 		bool HideCaptionOnClients { get; set; }
 		ViewAnimationStyle WindowsAnimationStyle { get; set; }
         bool ShowThumbnailsAlwaysOnTop { get; set; }
+		bool PreventPreviews { get; set; }
 		bool HideThumbnailsOnLostFocus { get; set; }
 		bool EnablePerClientThumbnailLayouts { get; set; }
 
@@ -40,6 +41,7 @@ namespace EveOPreview.View
 
 		bool EnableActiveClientHighlight { get; set; }
 		Color ActiveClientHighlightColor { get; set; }
+		Color PreventPreviewColor { get; set; }
 		Color OverlayLabelColor { get; set; }
 		Font OverlayLabelFont { get; set; }
 

@@ -27,6 +27,8 @@ namespace EveOPreview.Configuration
 		Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
 
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
+		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
+		Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 		Dictionary<string, Size> PerClientThumbnailSize { get; set; }
 
 		bool MinimizeToTray { get; set; }
@@ -45,6 +47,7 @@ namespace EveOPreview.Configuration
 		bool ShowThumbnailsAlwaysOnTop { get; set; }
 		bool EnablePerClientThumbnailLayouts { get; set; }
 
+		bool PreventPreviews { get; set; }
 		bool HideThumbnailsOnLostFocus { get; set; }
 		int HideThumbnailsDelay { get; set; }
 
@@ -68,6 +71,7 @@ namespace EveOPreview.Configuration
 
 		bool EnableActiveClientHighlight { get; set; }
 		Color ActiveClientHighlightColor { get; set; }
+		Color PreventPreviewColor { get; set; }
 		int ActiveClientHighlightThickness { get; set; }
 		Color OverlayLabelColor { get; set; }
 		Font OverlayLabelFont { get; set; }

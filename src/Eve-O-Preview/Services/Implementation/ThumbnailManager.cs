@@ -572,6 +572,7 @@ namespace EveOPreview.Services
 			{
 				entry.Value.SetFrames(this._configuration.ShowThumbnailFrames);
 				ApplyCaptionBar(entry.Value);
+				entry.Value.SetPreventPreviews();
 			}
 
 			this.EnableViewEvents();
@@ -623,7 +624,7 @@ namespace EveOPreview.Services
 			view.SetTopMost(true);
 			view.SetOpacity(1.0);
 
-			if (this._configuration.ThumbnailZoomEnabled)
+			if (this._configuration.ThumbnailZoomEnabled && ! view.IsPreventPreviews() )
 			{
 				this.ThumbnailZoomIn(view);
 			}

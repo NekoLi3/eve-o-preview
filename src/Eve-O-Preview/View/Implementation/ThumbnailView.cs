@@ -44,6 +44,8 @@ namespace EveOPreview.View
 
 		private IThumbnailConfiguration _config;
 		private Lazy<Color> _myBorderColor;
+		private Lazy<Color> _preventPreviewColor;
+		private Lazy<bool> _preventPreviews;
 		private IThumbnailManager _thumbnailManager;
 		#endregion
 
@@ -71,9 +73,17 @@ namespace EveOPreview.View
 
 			InitializeComponent();
 
-			this._overlay = new ThumbnailOverlay(this, this.MouseDown_Handler);
+			this._overlay = new ThumbnailOverlay(this,
+				this.MouseEnter_Handler,
+				this.MouseLeave_Handler,
+				this.MouseDown_Handler,
+				this.MouseUp_Handler,
+				this.MouseMove_Handler
+				);
 
 			SetDefaultBorderColor();
+			SetPreventPreviews();
+			this._overlay.EnableFakePreview(this._preventPreviews.Value, false, 0, SystemColors.Control);
 			this._thumbnailManager = thumbnailManager;
 		}
 
@@ -90,6 +100,8 @@ namespace EveOPreview.View
 				this._overlay.SetOverlayLabel(value.Replace("EVE - ", "").Replace("EVE Frontier - ", "*"));
 				this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
 				SetDefaultBorderColor();
+				SetPreventPreviews();
+				this._overlay.EnableFakePreview(this._preventPreviews.Value, false, 0, SystemColors.Control);
 			}
 		}
 
@@ -139,6 +151,37 @@ namespace EveOPreview.View
 				else
 				{
 					return _config.ActiveClientHighlightColor;
+				}
+			});
+		}
+
+		public bool IsPreventPreviews()
+		{
+			return this._preventPreviews.Value;
+		}
+		public void SetPreventPreviews()
+		{
+			this._preventPreviews = new Lazy<bool>(() =>
+			{
+				if (this._config.PerClientPreventPreviews.Any(x => x.Key == this.Title))
+				{
+					return this._config.PerClientPreventPreviews[Title];
+				}
+				else
+				{
+					return _config.PreventPreviews;
+				}
+			});
+
+			this._preventPreviewColor = new Lazy<Color>(() =>
+			{
+				if (this._config.PerClientPreventPreviewColor.Any(x => x.Key == this.Title))
+				{
+					return this._config.PerClientPreventPreviewColor[Title];
+				}
+				else
+				{
+					return _config.PreventPreviewColor;
 				}
 			});
 		}
@@ -273,7 +316,7 @@ namespace EveOPreview.View
 			else
 			{
 				this._isHighlightRequested = false;
-				this.BackColor = SystemColors.Control;
+				this.BackColor = Color.Black;
 			}
 
 			this._isSizeChanged = true;
@@ -402,6 +445,7 @@ namespace EveOPreview.View
 			{
 				//No highlighting enabled, so no math required
 				this.ResizeThumbnail(baseWidth, baseHeight, 0, 0, 0, 0);
+				this._overlay.EnableFakePreview(this._preventPreviews.Value,false, 0, this._preventPreviewColor.Value);
 				return;
 			}
 
@@ -413,6 +457,7 @@ namespace EveOPreview.View
 			int highlightWidthLeft = (baseWidth - actualWidth) / 2;
 			int highlightWidthRight = baseWidth - actualWidth - highlightWidthLeft;
 
+			this._overlay.EnableFakePreview(this._preventPreviews.Value, true, this._highlightWidth, this._preventPreviewColor.Value);
 			this.ResizeThumbnail(this.ClientSize.Width, this.ClientSize.Height, this._highlightWidth, highlightWidthRight, this._highlightWidth, highlightWidthLeft);
 		}
 

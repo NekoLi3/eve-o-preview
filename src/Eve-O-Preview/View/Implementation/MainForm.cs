@@ -141,6 +141,11 @@ namespace EveOPreview.View
 			get => this.ShowThumbnailsAlwaysOnTopCheckBox.Checked;
 			set => this.ShowThumbnailsAlwaysOnTopCheckBox.Checked = value;
 		}
+		public bool PreventPreviews
+		{
+			get => this.PreventPreviewsCheckBox.Checked;
+			set => this.PreventPreviewsCheckBox.Checked = value;
+		}
 
 		public bool HideThumbnailsOnLostFocus
 		{
@@ -288,6 +293,17 @@ namespace EveOPreview.View
 			}
 		}
 		private Color _activeClientHighlightColor;
+
+		public Color PreventPreviewColor
+		{
+			get => this._preventPreviewColor;
+			set
+			{
+				this._preventPreviewColor = value;
+				this.PreventPreviewColorButton.BackColor = value;
+			}
+		}
+		private Color _preventPreviewColor;
 
 		public Color OverlayLabelColor
 		{
@@ -581,6 +597,24 @@ namespace EveOPreview.View
 				LabelOverlayLabelFont.Font = fontSelector.Font;
 				this.OptionChanged_Handler(sender, e);
 			}
+		}
+
+		private void PreventPreviewColorButton_Click(object sender, EventArgs e)
+		{
+			using (ColorDialog dialog = new ColorDialog())
+			{
+				dialog.Color = this.PreventPreviewColor;
+
+				if (dialog.ShowDialog() != DialogResult.OK)
+				{
+					return;
+				}
+
+				this.PreventPreviewColor = dialog.Color;
+			}
+
+			this.OptionChanged_Handler(sender, e);
+
 		}
 	}
 }

@@ -60,6 +60,16 @@ namespace EveOPreview.Configuration.Implementation
 				{"EVE - Example Toon 1", Color.Red},
 				{"EVE - Example Toon 2", Color.Green}
 			};
+			this.PerClientPreventPreviewColor = new Dictionary<string, Color>
+			{
+				{"EVE - Example Toon 1", Color.Red},
+				{"EVE - Example Toon 2", Color.Green}
+			};
+			this.PerClientPreventPreviews = new Dictionary<string, bool>
+			{
+				{"EVE - Example Toon 1", false},
+				{"EVE - Example Toon 2", true}
+			};
 
 			this.PerClientThumbnailSize = new Dictionary<string, Size>
 			{
@@ -105,6 +115,7 @@ namespace EveOPreview.Configuration.Implementation
 			this.EnablePerClientThumbnailLayouts = false;
 
 			this.HideThumbnailsOnLostFocus = false;
+			this.PreventPreviews = false;
 			this.HideThumbnailsDelay = 2; // 2 thumbnails refresh cycles (1.0 sec)
 
 			this.ThumbnailSize = new Size(384, 216);
@@ -128,6 +139,7 @@ namespace EveOPreview.Configuration.Implementation
 
             this.EnableActiveClientHighlight = false;
 			this.ActiveClientHighlightColor = Color.GreenYellow;
+			this.PreventPreviewColor = Color.Purple;
 			this.ActiveClientHighlightThickness = 3;
 
 			this.OverlayLabelColor = Color.Orange;
@@ -187,8 +199,14 @@ namespace EveOPreview.Configuration.Implementation
 		[JsonProperty("CycleGroup5ClientsOrder")]
 		public Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
 
+		[JsonProperty("PerClientPreventPreviewColor")]
+		public Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
+
 		[JsonProperty("PerClientActiveClientHighlightColor")]
 		public Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
+
+		[JsonProperty("PerClientPreventPreviews")]
+		public Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 
 		[JsonProperty("PerClientThumbnailSize")]
 		public Dictionary<string, Size> PerClientThumbnailSize { get; set; }
@@ -240,6 +258,7 @@ namespace EveOPreview.Configuration.Implementation
 			}
 		}
 
+		public bool PreventPreviews { get; set; }
 		public bool HideThumbnailsOnLostFocus { get; set; }
 		public int HideThumbnailsDelay { get; set; }
 
@@ -265,8 +284,8 @@ namespace EveOPreview.Configuration.Implementation
 		public bool EnableActiveClientHighlight { get; set; }
 
 		public Color ActiveClientHighlightColor { get; set; }
+		public Color PreventPreviewColor { get; set; }
 		public Color OverlayLabelColor { get; set; }
-
 
 		[JsonProperty]
 		public Font OverlayLabelFont { get; set; }
