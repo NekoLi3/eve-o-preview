@@ -28,11 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.PictureBox OverlayAreaPictureBox;
-			this.OverlayLabel = new System.Windows.Forms.Label();
 			OverlayAreaPictureBox = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(OverlayAreaPictureBox)).BeginInit();
-			this.SuspendLayout();
+			OverlayLabel = new System.Windows.Forms.Label();
+			((System.ComponentModel.ISupportInitialize)OverlayAreaPictureBox).BeginInit();
+			SuspendLayout();
 			// 
 			// OverlayAreaPictureBox
 			// 
@@ -41,50 +40,58 @@
 			OverlayAreaPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			OverlayAreaPictureBox.Location = new System.Drawing.Point(0, 0);
 			OverlayAreaPictureBox.Name = "OverlayAreaPictureBox";
-			OverlayAreaPictureBox.Size = new System.Drawing.Size(284, 262);
+			OverlayAreaPictureBox.Size = new System.Drawing.Size(1166, 917);
 			OverlayAreaPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			OverlayAreaPictureBox.TabIndex = 0;
 			OverlayAreaPictureBox.TabStop = false;
-			OverlayAreaPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OverlayArea_Click);
+			OverlayAreaPictureBox.MouseDown += OverlayArea_MouseDown;
+			OverlayAreaPictureBox.MouseEnter += OverlayArea_MouseEnter;
+			OverlayAreaPictureBox.MouseLeave += OverlayArea_MouseLeave;
+			OverlayAreaPictureBox.MouseMove += OverlayArea_MouseMove;
+			OverlayAreaPictureBox.MouseUp += OverlayArea_MouseUp;
 			// 
 			// OverlayLabel
 			// 
-			this.OverlayLabel.AutoSize = true;
-			this.OverlayLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.OverlayLabel.ForeColor = System.Drawing.Color.DarkGray;
-			this.OverlayLabel.Location = new System.Drawing.Point(8, 8);
-			this.OverlayLabel.Name = "OverlayLabel";
-			this.OverlayLabel.Size = new System.Drawing.Size(25, 13);
-			this.OverlayLabel.TabIndex = 1;
-			this.OverlayLabel.Text = "...";
-			this.OverlayLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OverlayArea_Click);
+			OverlayLabel.AutoSize = true;
+			OverlayLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			OverlayLabel.ForeColor = System.Drawing.Color.DarkGray;
+			OverlayLabel.Location = new System.Drawing.Point(8, 8);
+			OverlayLabel.Name = "OverlayLabel";
+			OverlayLabel.Size = new System.Drawing.Size(36, 20);
+			OverlayLabel.TabIndex = 1;
+			OverlayLabel.Text = "...";
+			OverlayLabel.MouseDown += OverlayArea_MouseDown;
+			OverlayLabel.MouseEnter += OverlayArea_MouseEnter;
+			OverlayLabel.MouseLeave += OverlayArea_MouseLeave;
+			OverlayLabel.MouseMove += OverlayArea_MouseMove;
+			OverlayLabel.MouseUp += OverlayArea_MouseUp;
 			// 
 			// ThumbnailOverlay
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(284, 262);
-			this.ControlBox = false;
-			this.Controls.Add(this.OverlayLabel);
-			this.Controls.Add(OverlayAreaPictureBox);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "ThumbnailOverlay";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Text = "PreviewOverlay";
-			this.TransparencyKey = System.Drawing.Color.Black;
-			((System.ComponentModel.ISupportInitialize)(OverlayAreaPictureBox)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			BackColor = System.Drawing.Color.Black;
+			ClientSize = new System.Drawing.Size(1166, 917);
+			ControlBox = false;
+			Controls.Add(OverlayLabel);
+			Controls.Add(OverlayAreaPictureBox);
+			FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			MaximizeBox = false;
+			MinimizeBox = false;
+			Name = "ThumbnailOverlay";
+			ShowIcon = false;
+			ShowInTaskbar = false;
+			SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			Text = "PreviewOverlay";
+			TransparencyKey = System.Drawing.Color.Black;
+			((System.ComponentModel.ISupportInitialize)OverlayAreaPictureBox).EndInit();
+			ResumeLayout(false);
+			PerformLayout();
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.Label OverlayLabel;
+		private System.Windows.Forms.PictureBox OverlayAreaPictureBox;
 	}
 }

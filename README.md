@@ -88,6 +88,8 @@ CCP Grimmi wrote:
 | Lock Thumbnail Location | Lock position of thumbnails, preventing misclicks moving your thumbnails |
 | Thumbnail Snap to Grid | Force Thumbnails to snap to defined grid when moved |
 | Snap X / Snap Y | X/Y grid Pixels |
+| Do not display previews | Prevent previews to show of clients - unless overridden by PerClient settings |
+| Do not display previews background color | Background colour to use for preview windows if not showing preview (and not overridden by PerClient settings) |
 
 #### **Zoom** Tab
 | Option | Description |
@@ -309,6 +311,41 @@ You should modify this entry with a list of each of your clients replacing "Exam
 Valid values are 0-8 : 0-NW, 1-North, 2-NE, 3-West, 4-Center, 5-East, 6-SW, 7-South, 8-SE.
 
 If a client does not appear in this list, then it will use the global Zoom Anchor by default.
+
+### Per Client Prevent Preview
+Would you like to prevent previews of some clients, or enforce preview of some clients ?
+
+EVE-O Preview doesn't provide any GUI to set the these per client overrides as yet. Though, It can be done via editing the configuration file directly. 
+**Note** Don't forget to make a backup copy of the file before editing it.
+
+Open the file using any text editor. find the entry **PerClientZoomAnchor**. Most probably it will look like
+
+  "PerClientPreventPreviews": {
+      "EVE - Example Toon 1": false,
+      "EVE - Example Toon 2": true
+    }
+
+You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to enforce always showing preview (if not minimized) or never showing preview.
+
+If a client does not appear in this list, then it will use the global Prevent Preview by default.
+
+### Per Client Prevent Preview Color
+Would you like different background colors for specific clients when you prevent preview on those clients ?
+
+EVE-O Preview doesn't provide any GUI to set the these per client overrides as yet. Though, It can be done via editing the configuration file directly. 
+**Note** Don't forget to make a backup copy of the file before editing it.
+
+Open the file using any text editor. find the entry **PerClientPreventPreviewColor**. Most probably it will look like
+
+"PerClientPreventPreviewColor": {
+      "EVE - Example Toon 1": "Red",
+      "EVE - Example Toon 2": "Blue"
+    }
+
+You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a background color for when that client has prevent preview true (either Per Client or global)
+
+If a client does not appear in this list, then it will use the global Prevent Preview Color by default.
+
 ### Compatibility Mode
 
 This setting allows to enable an alternate thumbnail render. This render doesn't use advanced DWM API to create live previews. Instead it is a screenshot-based render with the following pros and cons:

@@ -69,6 +69,9 @@ namespace EveOPreview.View
 			HideThumbnailsOnLostFocusCheckBox = new CheckBox();
 			EnablePerClientThumbnailsLayoutsCheckBox = new CheckBox();
 			MinimizeToTrayCheckBox = new CheckBox();
+			label1 = new Label();
+			PreventPreviewColorButton = new Panel();
+			PreventPreviewsCheckBox = new CheckBox();
 			ThumbnailSnapToGridCheckBox = new CheckBox();
 			ThumbnailSnapToGridSizeYNumericEdit = new NumericUpDown();
 			SnapYLabel = new Label();
@@ -388,6 +391,9 @@ namespace EveOPreview.View
 			// ThumbnailSettingsPanel
 			// 
 			ThumbnailSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			ThumbnailSettingsPanel.Controls.Add(label1);
+			ThumbnailSettingsPanel.Controls.Add(PreventPreviewColorButton);
+			ThumbnailSettingsPanel.Controls.Add(PreventPreviewsCheckBox);
 			ThumbnailSettingsPanel.Controls.Add(ThumbnailSnapToGridCheckBox);
 			ThumbnailSettingsPanel.Controls.Add(ThumbnailSnapToGridSizeYNumericEdit);
 			ThumbnailSettingsPanel.Controls.Add(SnapYLabel);
@@ -406,6 +412,38 @@ namespace EveOPreview.View
 			ThumbnailSettingsPanel.Name = "ThumbnailSettingsPanel";
 			ThumbnailSettingsPanel.Size = new Size(510, 396);
 			ThumbnailSettingsPanel.TabIndex = 19;
+			// 
+			// label1
+			// 
+			label1.AutoSize = true;
+			label1.Location = new Point(252, 282);
+			label1.Margin = new Padding(6, 0, 6, 0);
+			label1.Name = "label1";
+			label1.Size = new Size(55, 25);
+			label1.TabIndex = 35;
+			label1.Text = "Color";
+			// 
+			// PreventPreviewColorButton
+			// 
+			PreventPreviewColorButton.BorderStyle = BorderStyle.FixedSingle;
+			PreventPreviewColorButton.Location = new Point(313, 280);
+			PreventPreviewColorButton.Margin = new Padding(6, 7, 6, 7);
+			PreventPreviewColorButton.Name = "PreventPreviewColorButton";
+			PreventPreviewColorButton.Size = new Size(153, 30);
+			PreventPreviewColorButton.TabIndex = 34;
+			PreventPreviewColorButton.Click += PreventPreviewColorButton_Click;
+			// 
+			// PreventPreviewsCheckBox
+			// 
+			PreventPreviewsCheckBox.AutoSize = true;
+			PreventPreviewsCheckBox.Location = new Point(19, 280);
+			PreventPreviewsCheckBox.Margin = new Padding(6, 7, 6, 7);
+			PreventPreviewsCheckBox.Name = "PreventPreviewsCheckBox";
+			PreventPreviewsCheckBox.Size = new Size(229, 29);
+			PreventPreviewsCheckBox.TabIndex = 33;
+			PreventPreviewsCheckBox.Text = "Do not display previews";
+			PreventPreviewsCheckBox.UseVisualStyleBackColor = true;
+			PreventPreviewsCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailSnapToGridCheckBox
 			// 
@@ -812,7 +850,7 @@ namespace EveOPreview.View
 			// label3
 			// 
 			label3.AutoSize = true;
-			label3.Location = new Point(9, 292);
+			label3.Location = new Point(425, 236);
 			label3.Margin = new Padding(6, 0, 6, 0);
 			label3.Name = "label3";
 			label3.Size = new Size(75, 25);
@@ -851,7 +889,7 @@ namespace EveOPreview.View
 			panel1.Controls.Add(OverlayLabelSRadioButton);
 			panel1.Controls.Add(OverlayLabelERadioButton);
 			panel1.Controls.Add(OverlayLabelSWRadioButton);
-			panel1.Location = new Point(120, 297);
+			panel1.Location = new Point(397, 265);
 			panel1.Margin = new Padding(6, 7, 6, 7);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(103, 109);
@@ -1296,5 +1334,8 @@ namespace EveOPreview.View
 		private CheckBox HideCaptionOnClientsCheckBox;
 		private Button btnLabelFont;
 		private Label LabelOverlayLabelFont;
+		private CheckBox PreventPreviewsCheckBox;
+		private Label label1;
+		private Panel PreventPreviewColorButton;
 	}
 }

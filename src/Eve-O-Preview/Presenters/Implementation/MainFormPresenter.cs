@@ -112,6 +112,7 @@ namespace EveOPreview.Presenters
 			this.View.HideCaptionOnClients = this._configuration.HideCaptionOnClients;
 			this.View.WindowsAnimationStyle = ViewAnimationStyleConverter.Convert(this._configuration.WindowsAnimationStyle);
 			this.View.ShowThumbnailsAlwaysOnTop = this._configuration.ShowThumbnailsAlwaysOnTop;
+			this.View.PreventPreviews = this._configuration.PreventPreviews;
 			this.View.HideThumbnailsOnLostFocus = this._configuration.HideThumbnailsOnLostFocus;
 			this.View.EnablePerClientThumbnailLayouts = this._configuration.EnablePerClientThumbnailLayouts;
 
@@ -131,6 +132,7 @@ namespace EveOPreview.Presenters
 			this.View.ThumbnailSnapToGridSizeY = this._configuration.ThumbnailSnapToGridSizeY;
 			this.View.EnableActiveClientHighlight = this._configuration.EnableActiveClientHighlight;
 			this.View.ActiveClientHighlightColor = this._configuration.ActiveClientHighlightColor;
+			this.View.PreventPreviewColor = this._configuration.PreventPreviewColor;
 
 			this.View.OverlayLabelColor = this._configuration.OverlayLabelColor;
 			this.View.OverlayLabelFont = this._configuration.OverlayLabelFont;
@@ -155,6 +157,13 @@ namespace EveOPreview.Presenters
 			}
 			this._configuration.WindowsAnimationStyle = ViewAnimationStyleConverter.Convert(this.View.WindowsAnimationStyle); 
             this._configuration.ShowThumbnailsAlwaysOnTop = this.View.ShowThumbnailsAlwaysOnTop;
+
+			if (this._configuration.PreventPreviews != this.View.PreventPreviews)
+			{
+				this._configuration.PreventPreviews = this.View.PreventPreviews;
+				await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
+			}
+
 			this._configuration.HideThumbnailsOnLostFocus = this.View.HideThumbnailsOnLostFocus;
 			this._configuration.EnablePerClientThumbnailLayouts = this.View.EnablePerClientThumbnailLayouts;
 
@@ -179,6 +188,12 @@ namespace EveOPreview.Presenters
 
             this._configuration.EnableActiveClientHighlight = this.View.EnableActiveClientHighlight;
 			this._configuration.ActiveClientHighlightColor = this.View.ActiveClientHighlightColor;
+
+			if (this._configuration.PreventPreviewColor != this.View.PreventPreviewColor)
+			{
+				this._configuration.PreventPreviewColor = this.View.PreventPreviewColor;
+				await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
+			}
 
 			this._configuration.OverlayLabelColor = this.View.OverlayLabelColor;
 			this._configuration.OverlayLabelFont = this.View.OverlayLabelFont;
