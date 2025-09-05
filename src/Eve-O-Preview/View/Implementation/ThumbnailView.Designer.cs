@@ -20,7 +20,7 @@ namespace EveOPreview.View
 			// 
 			this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.Black;
+			this.BackColor = System.Drawing.Color.HotPink;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(153, 89);
 			this.ControlBox = false;
