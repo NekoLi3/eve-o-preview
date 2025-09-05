@@ -29,7 +29,7 @@ namespace EveOPreview.View
 
 		protected override void RefreshThumbnail(bool forceRefresh)
 		{
-				if (!forceRefresh || !this.IsPreventPreviews() )
+			if (!forceRefresh || this.IsPreventPreviews())
 			{
 				return;
 			}
