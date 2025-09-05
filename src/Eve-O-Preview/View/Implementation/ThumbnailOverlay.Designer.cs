@@ -69,7 +69,7 @@
 			// ThumbnailOverlay
 			// 
 			AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			BackColor = System.Drawing.Color.Black;
+			BackColor = System.Drawing.Color.HotPink;
 			ClientSize = new System.Drawing.Size(1166, 917);
 			ControlBox = false;
 			Controls.Add(OverlayLabel);
@@ -82,7 +82,7 @@
 			ShowInTaskbar = false;
 			SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			Text = "PreviewOverlay";
-			TransparencyKey = System.Drawing.Color.Black;
+			TransparencyKey = System.Drawing.Color.HotPink;
 			((System.ComponentModel.ISupportInitialize)OverlayAreaPictureBox).EndInit();
 			ResumeLayout(false);
 			PerformLayout();

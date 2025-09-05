@@ -93,7 +93,7 @@ CCP Grimmi wrote:
 | Thumbnail Snap to Grid | Force Thumbnails to snap to defined grid when moved |
 | Snap X / Snap Y | X/Y grid Pixels |
 | Do not display previews | Prevent previews to show of clients - unless overridden by PerClient settings |
-| Do not display previews background color | Background colour to use for preview windows if not showing preview (and not overridden by PerClient settings) |
+| Do not display previews background color | Background colour to use for preview windows if not showing preview (and not overridden by PerClient settings). Do NOT select HotPink else you will be clashing with Transparency settings. |
 
 #### **Zoom** Tab
 | Option | Description |
@@ -346,7 +346,7 @@ Open the file using any text editor. find the entry **PerClientPreventPreviewCol
       "EVE - Example Toon 2": "Blue"
     }
 
-You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a background color for when that client has prevent preview true (either Per Client or global)
+You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a background color for when that client has prevent preview true (either Per Client or global). Do NOT select HotPink else you will be clashing with Transparency settings.
 
 If a client does not appear in this list, then it will use the global Prevent Preview Color by default.
 
