@@ -472,7 +472,7 @@ namespace EveOPreview.View
 			// Only show overlay if enabled AND thumbnail is active/visible.
 			this._overlay.EnableOverlayLabel(this.IsOverlayEnabled && this.Visible);
 
-			if (!this._isOverlayVisible && (this.IsOverlayEnabled && this.Visible))
+			if (!this._isOverlayVisible && ((this.IsOverlayEnabled && this.Visible) || this.IsPreventPreviews() ) && !_config.IsThumbnailDisabled(this.Title) )
 			{
 				// One-time action to show the Overlay before it is set up
 				// Otherwise its position won't be set
