@@ -60,6 +60,8 @@ namespace EveOPreview.View
 
 			this.IsOverlayEnabled = false;
 			this._isOverlayVisible = false;
+			this.IsExcludedFromCycleGroup = false;
+
 			this._isTopMost = false;
 			this._isHighlightEnabled = false;
 			this._isHighlightRequested = false;
@@ -108,6 +110,7 @@ namespace EveOPreview.View
 		public bool IsActive { get; set; }
 
 		public bool IsOverlayEnabled { get; set; }
+		public bool IsExcludedFromCycleGroup { get; set; }
 		public ZoomAnchor ClientZoomAnchor { get; set; }
 
 		public Point ThumbnailLocation
@@ -137,6 +140,7 @@ namespace EveOPreview.View
 		public Action<IntPtr> ThumbnailActivated { get; set; }
 
 		public Action<IntPtr, bool> ThumbnailDeactivated { get; set; }
+		public Action<IntPtr> ThumbnailToggleCycleGroup { get; set; }
 
 		private bool WindowMoved = false;
 
@@ -654,6 +658,9 @@ namespace EveOPreview.View
 			{
 				case MouseButtons.Left when modifierKeys == Keys.Control:
 					this.ThumbnailDeactivated?.Invoke(this.Id, false);
+					break;
+				case MouseButtons.Left when modifierKeys == Keys.Shift:
+					this.ThumbnailToggleCycleGroup?.Invoke(this.Id);
 					break;
 				case MouseButtons.Left when modifierKeys == (Keys.Control | Keys.Shift):
 					this.ThumbnailDeactivated?.Invoke(this.Id, true);

@@ -154,6 +154,9 @@ namespace EveOPreview.Configuration.Implementation
 		[JsonProperty("ConfigVersion")]
 		public int ConfigVersion { get; set; }
 
+		[JsonIgnore]
+		public Dictionary<string, bool> CycleGroupExclusions { get; set; }
+
 		[JsonProperty("CycleGroup1ForwardHotkeys")]
 		public List<string> CycleGroup1ForwardHotkeys { get; set; }
 

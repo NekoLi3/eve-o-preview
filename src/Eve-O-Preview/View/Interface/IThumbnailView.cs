@@ -15,6 +15,8 @@ namespace EveOPreview.View
 		Point ThumbnailLocation { get; set; }
 		Size ThumbnailSize { get; set; }
 		bool IsOverlayEnabled { get; set; }
+		bool IsExcludedFromCycleGroup { get; set; }
+
 		ZoomAnchor ClientZoomAnchor { get; set; }
 		bool IsKnownHandle(IntPtr handle);
 
@@ -42,6 +44,7 @@ namespace EveOPreview.View
 
 		Action<IntPtr> ThumbnailActivated { get; set; }
 		Action<IntPtr, bool> ThumbnailDeactivated { get; set; }
+		Action<IntPtr> ThumbnailToggleCycleGroup { get; set; }
 
 		IWindowManager WindowManager { get; }
 		void SetDefaultBorderColor();

@@ -30,6 +30,7 @@ namespace EveOPreview.Configuration
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
 		Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 		Dictionary<string, Size> PerClientThumbnailSize { get; set; }
+		Dictionary<string, bool> CycleGroupExclusions { get; set; }
 
 		bool MinimizeToTray { get; set; }
 		int ThumbnailRefreshPeriod { get; set; }
