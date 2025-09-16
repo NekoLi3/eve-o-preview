@@ -91,7 +91,7 @@ namespace EveOPreview.Services.Implementation
 					continue; // No need to monitor non-visual processes
 				}
 
-				string mainWindowTitle = process.MainWindowTitle;
+				string mainWindowTitle = process.MainWindowTitle.Replace("—", "-");
 				this._processCache.TryGetValue(mainWindowHandle, out string cachedTitle);
 
 				if (cachedTitle == null)
