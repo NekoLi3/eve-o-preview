@@ -142,7 +142,7 @@ namespace EveOPreview.Services
 			if ( _cycleOrder.Count == 0 ) 
 			{
 				int order = 0;
-				foreach( var x in _thumbnailViews)
+				foreach( var x in _thumbnailViews )
 				{
 					_cycleOrder.Add(x.Value.Title, order++);
 				}
@@ -178,7 +178,7 @@ namespace EveOPreview.Services
 						setNextClient = true;
 						continue;
 					}
-					var possibleClients = (isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).Where(x => x.Value.Title == t.Key);
+					var possibleClients = (isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).Where(x => x.Value.Title == t.Key && ! x.Value.IsExcludedFromCycleGroup);
 					foreach (var pc in possibleClients)
 					{
 						if ( pc.Value.Id.Equals(lastClient.Id) )
@@ -207,11 +207,11 @@ namespace EveOPreview.Services
 					continue;
 				}
 
-				if (_thumbnailViews.Any(x => x.Value.Title == t.Key))
+				if (_thumbnailViews.Any(x => x.Value.Title == t.Key && !x.Value.IsExcludedFromCycleGroup))
 				{
 					var ptr = t.Key.Equals(DEFAULT_CLIENT_TITLE) ? 
-						(isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).First(x => x.Value.Title == t.Key)
-						: _thumbnailViews.First(x => x.Value.Title == t.Key);
+						(isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).FirstOrDefault(x => x.Value.Title == t.Key && ! x.Value.IsExcludedFromCycleGroup)
+						: _thumbnailViews.First(x => x.Value.Title == t.Key && !x.Value.IsExcludedFromCycleGroup);
 					SetActive(ptr);
 					return;
 				}
@@ -220,16 +220,19 @@ namespace EveOPreview.Services
 			// we didn't get a next one. just get the first one from the start.
 			foreach (var t in clientOrder)
 			{
-				if (_thumbnailViews.Any(x => x.Value.Title == t.Key))
+				if (_thumbnailViews.Any(x => x.Value.Title == t.Key && !x.Value.IsExcludedFromCycleGroup))
 				{
 					var ptr = t.Key.Equals(DEFAULT_CLIENT_TITLE) ?
-						(isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).First(x => x.Value.Title == t.Key)
-						: _thumbnailViews.First(x => x.Value.Title == t.Key);
+						(isForwards ? _thumbnailViews.OrderBy(x => x.Value.Id.ToInt64()) : _thumbnailViews.OrderByDescending(x => x.Value.Id.ToInt64())).FirstOrDefault(x => x.Value.Title == t.Key && !x.Value.IsExcludedFromCycleGroup)
+						: _thumbnailViews.First(x => x.Value.Title == t.Key && !x.Value.IsExcludedFromCycleGroup);
 					SetActive(ptr);
 					_activeClient = (ptr.Key, t.Key);
 					return;
 				}
 			}
+
+			// unable to select anything !
+			return;
 		}
 
 		public void RegisterCycleClientHotkey(IEnumerable<Keys> keys, bool isForwards, Dictionary<string, int> cycleOrder)
@@ -308,6 +311,7 @@ namespace EveOPreview.Services
 
 				IThumbnailView view = this._thumbnailViewFactory.Create(process.Handle, process.Title, this._configuration.ThumbnailSize);
 				view.IsOverlayEnabled = this._configuration.ShowThumbnailOverlays;
+				view.IsExcludedFromCycleGroup = false;
 				view.SetFrames(this._configuration.ShowThumbnailFrames);
 				// Max/Min size limitations should be set AFTER the frames are disabled
 				// Otherwise thumbnail window will be unnecessary resized
@@ -326,6 +330,8 @@ namespace EveOPreview.Services
 				view.ThumbnailLostFocus = this.ThumbnailViewLostFocus;
 				view.ThumbnailActivated = this.ThumbnailActivated;
 				view.ThumbnailDeactivated = this.ThumbnailDeactivated;
+
+				view.ThumbnailToggleCycleGroup = this.ThumbnailToggleCycleGroup;
 
 				view.RegisterHotkey(this._configuration.GetClientHotkey(view.Title));
 
@@ -379,6 +385,7 @@ namespace EveOPreview.Services
 				view.ThumbnailFocused = null;
 				view.ThumbnailLostFocus = null;
 				view.ThumbnailActivated = null;
+				view.ThumbnailToggleCycleGroup = null;
 
 				view.Close();
 			}
@@ -691,6 +698,17 @@ namespace EveOPreview.Services
 				this.RefreshThumbnails();
 			}
 		}
+
+		private void ThumbnailToggleCycleGroup(IntPtr id)
+		{
+			var view = GetClientByPointer(id);
+			if ( view != null )
+			{
+				view.IsExcludedFromCycleGroup = !view.IsExcludedFromCycleGroup;
+			}
+			this.RefreshThumbnails();
+		}
+
 
 		private async void ThumbnailViewResized(IntPtr id)
 		{
