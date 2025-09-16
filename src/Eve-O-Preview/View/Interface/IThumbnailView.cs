@@ -24,6 +24,7 @@ namespace EveOPreview.View
 		void SetOpacity(double opacity);
 		void SetFrames(bool enable);
 		void SetOverlayLabel();
+		void SetCycleStatusLabel(bool displayCycleGroup);
 		void SetTopMost(bool enableTopmost);
 		void SetHighlight();
 		void SetHighlight(bool enabled, int width);

@@ -1,8 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using EveOPreview.Configuration;
+﻿using EveOPreview.Configuration;
 using EveOPreview.Services;
+using System;
+using System.Drawing;
+using System.Drawing.Text;
+using System.Windows.Forms;
+using System.Windows.Shapes;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace EveOPreview.View
 {
@@ -14,6 +17,7 @@ namespace EveOPreview.View
 		private readonly Action<object, MouseEventArgs> _areaMouseDownAction;
 		private readonly Action<object, MouseEventArgs> _areaMouseUpAction;
 		private readonly Action<object, MouseEventArgs> _areaMouseMoveAction;
+		private bool _showOverlayText = true;
 		#endregion
 
 		public ThumbnailOverlay(Form owner,
@@ -58,6 +62,25 @@ namespace EveOPreview.View
 		public void SetOverlayLabel(string label)
 		{
 			this.OverlayLabel.Text = label;
+		}
+		public void SetCycleStatusLabel(bool displayCycleGroup)
+		{
+			if (displayCycleGroup)
+			{
+				this.CycleGroupDisplay.Visible = true;
+				int size = Math.Min(Math.Min(this.Height - 2, this.Width - 2), 40);
+
+				this.CycleGroupDisplay.BackColor = this.OverlayAreaPictureBox.BackColor;
+
+				this.CycleGroupDisplay.Top = 1;
+				this.CycleGroupDisplay.Width = size;
+				this.CycleGroupDisplay.Height = size;
+				this.CycleGroupDisplay.Left = this.Width - size - 2;
+			}
+			else
+			{
+				this.CycleGroupDisplay.Visible = false;
+			}
 		}
 
 		public void SetPropertiesOverlayLabel(Font f, System.Drawing.Color c, ZoomAnchor anchor)
@@ -127,7 +150,8 @@ namespace EveOPreview.View
 
 		public void EnableOverlayLabel(bool enable)
 		{
-			this.OverlayLabel.Visible = enable;
+			//this.OverlayLabel.Visible = enable;
+			this._showOverlayText = enable;
 		}
 		public void EnableFakePreview(bool enable, bool resizeForHighlight, int highlightSize, Color bgColor)
 		{
@@ -151,7 +175,7 @@ namespace EveOPreview.View
 			else
 			{
 				OverlayAreaPictureBox.BackColor = bgColor;
-				OverlayLabel.BackColor = OverlayAreaPictureBox.BackColor;
+				OverlayLabel.BackColor = Color.Transparent;
 				OverlayAreaPictureBox.Dock = DockStyle.None;
 			}
 
@@ -167,6 +191,22 @@ namespace EveOPreview.View
 			{
 				OverlayAreaPictureBox.Size = new Size(width, height);
 			}
+		}
+
+		private void PaintDrawText(PaintEventArgs e, System.Windows.Forms.Label l)
+		{
+			var flags = TextFormatFlags.Right;
+			if (l.TextAlign == ContentAlignment.TopLeft || l.TextAlign == ContentAlignment.BottomLeft || l.TextAlign == ContentAlignment.MiddleLeft) flags = TextFormatFlags.Left;
+			flags = flags | TextFormatFlags.WordBreak;
+
+			e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+			TextRenderer.DrawText(e.Graphics, l.Text, l.Font, new Rectangle(l.Left, l.Top, l.Width, l.Height), l.ForeColor, flags);
+		}
+
+		private void OverlayAreaPictureBox_Paint(object sender, PaintEventArgs e)
+		{
+			if (this._showOverlayText) PaintDrawText(e, OverlayLabel);
 		}
 
 		protected override CreateParams CreateParams

@@ -705,6 +705,8 @@ namespace EveOPreview.Services
 			if ( view != null )
 			{
 				view.IsExcludedFromCycleGroup = !view.IsExcludedFromCycleGroup;
+				view.SetCycleStatusLabel(view.IsExcludedFromCycleGroup);
+
 			}
 			this.RefreshThumbnails();
 		}
