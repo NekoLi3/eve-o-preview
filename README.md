@@ -109,6 +109,7 @@ CCP Grimmi wrote:
 | Show frames | Determines whether thumbnails should be displays with window caption and borders |
 | Highlight active client | Determines whether the thumbnail of the active EVE client should be highlighted with a bright border |
 | Color | Color used to highlight the active client's thumbnail in case the corresponding option is set |
+| Cycle Group Indicator Position | The position of Exclude from Cycle Group Indicator |
 | Label Font | The font name, style and size of the overlay label (Character Name) |
 | Label Color | The color of the Font for the Overlay Label |
 | Position | The position of the overlay label in the thumbnail |
@@ -128,6 +129,7 @@ Mouse gestures are applied to the thumbnail window currently being hovered over.
 | --- | --- |
 | Activate the EVE Online client and bring it to front  | Click the thumbnail |
 | Minimize the EVE Online client | Hold Control key and click the thumbnail |
+| Toggle the EVE Online client inclusion in the configured cycle groups[| Hold Shift key and click the thumbnail |
 | Switch to the last used application that is not an EVE Online client | Hold Control + Shift keys and click any thumbnail |
 | Move thumbnail to a new position | Press right mouse button and move the mouse |
 | Adjust thumbnail height | Press both left and right mouse buttons and move the mouse up or down |
