@@ -127,9 +127,10 @@ namespace EveOPreview.Configuration.Implementation
 			this.ThumbnailZoomEnabled = false;
 			this.ThumbnailZoomFactor = 2;
 			this.ThumbnailZoomAnchor = ZoomAnchor.NW;
-            this.OverlayLabelAnchor = ZoomAnchor.NW;
+			this.OverlayLabelAnchor = ZoomAnchor.NW;
+			this.CycleGroupIndicatorAnchor = ZoomAnchor.NW;
 
-            this.ShowThumbnailOverlays = true;
+			this.ShowThumbnailOverlays = true;
 			this.ShowThumbnailFrames = false;
 			this.LockThumbnailLocation = false;
 
@@ -276,6 +277,7 @@ namespace EveOPreview.Configuration.Implementation
 		public int ThumbnailZoomFactor { get; set; }
 		public ZoomAnchor ThumbnailZoomAnchor { get; set; }
 		public ZoomAnchor OverlayLabelAnchor { get; set; }
+		public ZoomAnchor CycleGroupIndicatorAnchor { get; set; }
 
 		public bool ShowThumbnailOverlays { get; set; }
 		public bool ShowThumbnailFrames { get; set; }

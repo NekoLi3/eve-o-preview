@@ -94,6 +94,17 @@ namespace EveOPreview.View
 			ZoomAanchorSWRadioButton = new RadioButton();
 			EnableThumbnailZoomCheckBox = new CheckBox();
 			ThumbnailZoomFactorNumericEdit = new NumericUpDown();
+			label5 = new Label();
+			panel2 = new Panel();
+			CycleGroupIndicatorNWRadioButton = new RadioButton();
+			CycleGroupIndicatorNRadioButton = new RadioButton();
+			CycleGroupIndicatorNERadioButton = new RadioButton();
+			CycleGroupIndicatorWRadioButton = new RadioButton();
+			CycleGroupIndicatorSERadioButton = new RadioButton();
+			CycleGroupIndicatorCRadioButton = new RadioButton();
+			CycleGroupIndicatorSRadioButton = new RadioButton();
+			CycleGroupIndicatorERadioButton = new RadioButton();
+			CycleGroupIndicatorSWRadioButton = new RadioButton();
 			LabelOverlayLabelFont = new Label();
 			btnLabelFont = new Button();
 			label3 = new Label();
@@ -162,6 +173,7 @@ namespace EveOPreview.View
 			((System.ComponentModel.ISupportInitialize)ThumbnailZoomFactorNumericEdit).BeginInit();
 			OverlayTabPage.SuspendLayout();
 			OverlaySettingsPanel.SuspendLayout();
+			panel2.SuspendLayout();
 			panel1.SuspendLayout();
 			ClientsTabPage.SuspendLayout();
 			ClientsPanel.SuspendLayout();
@@ -209,7 +221,7 @@ namespace EveOPreview.View
 			ContentTabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
 			ContentTabControl.ItemSize = new Size(35, 120);
 			ContentTabControl.Location = new Point(0, 0);
-			ContentTabControl.Margin = new Padding(4, 4, 4, 4);
+			ContentTabControl.Margin = new Padding(4);
 			ContentTabControl.Multiline = true;
 			ContentTabControl.Name = "ContentTabControl";
 			ContentTabControl.SelectedIndex = 0;
@@ -223,9 +235,9 @@ namespace EveOPreview.View
 			GeneralTabPage.BackColor = SystemColors.Control;
 			GeneralTabPage.Controls.Add(GeneralSettingsPanel);
 			GeneralTabPage.Location = new Point(124, 4);
-			GeneralTabPage.Margin = new Padding(4, 4, 4, 4);
+			GeneralTabPage.Margin = new Padding(4);
 			GeneralTabPage.Name = "GeneralTabPage";
-			GeneralTabPage.Padding = new Padding(4, 4, 4, 4);
+			GeneralTabPage.Padding = new Padding(4);
 			GeneralTabPage.Size = new Size(327, 243);
 			GeneralTabPage.TabIndex = 0;
 			GeneralTabPage.Text = "General";
@@ -245,7 +257,7 @@ namespace EveOPreview.View
 			GeneralSettingsPanel.Controls.Add(MinimizeToTrayCheckBox);
 			GeneralSettingsPanel.Dock = DockStyle.Fill;
 			GeneralSettingsPanel.Location = new Point(4, 4);
-			GeneralSettingsPanel.Margin = new Padding(4, 4, 4, 4);
+			GeneralSettingsPanel.Margin = new Padding(4);
 			GeneralSettingsPanel.Name = "GeneralSettingsPanel";
 			GeneralSettingsPanel.Size = new Size(319, 235);
 			GeneralSettingsPanel.TabIndex = 18;
@@ -254,7 +266,7 @@ namespace EveOPreview.View
 			// 
 			HideCaptionOnClientsCheckBox.AutoSize = true;
 			HideCaptionOnClientsCheckBox.Location = new Point(9, 121);
-			HideCaptionOnClientsCheckBox.Margin = new Padding(4, 4, 4, 4);
+			HideCaptionOnClientsCheckBox.Margin = new Padding(4);
 			HideCaptionOnClientsCheckBox.Name = "HideCaptionOnClientsCheckBox";
 			HideCaptionOnClientsCheckBox.Size = new Size(168, 19);
 			HideCaptionOnClientsCheckBox.TabIndex = 28;
@@ -277,7 +289,7 @@ namespace EveOPreview.View
 			AnimationStyleCombo.DropDownStyle = ComboBoxStyle.DropDownList;
 			AnimationStyleCombo.FormattingEnabled = true;
 			AnimationStyleCombo.Location = new Point(105, 93);
-			AnimationStyleCombo.Margin = new Padding(4, 4, 4, 4);
+			AnimationStyleCombo.Margin = new Padding(4);
 			AnimationStyleCombo.Name = "AnimationStyleCombo";
 			AnimationStyleCombo.Size = new Size(177, 23);
 			AnimationStyleCombo.TabIndex = 26;
@@ -287,7 +299,7 @@ namespace EveOPreview.View
 			// 
 			MinimizeInactiveClientsCheckBox.AutoSize = true;
 			MinimizeInactiveClientsCheckBox.Location = new Point(9, 73);
-			MinimizeInactiveClientsCheckBox.Margin = new Padding(4, 4, 4, 4);
+			MinimizeInactiveClientsCheckBox.Margin = new Padding(4);
 			MinimizeInactiveClientsCheckBox.Name = "MinimizeInactiveClientsCheckBox";
 			MinimizeInactiveClientsCheckBox.Size = new Size(178, 19);
 			MinimizeInactiveClientsCheckBox.TabIndex = 24;
@@ -299,7 +311,7 @@ namespace EveOPreview.View
 			// 
 			EnableClientLayoutTrackingCheckBox.AutoSize = true;
 			EnableClientLayoutTrackingCheckBox.Location = new Point(9, 30);
-			EnableClientLayoutTrackingCheckBox.Margin = new Padding(4, 4, 4, 4);
+			EnableClientLayoutTrackingCheckBox.Margin = new Padding(4);
 			EnableClientLayoutTrackingCheckBox.Name = "EnableClientLayoutTrackingCheckBox";
 			EnableClientLayoutTrackingCheckBox.Size = new Size(137, 19);
 			EnableClientLayoutTrackingCheckBox.TabIndex = 19;
@@ -313,7 +325,7 @@ namespace EveOPreview.View
 			HideActiveClientThumbnailCheckBox.Checked = true;
 			HideActiveClientThumbnailCheckBox.CheckState = CheckState.Checked;
 			HideActiveClientThumbnailCheckBox.Location = new Point(9, 52);
-			HideActiveClientThumbnailCheckBox.Margin = new Padding(4, 4, 4, 4);
+			HideActiveClientThumbnailCheckBox.Margin = new Padding(4);
 			HideActiveClientThumbnailCheckBox.Name = "HideActiveClientThumbnailCheckBox";
 			HideActiveClientThumbnailCheckBox.Size = new Size(197, 19);
 			HideActiveClientThumbnailCheckBox.TabIndex = 20;
@@ -327,7 +339,7 @@ namespace EveOPreview.View
 			ShowThumbnailsAlwaysOnTopCheckBox.Checked = true;
 			ShowThumbnailsAlwaysOnTopCheckBox.CheckState = CheckState.Checked;
 			ShowThumbnailsAlwaysOnTopCheckBox.Location = new Point(9, 142);
-			ShowThumbnailsAlwaysOnTopCheckBox.Margin = new Padding(4, 4, 4, 4);
+			ShowThumbnailsAlwaysOnTopCheckBox.Margin = new Padding(4);
 			ShowThumbnailsAlwaysOnTopCheckBox.Name = "ShowThumbnailsAlwaysOnTopCheckBox";
 			ShowThumbnailsAlwaysOnTopCheckBox.RightToLeft = RightToLeft.No;
 			ShowThumbnailsAlwaysOnTopCheckBox.Size = new Size(148, 19);
@@ -342,7 +354,7 @@ namespace EveOPreview.View
 			HideThumbnailsOnLostFocusCheckBox.Checked = true;
 			HideThumbnailsOnLostFocusCheckBox.CheckState = CheckState.Checked;
 			HideThumbnailsOnLostFocusCheckBox.Location = new Point(9, 163);
-			HideThumbnailsOnLostFocusCheckBox.Margin = new Padding(4, 4, 4, 4);
+			HideThumbnailsOnLostFocusCheckBox.Margin = new Padding(4);
 			HideThumbnailsOnLostFocusCheckBox.Name = "HideThumbnailsOnLostFocusCheckBox";
 			HideThumbnailsOnLostFocusCheckBox.Size = new Size(252, 19);
 			HideThumbnailsOnLostFocusCheckBox.TabIndex = 22;
@@ -356,7 +368,7 @@ namespace EveOPreview.View
 			EnablePerClientThumbnailsLayoutsCheckBox.Checked = true;
 			EnablePerClientThumbnailsLayoutsCheckBox.CheckState = CheckState.Checked;
 			EnablePerClientThumbnailsLayoutsCheckBox.Location = new Point(9, 185);
-			EnablePerClientThumbnailsLayoutsCheckBox.Margin = new Padding(4, 4, 4, 4);
+			EnablePerClientThumbnailsLayoutsCheckBox.Margin = new Padding(4);
 			EnablePerClientThumbnailsLayoutsCheckBox.Name = "EnablePerClientThumbnailsLayoutsCheckBox";
 			EnablePerClientThumbnailsLayoutsCheckBox.Size = new Size(200, 19);
 			EnablePerClientThumbnailsLayoutsCheckBox.TabIndex = 23;
@@ -368,7 +380,7 @@ namespace EveOPreview.View
 			// 
 			MinimizeToTrayCheckBox.AutoSize = true;
 			MinimizeToTrayCheckBox.Location = new Point(9, 8);
-			MinimizeToTrayCheckBox.Margin = new Padding(4, 4, 4, 4);
+			MinimizeToTrayCheckBox.Margin = new Padding(4);
 			MinimizeToTrayCheckBox.Name = "MinimizeToTrayCheckBox";
 			MinimizeToTrayCheckBox.Size = new Size(155, 19);
 			MinimizeToTrayCheckBox.TabIndex = 18;
@@ -381,9 +393,9 @@ namespace EveOPreview.View
 			ThumbnailTabPage.BackColor = SystemColors.Control;
 			ThumbnailTabPage.Controls.Add(ThumbnailSettingsPanel);
 			ThumbnailTabPage.Location = new Point(124, 4);
-			ThumbnailTabPage.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailTabPage.Margin = new Padding(4);
 			ThumbnailTabPage.Name = "ThumbnailTabPage";
-			ThumbnailTabPage.Padding = new Padding(4, 4, 4, 4);
+			ThumbnailTabPage.Padding = new Padding(4);
 			ThumbnailTabPage.Size = new Size(327, 243);
 			ThumbnailTabPage.TabIndex = 1;
 			ThumbnailTabPage.Text = "Thumbnail";
@@ -408,7 +420,7 @@ namespace EveOPreview.View
 			ThumbnailSettingsPanel.Controls.Add(OpacityLabel);
 			ThumbnailSettingsPanel.Dock = DockStyle.Fill;
 			ThumbnailSettingsPanel.Location = new Point(4, 4);
-			ThumbnailSettingsPanel.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailSettingsPanel.Margin = new Padding(4);
 			ThumbnailSettingsPanel.Name = "ThumbnailSettingsPanel";
 			ThumbnailSettingsPanel.Size = new Size(319, 235);
 			ThumbnailSettingsPanel.TabIndex = 19;
@@ -427,7 +439,7 @@ namespace EveOPreview.View
 			// 
 			PreventPreviewColorButton.BorderStyle = BorderStyle.FixedSingle;
 			PreventPreviewColorButton.Location = new Point(218, 168);
-			PreventPreviewColorButton.Margin = new Padding(4, 4, 4, 4);
+			PreventPreviewColorButton.Margin = new Padding(4);
 			PreventPreviewColorButton.Name = "PreventPreviewColorButton";
 			PreventPreviewColorButton.Size = new Size(58, 19);
 			PreventPreviewColorButton.TabIndex = 34;
@@ -437,7 +449,7 @@ namespace EveOPreview.View
 			// 
 			PreventPreviewsCheckBox.AutoSize = true;
 			PreventPreviewsCheckBox.Location = new Point(13, 168);
-			PreventPreviewsCheckBox.Margin = new Padding(4, 4, 4, 4);
+			PreventPreviewsCheckBox.Margin = new Padding(4);
 			PreventPreviewsCheckBox.Name = "PreventPreviewsCheckBox";
 			PreventPreviewsCheckBox.Size = new Size(151, 19);
 			PreventPreviewsCheckBox.TabIndex = 33;
@@ -449,7 +461,7 @@ namespace EveOPreview.View
 			// 
 			ThumbnailSnapToGridCheckBox.AutoSize = true;
 			ThumbnailSnapToGridCheckBox.Location = new Point(13, 120);
-			ThumbnailSnapToGridCheckBox.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailSnapToGridCheckBox.Margin = new Padding(4);
 			ThumbnailSnapToGridCheckBox.Name = "ThumbnailSnapToGridCheckBox";
 			ThumbnailSnapToGridCheckBox.Size = new Size(152, 19);
 			ThumbnailSnapToGridCheckBox.TabIndex = 32;
@@ -464,7 +476,7 @@ namespace EveOPreview.View
 			ThumbnailSnapToGridSizeYNumericEdit.CausesValidation = false;
 			ThumbnailSnapToGridSizeYNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
 			ThumbnailSnapToGridSizeYNumericEdit.Location = new Point(152, 141);
-			ThumbnailSnapToGridSizeYNumericEdit.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailSnapToGridSizeYNumericEdit.Margin = new Padding(4);
 			ThumbnailSnapToGridSizeYNumericEdit.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
 			ThumbnailSnapToGridSizeYNumericEdit.Name = "ThumbnailSnapToGridSizeYNumericEdit";
 			ThumbnailSnapToGridSizeYNumericEdit.Size = new Size(56, 23);
@@ -489,7 +501,7 @@ namespace EveOPreview.View
 			ThumbnailSnapToGridSizeXNumericEdit.CausesValidation = false;
 			ThumbnailSnapToGridSizeXNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
 			ThumbnailSnapToGridSizeXNumericEdit.Location = new Point(65, 141);
-			ThumbnailSnapToGridSizeXNumericEdit.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailSnapToGridSizeXNumericEdit.Margin = new Padding(4);
 			ThumbnailSnapToGridSizeXNumericEdit.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
 			ThumbnailSnapToGridSizeXNumericEdit.Name = "ThumbnailSnapToGridSizeXNumericEdit";
 			ThumbnailSnapToGridSizeXNumericEdit.Size = new Size(56, 23);
@@ -511,7 +523,7 @@ namespace EveOPreview.View
 			// 
 			LockThumbnailLocationCheckbox.AutoSize = true;
 			LockThumbnailLocationCheckbox.Location = new Point(13, 94);
-			LockThumbnailLocationCheckbox.Margin = new Padding(4, 4, 4, 4);
+			LockThumbnailLocationCheckbox.Margin = new Padding(4);
 			LockThumbnailLocationCheckbox.Name = "LockThumbnailLocationCheckbox";
 			LockThumbnailLocationCheckbox.Size = new Size(161, 19);
 			LockThumbnailLocationCheckbox.TabIndex = 26;
@@ -546,7 +558,7 @@ namespace EveOPreview.View
 			ThumbnailsWidthNumericEdit.CausesValidation = false;
 			ThumbnailsWidthNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
 			ThumbnailsWidthNumericEdit.Location = new Point(122, 36);
-			ThumbnailsWidthNumericEdit.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailsWidthNumericEdit.Margin = new Padding(4);
 			ThumbnailsWidthNumericEdit.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
 			ThumbnailsWidthNumericEdit.Name = "ThumbnailsWidthNumericEdit";
 			ThumbnailsWidthNumericEdit.Size = new Size(56, 23);
@@ -561,7 +573,7 @@ namespace EveOPreview.View
 			ThumbnailsHeightNumericEdit.CausesValidation = false;
 			ThumbnailsHeightNumericEdit.Increment = new decimal(new int[] { 10, 0, 0, 0 });
 			ThumbnailsHeightNumericEdit.Location = new Point(122, 64);
-			ThumbnailsHeightNumericEdit.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailsHeightNumericEdit.Margin = new Padding(4);
 			ThumbnailsHeightNumericEdit.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
 			ThumbnailsHeightNumericEdit.Name = "ThumbnailsHeightNumericEdit";
 			ThumbnailsHeightNumericEdit.Size = new Size(56, 23);
@@ -574,7 +586,7 @@ namespace EveOPreview.View
 			ThumbnailOpacityTrackBar.AutoSize = false;
 			ThumbnailOpacityTrackBar.LargeChange = 10;
 			ThumbnailOpacityTrackBar.Location = new Point(71, 7);
-			ThumbnailOpacityTrackBar.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailOpacityTrackBar.Margin = new Padding(4);
 			ThumbnailOpacityTrackBar.Maximum = 100;
 			ThumbnailOpacityTrackBar.Minimum = 20;
 			ThumbnailOpacityTrackBar.Name = "ThumbnailOpacityTrackBar";
@@ -599,7 +611,7 @@ namespace EveOPreview.View
 			ZoomTabPage.BackColor = SystemColors.Control;
 			ZoomTabPage.Controls.Add(ZoomSettingsPanel);
 			ZoomTabPage.Location = new Point(124, 4);
-			ZoomTabPage.Margin = new Padding(4, 4, 4, 4);
+			ZoomTabPage.Margin = new Padding(4);
 			ZoomTabPage.Name = "ZoomTabPage";
 			ZoomTabPage.Size = new Size(327, 243);
 			ZoomTabPage.TabIndex = 2;
@@ -615,7 +627,7 @@ namespace EveOPreview.View
 			ZoomSettingsPanel.Controls.Add(ThumbnailZoomFactorNumericEdit);
 			ZoomSettingsPanel.Dock = DockStyle.Fill;
 			ZoomSettingsPanel.Location = new Point(0, 0);
-			ZoomSettingsPanel.Margin = new Padding(4, 4, 4, 4);
+			ZoomSettingsPanel.Margin = new Padding(4);
 			ZoomSettingsPanel.Name = "ZoomSettingsPanel";
 			ZoomSettingsPanel.Size = new Size(327, 243);
 			ZoomSettingsPanel.TabIndex = 36;
@@ -643,7 +655,7 @@ namespace EveOPreview.View
 			ZoomAnchorPanel.Controls.Add(ZoomAanchorERadioButton);
 			ZoomAnchorPanel.Controls.Add(ZoomAanchorSWRadioButton);
 			ZoomAnchorPanel.Location = new Point(94, 62);
-			ZoomAnchorPanel.Margin = new Padding(4, 4, 4, 4);
+			ZoomAnchorPanel.Margin = new Padding(4);
 			ZoomAnchorPanel.Name = "ZoomAnchorPanel";
 			ZoomAnchorPanel.Size = new Size(90, 84);
 			ZoomAnchorPanel.TabIndex = 38;
@@ -652,7 +664,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorNWRadioButton.AutoSize = true;
 			ZoomAanchorNWRadioButton.Location = new Point(4, 4);
-			ZoomAanchorNWRadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorNWRadioButton.Margin = new Padding(4);
 			ZoomAanchorNWRadioButton.Name = "ZoomAanchorNWRadioButton";
 			ZoomAanchorNWRadioButton.Size = new Size(14, 13);
 			ZoomAanchorNWRadioButton.TabIndex = 0;
@@ -664,7 +676,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorNRadioButton.AutoSize = true;
 			ZoomAanchorNRadioButton.Location = new Point(36, 4);
-			ZoomAanchorNRadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorNRadioButton.Margin = new Padding(4);
 			ZoomAanchorNRadioButton.Name = "ZoomAanchorNRadioButton";
 			ZoomAanchorNRadioButton.Size = new Size(14, 13);
 			ZoomAanchorNRadioButton.TabIndex = 1;
@@ -676,7 +688,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorNERadioButton.AutoSize = true;
 			ZoomAanchorNERadioButton.Location = new Point(69, 4);
-			ZoomAanchorNERadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorNERadioButton.Margin = new Padding(4);
 			ZoomAanchorNERadioButton.Name = "ZoomAanchorNERadioButton";
 			ZoomAanchorNERadioButton.Size = new Size(14, 13);
 			ZoomAanchorNERadioButton.TabIndex = 2;
@@ -688,7 +700,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorWRadioButton.AutoSize = true;
 			ZoomAanchorWRadioButton.Location = new Point(4, 34);
-			ZoomAanchorWRadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorWRadioButton.Margin = new Padding(4);
 			ZoomAanchorWRadioButton.Name = "ZoomAanchorWRadioButton";
 			ZoomAanchorWRadioButton.Size = new Size(14, 13);
 			ZoomAanchorWRadioButton.TabIndex = 3;
@@ -700,7 +712,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorSERadioButton.AutoSize = true;
 			ZoomAanchorSERadioButton.Location = new Point(69, 64);
-			ZoomAanchorSERadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorSERadioButton.Margin = new Padding(4);
 			ZoomAanchorSERadioButton.Name = "ZoomAanchorSERadioButton";
 			ZoomAanchorSERadioButton.Size = new Size(14, 13);
 			ZoomAanchorSERadioButton.TabIndex = 8;
@@ -712,7 +724,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorCRadioButton.AutoSize = true;
 			ZoomAanchorCRadioButton.Location = new Point(36, 34);
-			ZoomAanchorCRadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorCRadioButton.Margin = new Padding(4);
 			ZoomAanchorCRadioButton.Name = "ZoomAanchorCRadioButton";
 			ZoomAanchorCRadioButton.Size = new Size(14, 13);
 			ZoomAanchorCRadioButton.TabIndex = 4;
@@ -724,7 +736,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorSRadioButton.AutoSize = true;
 			ZoomAanchorSRadioButton.Location = new Point(36, 64);
-			ZoomAanchorSRadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorSRadioButton.Margin = new Padding(4);
 			ZoomAanchorSRadioButton.Name = "ZoomAanchorSRadioButton";
 			ZoomAanchorSRadioButton.Size = new Size(14, 13);
 			ZoomAanchorSRadioButton.TabIndex = 7;
@@ -736,7 +748,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorERadioButton.AutoSize = true;
 			ZoomAanchorERadioButton.Location = new Point(69, 34);
-			ZoomAanchorERadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorERadioButton.Margin = new Padding(4);
 			ZoomAanchorERadioButton.Name = "ZoomAanchorERadioButton";
 			ZoomAanchorERadioButton.Size = new Size(14, 13);
 			ZoomAanchorERadioButton.TabIndex = 5;
@@ -748,7 +760,7 @@ namespace EveOPreview.View
 			// 
 			ZoomAanchorSWRadioButton.AutoSize = true;
 			ZoomAanchorSWRadioButton.Location = new Point(4, 64);
-			ZoomAanchorSWRadioButton.Margin = new Padding(4, 4, 4, 4);
+			ZoomAanchorSWRadioButton.Margin = new Padding(4);
 			ZoomAanchorSWRadioButton.Name = "ZoomAanchorSWRadioButton";
 			ZoomAanchorSWRadioButton.Size = new Size(14, 13);
 			ZoomAanchorSWRadioButton.TabIndex = 6;
@@ -772,7 +784,7 @@ namespace EveOPreview.View
 			EnableThumbnailZoomCheckBox.Checked = true;
 			EnableThumbnailZoomCheckBox.CheckState = CheckState.Checked;
 			EnableThumbnailZoomCheckBox.Location = new Point(9, 8);
-			EnableThumbnailZoomCheckBox.Margin = new Padding(4, 4, 4, 4);
+			EnableThumbnailZoomCheckBox.Margin = new Padding(4);
 			EnableThumbnailZoomCheckBox.Name = "EnableThumbnailZoomCheckBox";
 			EnableThumbnailZoomCheckBox.RightToLeft = RightToLeft.No;
 			EnableThumbnailZoomCheckBox.Size = new Size(108, 19);
@@ -786,7 +798,7 @@ namespace EveOPreview.View
 			ThumbnailZoomFactorNumericEdit.BackColor = SystemColors.Window;
 			ThumbnailZoomFactorNumericEdit.BorderStyle = BorderStyle.FixedSingle;
 			ThumbnailZoomFactorNumericEdit.Location = new Point(94, 36);
-			ThumbnailZoomFactorNumericEdit.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailZoomFactorNumericEdit.Margin = new Padding(4);
 			ThumbnailZoomFactorNumericEdit.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
 			ThumbnailZoomFactorNumericEdit.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
 			ThumbnailZoomFactorNumericEdit.Name = "ThumbnailZoomFactorNumericEdit";
@@ -800,7 +812,7 @@ namespace EveOPreview.View
 			OverlayTabPage.BackColor = SystemColors.Control;
 			OverlayTabPage.Controls.Add(OverlaySettingsPanel);
 			OverlayTabPage.Location = new Point(124, 4);
-			OverlayTabPage.Margin = new Padding(4, 4, 4, 4);
+			OverlayTabPage.Margin = new Padding(4);
 			OverlayTabPage.Name = "OverlayTabPage";
 			OverlayTabPage.Size = new Size(327, 243);
 			OverlayTabPage.TabIndex = 3;
@@ -809,6 +821,8 @@ namespace EveOPreview.View
 			// OverlaySettingsPanel
 			// 
 			OverlaySettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			OverlaySettingsPanel.Controls.Add(label5);
+			OverlaySettingsPanel.Controls.Add(panel2);
 			OverlaySettingsPanel.Controls.Add(LabelOverlayLabelFont);
 			OverlaySettingsPanel.Controls.Add(btnLabelFont);
 			OverlaySettingsPanel.Controls.Add(label3);
@@ -822,10 +836,146 @@ namespace EveOPreview.View
 			OverlaySettingsPanel.Controls.Add(ShowThumbnailFramesCheckBox);
 			OverlaySettingsPanel.Dock = DockStyle.Fill;
 			OverlaySettingsPanel.Location = new Point(0, 0);
-			OverlaySettingsPanel.Margin = new Padding(4, 4, 4, 4);
+			OverlaySettingsPanel.Margin = new Padding(4);
 			OverlaySettingsPanel.Name = "OverlaySettingsPanel";
 			OverlaySettingsPanel.Size = new Size(327, 243);
 			OverlaySettingsPanel.TabIndex = 25;
+			// 
+			// label5
+			// 
+			label5.AutoSize = true;
+			label5.Location = new Point(121, 31);
+			label5.Margin = new Padding(4, 0, 4, 0);
+			label5.Name = "label5";
+			label5.Size = new Size(168, 15);
+			label5.TabIndex = 47;
+			label5.Text = "Cycle Group Indicator Position";
+			// 
+			// panel2
+			// 
+			panel2.BorderStyle = BorderStyle.FixedSingle;
+			panel2.Controls.Add(CycleGroupIndicatorNWRadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorNRadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorNERadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorWRadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorSERadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorCRadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorSRadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorERadioButton);
+			panel2.Controls.Add(CycleGroupIndicatorSWRadioButton);
+			panel2.Location = new Point(214, 50);
+			panel2.Margin = new Padding(4);
+			panel2.Name = "panel2";
+			panel2.Size = new Size(73, 66);
+			panel2.TabIndex = 46;
+			// 
+			// CycleGroupIndicatorNWRadioButton
+			// 
+			CycleGroupIndicatorNWRadioButton.AutoSize = true;
+			CycleGroupIndicatorNWRadioButton.Location = new Point(4, 4);
+			CycleGroupIndicatorNWRadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorNWRadioButton.Name = "CycleGroupIndicatorNWRadioButton";
+			CycleGroupIndicatorNWRadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorNWRadioButton.TabIndex = 0;
+			CycleGroupIndicatorNWRadioButton.TabStop = true;
+			CycleGroupIndicatorNWRadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorNWRadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorNRadioButton
+			// 
+			CycleGroupIndicatorNRadioButton.AutoSize = true;
+			CycleGroupIndicatorNRadioButton.Location = new Point(27, 4);
+			CycleGroupIndicatorNRadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorNRadioButton.Name = "CycleGroupIndicatorNRadioButton";
+			CycleGroupIndicatorNRadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorNRadioButton.TabIndex = 1;
+			CycleGroupIndicatorNRadioButton.TabStop = true;
+			CycleGroupIndicatorNRadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorNRadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorNERadioButton
+			// 
+			CycleGroupIndicatorNERadioButton.AutoSize = true;
+			CycleGroupIndicatorNERadioButton.Location = new Point(50, 4);
+			CycleGroupIndicatorNERadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorNERadioButton.Name = "CycleGroupIndicatorNERadioButton";
+			CycleGroupIndicatorNERadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorNERadioButton.TabIndex = 2;
+			CycleGroupIndicatorNERadioButton.TabStop = true;
+			CycleGroupIndicatorNERadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorNERadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorWRadioButton
+			// 
+			CycleGroupIndicatorWRadioButton.AutoSize = true;
+			CycleGroupIndicatorWRadioButton.Location = new Point(4, 25);
+			CycleGroupIndicatorWRadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorWRadioButton.Name = "CycleGroupIndicatorWRadioButton";
+			CycleGroupIndicatorWRadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorWRadioButton.TabIndex = 3;
+			CycleGroupIndicatorWRadioButton.TabStop = true;
+			CycleGroupIndicatorWRadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorWRadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorSERadioButton
+			// 
+			CycleGroupIndicatorSERadioButton.AutoSize = true;
+			CycleGroupIndicatorSERadioButton.Location = new Point(50, 46);
+			CycleGroupIndicatorSERadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorSERadioButton.Name = "CycleGroupIndicatorSERadioButton";
+			CycleGroupIndicatorSERadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorSERadioButton.TabIndex = 8;
+			CycleGroupIndicatorSERadioButton.TabStop = true;
+			CycleGroupIndicatorSERadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorSERadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorCRadioButton
+			// 
+			CycleGroupIndicatorCRadioButton.AutoSize = true;
+			CycleGroupIndicatorCRadioButton.Location = new Point(27, 25);
+			CycleGroupIndicatorCRadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorCRadioButton.Name = "CycleGroupIndicatorCRadioButton";
+			CycleGroupIndicatorCRadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorCRadioButton.TabIndex = 4;
+			CycleGroupIndicatorCRadioButton.TabStop = true;
+			CycleGroupIndicatorCRadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorCRadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorSRadioButton
+			// 
+			CycleGroupIndicatorSRadioButton.AutoSize = true;
+			CycleGroupIndicatorSRadioButton.Location = new Point(27, 46);
+			CycleGroupIndicatorSRadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorSRadioButton.Name = "CycleGroupIndicatorSRadioButton";
+			CycleGroupIndicatorSRadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorSRadioButton.TabIndex = 7;
+			CycleGroupIndicatorSRadioButton.TabStop = true;
+			CycleGroupIndicatorSRadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorSRadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorERadioButton
+			// 
+			CycleGroupIndicatorERadioButton.AutoSize = true;
+			CycleGroupIndicatorERadioButton.Location = new Point(50, 25);
+			CycleGroupIndicatorERadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorERadioButton.Name = "CycleGroupIndicatorERadioButton";
+			CycleGroupIndicatorERadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorERadioButton.TabIndex = 5;
+			CycleGroupIndicatorERadioButton.TabStop = true;
+			CycleGroupIndicatorERadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorERadioButton.CheckedChanged += OptionChanged_Handler;
+			// 
+			// CycleGroupIndicatorSWRadioButton
+			// 
+			CycleGroupIndicatorSWRadioButton.AutoSize = true;
+			CycleGroupIndicatorSWRadioButton.Location = new Point(4, 46);
+			CycleGroupIndicatorSWRadioButton.Margin = new Padding(4);
+			CycleGroupIndicatorSWRadioButton.Name = "CycleGroupIndicatorSWRadioButton";
+			CycleGroupIndicatorSWRadioButton.Size = new Size(14, 13);
+			CycleGroupIndicatorSWRadioButton.TabIndex = 6;
+			CycleGroupIndicatorSWRadioButton.TabStop = true;
+			CycleGroupIndicatorSWRadioButton.UseVisualStyleBackColor = true;
+			CycleGroupIndicatorSWRadioButton.CheckedChanged += OptionChanged_Handler;
 			// 
 			// LabelOverlayLabelFont
 			// 
@@ -840,7 +990,7 @@ namespace EveOPreview.View
 			// btnLabelFont
 			// 
 			btnLabelFont.Location = new Point(6, 114);
-			btnLabelFont.Margin = new Padding(2, 2, 2, 2);
+			btnLabelFont.Margin = new Padding(2);
 			btnLabelFont.Name = "btnLabelFont";
 			btnLabelFont.Size = new Size(87, 26);
 			btnLabelFont.TabIndex = 44;
@@ -872,7 +1022,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelColorButton.BorderStyle = BorderStyle.FixedSingle;
 			OverlayLabelColorButton.Location = new Point(49, 206);
-			OverlayLabelColorButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelColorButton.Margin = new Padding(4);
 			OverlayLabelColorButton.Name = "OverlayLabelColorButton";
 			OverlayLabelColorButton.Size = new Size(108, 19);
 			OverlayLabelColorButton.TabIndex = 41;
@@ -891,7 +1041,7 @@ namespace EveOPreview.View
 			panel1.Controls.Add(OverlayLabelERadioButton);
 			panel1.Controls.Add(OverlayLabelSWRadioButton);
 			panel1.Location = new Point(216, 159);
-			panel1.Margin = new Padding(4, 4, 4, 4);
+			panel1.Margin = new Padding(4);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(73, 66);
 			panel1.TabIndex = 39;
@@ -900,7 +1050,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelNWRadioButton.AutoSize = true;
 			OverlayLabelNWRadioButton.Location = new Point(4, 4);
-			OverlayLabelNWRadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelNWRadioButton.Margin = new Padding(4);
 			OverlayLabelNWRadioButton.Name = "OverlayLabelNWRadioButton";
 			OverlayLabelNWRadioButton.Size = new Size(14, 13);
 			OverlayLabelNWRadioButton.TabIndex = 0;
@@ -912,7 +1062,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelNRadioButton.AutoSize = true;
 			OverlayLabelNRadioButton.Location = new Point(27, 4);
-			OverlayLabelNRadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelNRadioButton.Margin = new Padding(4);
 			OverlayLabelNRadioButton.Name = "OverlayLabelNRadioButton";
 			OverlayLabelNRadioButton.Size = new Size(14, 13);
 			OverlayLabelNRadioButton.TabIndex = 1;
@@ -924,7 +1074,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelNERadioButton.AutoSize = true;
 			OverlayLabelNERadioButton.Location = new Point(50, 4);
-			OverlayLabelNERadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelNERadioButton.Margin = new Padding(4);
 			OverlayLabelNERadioButton.Name = "OverlayLabelNERadioButton";
 			OverlayLabelNERadioButton.Size = new Size(14, 13);
 			OverlayLabelNERadioButton.TabIndex = 2;
@@ -936,7 +1086,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelWRadioButton.AutoSize = true;
 			OverlayLabelWRadioButton.Location = new Point(4, 25);
-			OverlayLabelWRadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelWRadioButton.Margin = new Padding(4);
 			OverlayLabelWRadioButton.Name = "OverlayLabelWRadioButton";
 			OverlayLabelWRadioButton.Size = new Size(14, 13);
 			OverlayLabelWRadioButton.TabIndex = 3;
@@ -948,7 +1098,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelSERadioButton.AutoSize = true;
 			OverlayLabelSERadioButton.Location = new Point(50, 46);
-			OverlayLabelSERadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelSERadioButton.Margin = new Padding(4);
 			OverlayLabelSERadioButton.Name = "OverlayLabelSERadioButton";
 			OverlayLabelSERadioButton.Size = new Size(14, 13);
 			OverlayLabelSERadioButton.TabIndex = 8;
@@ -960,7 +1110,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelCRadioButton.AutoSize = true;
 			OverlayLabelCRadioButton.Location = new Point(27, 25);
-			OverlayLabelCRadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelCRadioButton.Margin = new Padding(4);
 			OverlayLabelCRadioButton.Name = "OverlayLabelCRadioButton";
 			OverlayLabelCRadioButton.Size = new Size(14, 13);
 			OverlayLabelCRadioButton.TabIndex = 4;
@@ -972,7 +1122,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelSRadioButton.AutoSize = true;
 			OverlayLabelSRadioButton.Location = new Point(27, 46);
-			OverlayLabelSRadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelSRadioButton.Margin = new Padding(4);
 			OverlayLabelSRadioButton.Name = "OverlayLabelSRadioButton";
 			OverlayLabelSRadioButton.Size = new Size(14, 13);
 			OverlayLabelSRadioButton.TabIndex = 7;
@@ -984,7 +1134,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelERadioButton.AutoSize = true;
 			OverlayLabelERadioButton.Location = new Point(50, 25);
-			OverlayLabelERadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelERadioButton.Margin = new Padding(4);
 			OverlayLabelERadioButton.Name = "OverlayLabelERadioButton";
 			OverlayLabelERadioButton.Size = new Size(14, 13);
 			OverlayLabelERadioButton.TabIndex = 5;
@@ -996,7 +1146,7 @@ namespace EveOPreview.View
 			// 
 			OverlayLabelSWRadioButton.AutoSize = true;
 			OverlayLabelSWRadioButton.Location = new Point(4, 46);
-			OverlayLabelSWRadioButton.Margin = new Padding(4, 4, 4, 4);
+			OverlayLabelSWRadioButton.Margin = new Padding(4);
 			OverlayLabelSWRadioButton.Name = "OverlayLabelSWRadioButton";
 			OverlayLabelSWRadioButton.Size = new Size(14, 13);
 			OverlayLabelSWRadioButton.TabIndex = 6;
@@ -1018,7 +1168,7 @@ namespace EveOPreview.View
 			// 
 			ActiveClientHighlightColorButton.BorderStyle = BorderStyle.FixedSingle;
 			ActiveClientHighlightColorButton.Location = new Point(49, 89);
-			ActiveClientHighlightColorButton.Margin = new Padding(4, 4, 4, 4);
+			ActiveClientHighlightColorButton.Margin = new Padding(4);
 			ActiveClientHighlightColorButton.Name = "ActiveClientHighlightColorButton";
 			ActiveClientHighlightColorButton.Size = new Size(108, 19);
 			ActiveClientHighlightColorButton.TabIndex = 28;
@@ -1030,7 +1180,7 @@ namespace EveOPreview.View
 			EnableActiveClientHighlightCheckBox.Checked = true;
 			EnableActiveClientHighlightCheckBox.CheckState = CheckState.Checked;
 			EnableActiveClientHighlightCheckBox.Location = new Point(9, 64);
-			EnableActiveClientHighlightCheckBox.Margin = new Padding(4, 4, 4, 4);
+			EnableActiveClientHighlightCheckBox.Margin = new Padding(4);
 			EnableActiveClientHighlightCheckBox.Name = "EnableActiveClientHighlightCheckBox";
 			EnableActiveClientHighlightCheckBox.RightToLeft = RightToLeft.No;
 			EnableActiveClientHighlightCheckBox.Size = new Size(142, 19);
@@ -1045,7 +1195,7 @@ namespace EveOPreview.View
 			ShowThumbnailOverlaysCheckBox.Checked = true;
 			ShowThumbnailOverlaysCheckBox.CheckState = CheckState.Checked;
 			ShowThumbnailOverlaysCheckBox.Location = new Point(9, 8);
-			ShowThumbnailOverlaysCheckBox.Margin = new Padding(4, 4, 4, 4);
+			ShowThumbnailOverlaysCheckBox.Margin = new Padding(4);
 			ShowThumbnailOverlaysCheckBox.Name = "ShowThumbnailOverlaysCheckBox";
 			ShowThumbnailOverlaysCheckBox.RightToLeft = RightToLeft.No;
 			ShowThumbnailOverlaysCheckBox.Size = new Size(96, 19);
@@ -1060,7 +1210,7 @@ namespace EveOPreview.View
 			ShowThumbnailFramesCheckBox.Checked = true;
 			ShowThumbnailFramesCheckBox.CheckState = CheckState.Checked;
 			ShowThumbnailFramesCheckBox.Location = new Point(9, 36);
-			ShowThumbnailFramesCheckBox.Margin = new Padding(4, 4, 4, 4);
+			ShowThumbnailFramesCheckBox.Margin = new Padding(4);
 			ShowThumbnailFramesCheckBox.Name = "ShowThumbnailFramesCheckBox";
 			ShowThumbnailFramesCheckBox.RightToLeft = RightToLeft.No;
 			ShowThumbnailFramesCheckBox.Size = new Size(94, 19);
@@ -1074,7 +1224,7 @@ namespace EveOPreview.View
 			ClientsTabPage.BackColor = SystemColors.Control;
 			ClientsTabPage.Controls.Add(ClientsPanel);
 			ClientsTabPage.Location = new Point(124, 4);
-			ClientsTabPage.Margin = new Padding(4, 4, 4, 4);
+			ClientsTabPage.Margin = new Padding(4);
 			ClientsTabPage.Name = "ClientsTabPage";
 			ClientsTabPage.Size = new Size(327, 243);
 			ClientsTabPage.TabIndex = 4;
@@ -1087,7 +1237,7 @@ namespace EveOPreview.View
 			ClientsPanel.Controls.Add(ThumbnailsListLabel);
 			ClientsPanel.Dock = DockStyle.Fill;
 			ClientsPanel.Location = new Point(0, 0);
-			ClientsPanel.Margin = new Padding(4, 4, 4, 4);
+			ClientsPanel.Margin = new Padding(4);
 			ClientsPanel.Name = "ClientsPanel";
 			ClientsPanel.Size = new Size(327, 243);
 			ClientsPanel.TabIndex = 32;
@@ -1101,7 +1251,7 @@ namespace EveOPreview.View
 			ThumbnailsList.FormattingEnabled = true;
 			ThumbnailsList.IntegralHeight = false;
 			ThumbnailsList.Location = new Point(0, 34);
-			ThumbnailsList.Margin = new Padding(4, 4, 4, 4);
+			ThumbnailsList.Margin = new Padding(4);
 			ThumbnailsList.Name = "ThumbnailsList";
 			ThumbnailsList.Size = new Size(325, 207);
 			ThumbnailsList.TabIndex = 34;
@@ -1122,7 +1272,7 @@ namespace EveOPreview.View
 			AboutTabPage.BackColor = SystemColors.Control;
 			AboutTabPage.Controls.Add(AboutPanel);
 			AboutTabPage.Location = new Point(124, 4);
-			AboutTabPage.Margin = new Padding(4, 4, 4, 4);
+			AboutTabPage.Margin = new Padding(4);
 			AboutTabPage.Name = "AboutTabPage";
 			AboutTabPage.Size = new Size(327, 243);
 			AboutTabPage.TabIndex = 5;
@@ -1140,7 +1290,7 @@ namespace EveOPreview.View
 			AboutPanel.Controls.Add(DocumentationLink);
 			AboutPanel.Dock = DockStyle.Fill;
 			AboutPanel.Location = new Point(0, 0);
-			AboutPanel.Margin = new Padding(4, 4, 4, 4);
+			AboutPanel.Margin = new Padding(4);
 			AboutPanel.Name = "AboutPanel";
 			AboutPanel.Size = new Size(327, 243);
 			AboutPanel.TabIndex = 2;
@@ -1265,6 +1415,8 @@ namespace EveOPreview.View
 			OverlayTabPage.ResumeLayout(false);
 			OverlaySettingsPanel.ResumeLayout(false);
 			OverlaySettingsPanel.PerformLayout();
+			panel2.ResumeLayout(false);
+			panel2.PerformLayout();
 			panel1.ResumeLayout(false);
 			panel1.PerformLayout();
 			ClientsTabPage.ResumeLayout(false);
@@ -1338,5 +1490,16 @@ namespace EveOPreview.View
 		private CheckBox PreventPreviewsCheckBox;
 		private Label label1;
 		private Panel PreventPreviewColorButton;
+		private Label label5;
+		private Panel panel2;
+		private RadioButton CycleGroupIndicatorNWRadioButton;
+		private RadioButton CycleGroupIndicatorNRadioButton;
+		private RadioButton CycleGroupIndicatorNERadioButton;
+		private RadioButton CycleGroupIndicatorWRadioButton;
+		private RadioButton CycleGroupIndicatorSERadioButton;
+		private RadioButton CycleGroupIndicatorCRadioButton;
+		private RadioButton CycleGroupIndicatorSRadioButton;
+		private RadioButton CycleGroupIndicatorERadioButton;
+		private RadioButton CycleGroupIndicatorSWRadioButton;
 	}
 }

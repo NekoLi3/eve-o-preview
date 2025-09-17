@@ -30,6 +30,7 @@ namespace EveOPreview.View
 		int ThumbnailZoomFactor { get; set; }
 		ViewZoomAnchor ThumbnailZoomAnchor { get; set; }
 		ViewZoomAnchor OverlayLabelAnchor { get; set; }
+		ViewZoomAnchor CycleGroupIndicatorAnchor { get; set; }
 
 		bool ShowThumbnailOverlays { get; set; }
 		bool ShowThumbnailFrames { get; set; }

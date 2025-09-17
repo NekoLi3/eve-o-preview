@@ -63,23 +63,65 @@ namespace EveOPreview.View
 		{
 			this.OverlayLabel.Text = label;
 		}
-		public void SetCycleStatusLabel(bool displayCycleGroup)
+		public void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor)
 		{
 			if (displayCycleGroup)
 			{
-				this.CycleGroupDisplay.Visible = true;
-				int size = Math.Min(Math.Min(this.Height - 2, this.Width - 2), 40);
+				this.CycleGroupIndicator.Visible = true;
+				int margin = 2;
+				int size = Math.Min(Math.Min(this.Height - margin, this.Width - margin), 40);
 
-				this.CycleGroupDisplay.BackColor = this.OverlayAreaPictureBox.BackColor;
+				this.CycleGroupIndicator.BackColor = this.OverlayAreaPictureBox.BackColor;
+				this.CycleGroupIndicator.Width = size;
+				this.CycleGroupIndicator.Height = size;
 
-				this.CycleGroupDisplay.Top = 1;
-				this.CycleGroupDisplay.Width = size;
-				this.CycleGroupDisplay.Height = size;
-				this.CycleGroupDisplay.Left = this.Width - size - 2;
+				this.CycleGroupIndicator.Top = 1;
+				this.CycleGroupIndicator.Left = this.Width - size - 2;
+				switch (anchor)
+				{
+					case ZoomAnchor.NW:
+						this.CycleGroupIndicator.Left = margin;
+						this.CycleGroupIndicator.Top = margin;
+						break;
+					case ZoomAnchor.N:
+						this.CycleGroupIndicator.Left = (this.Width / 2) - (this.CycleGroupIndicator.Width / 2);
+						this.CycleGroupIndicator.Top = margin;
+						break;
+					case ZoomAnchor.NE:
+						this.CycleGroupIndicator.Left = this.Width - this.CycleGroupIndicator.Width - margin;
+						this.CycleGroupIndicator.Top = margin;
+						break;
+					case ZoomAnchor.W:
+						this.CycleGroupIndicator.Left = margin;
+						this.CycleGroupIndicator.Top = (this.Height / 2) - (this.CycleGroupIndicator.Height / 2);
+						break;
+					case ZoomAnchor.C:
+						this.CycleGroupIndicator.Left = (this.Width / 2) - (this.CycleGroupIndicator.Width / 2);
+						this.CycleGroupIndicator.Top = (this.Height / 2) - (this.CycleGroupIndicator.Height / 2);
+						break;
+					case ZoomAnchor.E:
+						this.CycleGroupIndicator.Left = this.Width - this.CycleGroupIndicator.Width - margin;
+						this.CycleGroupIndicator.Top = (this.Height / 2) - (this.CycleGroupIndicator.Height / 2);
+						break;
+					case ZoomAnchor.SW:
+						this.CycleGroupIndicator.Left = margin;
+						this.CycleGroupIndicator.Top = this.Height - this.CycleGroupIndicator.Height - margin;
+						break;
+					case ZoomAnchor.S:
+						this.CycleGroupIndicator.Left = (this.Width / 2) - (this.CycleGroupIndicator.Width / 2);
+						this.CycleGroupIndicator.Top = this.Height - this.CycleGroupIndicator.Height - margin;
+						break;
+					case ZoomAnchor.SE:
+						this.CycleGroupIndicator.Left = this.Width - this.CycleGroupIndicator.Width - margin;
+						this.CycleGroupIndicator.Top = this.Height - this.CycleGroupIndicator.Height - margin;
+						break;
+				}
+
+
 			}
 			else
 			{
-				this.CycleGroupDisplay.Visible = false;
+				this.CycleGroupIndicator.Visible = false;
 			}
 		}
 

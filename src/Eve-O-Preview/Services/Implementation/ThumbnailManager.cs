@@ -557,6 +557,23 @@ namespace EveOPreview.Services
 		{
 			this.SetThumbnailsSize(this._configuration.ThumbnailSize);
 		}
+		public void UpdateCycleGroupIndicator()
+		{
+			this.SetCycleGroupIndicator(this._configuration.CycleGroupIndicatorAnchor);
+		}
+
+		private void SetCycleGroupIndicator(ZoomAnchor anchor)
+		{
+			this.DisableViewEvents();
+
+			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+			{
+				entry.Value.SetCycleGroupIndicator(entry.Value.IsExcludedFromCycleGroup, anchor);
+				entry.Value.Refresh(false);
+			}
+
+			this.EnableViewEvents();
+		}
 
 		private void SetThumbnailsSize(Size size)
 		{
@@ -705,7 +722,7 @@ namespace EveOPreview.Services
 			if ( view != null )
 			{
 				view.IsExcludedFromCycleGroup = !view.IsExcludedFromCycleGroup;
-				view.SetCycleStatusLabel(view.IsExcludedFromCycleGroup);
+				view.SetCycleGroupIndicator(view.IsExcludedFromCycleGroup, _configuration.CycleGroupIndicatorAnchor);
 
 			}
 			this.RefreshThumbnails();
