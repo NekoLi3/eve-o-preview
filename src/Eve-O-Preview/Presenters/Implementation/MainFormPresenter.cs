@@ -123,6 +123,7 @@ namespace EveOPreview.Presenters
 			this.View.ThumbnailZoomFactor = this._configuration.ThumbnailZoomFactor;
 			this.View.ThumbnailZoomAnchor = ViewZoomAnchorConverter.Convert(this._configuration.ThumbnailZoomAnchor);
 			this.View.OverlayLabelAnchor = ViewZoomAnchorConverter.Convert(this._configuration.OverlayLabelAnchor);
+			this.View.CycleGroupIndicatorAnchor = ViewZoomAnchorConverter.Convert(this._configuration.CycleGroupIndicatorAnchor);
 
 			this.View.ShowThumbnailOverlays = this._configuration.ShowThumbnailOverlays;
 			this.View.ShowThumbnailFrames = this._configuration.ShowThumbnailFrames;
@@ -173,6 +174,12 @@ namespace EveOPreview.Presenters
 			this._configuration.ThumbnailZoomFactor = this.View.ThumbnailZoomFactor;
 			this._configuration.ThumbnailZoomAnchor = ViewZoomAnchorConverter.Convert(this.View.ThumbnailZoomAnchor);
 			this._configuration.OverlayLabelAnchor = ViewZoomAnchorConverter.Convert(this.View.OverlayLabelAnchor);
+
+			if (this._configuration.CycleGroupIndicatorAnchor != ViewZoomAnchorConverter.Convert(this.View.CycleGroupIndicatorAnchor))
+			{
+				this._configuration.CycleGroupIndicatorAnchor = ViewZoomAnchorConverter.Convert(this.View.CycleGroupIndicatorAnchor);
+				await this._mediator.Publish(new ThumbnailCycleGroupIndicatorUpdated());
+			}
 
 			this._configuration.ShowThumbnailOverlays = this.View.ShowThumbnailOverlays;
 			if (this._configuration.ShowThumbnailFrames != this.View.ShowThumbnailFrames)

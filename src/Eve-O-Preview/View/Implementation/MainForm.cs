@@ -16,8 +16,10 @@ namespace EveOPreview.View
 		private readonly ApplicationContext _context;
 		private readonly Dictionary<ViewZoomAnchor, RadioButton> _zoomAnchorMap;
 		private readonly Dictionary<ViewZoomAnchor, RadioButton> _overlayLabelMap;
+		private readonly Dictionary<ViewZoomAnchor, RadioButton> _cycleGroupIndicatorMap;
 		private ViewZoomAnchor _cachedThumbnailZoomAnchor;
 		private ViewZoomAnchor _cachedOverlayLabelAnchor;
+		private ViewZoomAnchor _cachedCycleGroupIndicatorAnchor;
 		private bool _suppressEvents;
 		private Size _minimumSize;
 		private Size _maximumSize;
@@ -29,6 +31,7 @@ namespace EveOPreview.View
 			this._context = context;
 			this._zoomAnchorMap = new Dictionary<ViewZoomAnchor, RadioButton>();
 			this._overlayLabelMap = new Dictionary<ViewZoomAnchor, RadioButton>();
+			this._cycleGroupIndicatorMap = new Dictionary<ViewZoomAnchor, RadioButton>();
 			this._cachedThumbnailZoomAnchor = ViewZoomAnchor.NW;
 			this._suppressEvents = false;
 			this._minimumSize = new Size(20, 20);
@@ -40,6 +43,7 @@ namespace EveOPreview.View
 
 			this.InitZoomAnchorMap();
 			this.InitOverlayLabelMap();
+			this.InitCycleGroupIndicatorMap();
 			this.InitFormSize();
 
 			this.AnimationStyleCombo.DataSource = Enum.GetValues(typeof(AnimationStyle));
@@ -242,6 +246,36 @@ namespace EveOPreview.View
 			{
 				this._cachedOverlayLabelAnchor = value;
 				this._overlayLabelMap[this._cachedOverlayLabelAnchor].Checked = true;
+			}
+		}
+
+		public ViewZoomAnchor CycleGroupIndicatorAnchor
+		{
+			get
+			{
+				if (this._cycleGroupIndicatorMap[this._cachedCycleGroupIndicatorAnchor].Checked)
+				{
+					return this._cachedCycleGroupIndicatorAnchor;
+				}
+
+				foreach (KeyValuePair<ViewZoomAnchor, RadioButton> valuePair in this._cycleGroupIndicatorMap)
+				{
+					if (!valuePair.Value.Checked)
+					{
+						continue;
+					}
+
+					this._cachedCycleGroupIndicatorAnchor = valuePair.Key;
+					return this._cachedCycleGroupIndicatorAnchor;
+				}
+
+				// Default Value
+				return ViewZoomAnchor.NW;
+			}
+			set
+			{
+				this._cachedCycleGroupIndicatorAnchor = value;
+				this._cycleGroupIndicatorMap[this._cachedCycleGroupIndicatorAnchor].Checked = true;
 			}
 		}
 
@@ -568,6 +602,19 @@ namespace EveOPreview.View
 			this._overlayLabelMap[ViewZoomAnchor.S] = this.OverlayLabelSRadioButton;
 			this._overlayLabelMap[ViewZoomAnchor.SE] = this.OverlayLabelSERadioButton;
 		}
+		private void InitCycleGroupIndicatorMap()
+		{
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.NW] = this.CycleGroupIndicatorNWRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.N] = this.CycleGroupIndicatorNRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.NE] = this.CycleGroupIndicatorNERadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.W] = this.CycleGroupIndicatorWRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.C] = this.CycleGroupIndicatorCRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.E] = this.CycleGroupIndicatorERadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.SW] = this.CycleGroupIndicatorSWRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.S] = this.CycleGroupIndicatorSRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.SE] = this.CycleGroupIndicatorSERadioButton;
+		}
+
 		private void InitFormSize()
 		{
 			const int BUFFER_PIXEL_AMOUNT = 8;

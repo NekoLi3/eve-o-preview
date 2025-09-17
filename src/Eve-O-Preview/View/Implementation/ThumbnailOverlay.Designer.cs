@@ -31,9 +31,9 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThumbnailOverlay));
 			OverlayAreaPictureBox = new System.Windows.Forms.PictureBox();
 			OverlayLabel = new System.Windows.Forms.Label();
-			CycleGroupDisplay = new System.Windows.Forms.PictureBox();
+			CycleGroupIndicator = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)OverlayAreaPictureBox).BeginInit();
-			((System.ComponentModel.ISupportInitialize)CycleGroupDisplay).BeginInit();
+			((System.ComponentModel.ISupportInitialize)CycleGroupIndicator).BeginInit();
 			SuspendLayout();
 			// 
 			// OverlayAreaPictureBox
@@ -71,22 +71,22 @@
 			OverlayLabel.MouseMove += OverlayArea_MouseMove;
 			OverlayLabel.MouseUp += OverlayArea_MouseUp;
 			// 
-			// CycleGroupDisplay
+			// CycleGroupIndicator
 			// 
-			CycleGroupDisplay.BackColor = System.Drawing.Color.Transparent;
-			CycleGroupDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			CycleGroupDisplay.Image = (System.Drawing.Image)resources.GetObject("CycleGroupDisplay.Image");
-			CycleGroupDisplay.Location = new System.Drawing.Point(354, 12);
-			CycleGroupDisplay.Name = "CycleGroupDisplay";
-			CycleGroupDisplay.Size = new System.Drawing.Size(72, 78);
-			CycleGroupDisplay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			CycleGroupDisplay.TabIndex = 3;
-			CycleGroupDisplay.TabStop = false;
-			CycleGroupDisplay.MouseDown += OverlayArea_MouseDown;
-			CycleGroupDisplay.MouseEnter += OverlayArea_MouseEnter;
-			CycleGroupDisplay.MouseLeave += OverlayArea_MouseLeave;
-			CycleGroupDisplay.MouseMove += OverlayArea_MouseMove;
-			CycleGroupDisplay.MouseUp += OverlayArea_MouseUp;
+			CycleGroupIndicator.BackColor = System.Drawing.Color.Transparent;
+			CycleGroupIndicator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			CycleGroupIndicator.Image = (System.Drawing.Image)resources.GetObject("CycleGroupIndicator.Image");
+			CycleGroupIndicator.Location = new System.Drawing.Point(354, 12);
+			CycleGroupIndicator.Name = "CycleGroupIndicator";
+			CycleGroupIndicator.Size = new System.Drawing.Size(72, 78);
+			CycleGroupIndicator.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			CycleGroupIndicator.TabIndex = 3;
+			CycleGroupIndicator.TabStop = false;
+			CycleGroupIndicator.MouseDown += OverlayArea_MouseDown;
+			CycleGroupIndicator.MouseEnter += OverlayArea_MouseEnter;
+			CycleGroupIndicator.MouseLeave += OverlayArea_MouseLeave;
+			CycleGroupIndicator.MouseMove += OverlayArea_MouseMove;
+			CycleGroupIndicator.MouseUp += OverlayArea_MouseUp;
 			// 
 			// ThumbnailOverlay
 			// 
@@ -95,7 +95,7 @@
 			ClientSize = new System.Drawing.Size(438, 351);
 			ControlBox = false;
 			Controls.Add(OverlayLabel);
-			Controls.Add(CycleGroupDisplay);
+			Controls.Add(CycleGroupIndicator);
 			Controls.Add(OverlayAreaPictureBox);
 			FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			MaximizeBox = false;
@@ -107,7 +107,7 @@
 			Text = "PreviewOverlay";
 			TransparencyKey = System.Drawing.Color.FromArgb(0, 0, 1);
 			((System.ComponentModel.ISupportInitialize)OverlayAreaPictureBox).EndInit();
-			((System.ComponentModel.ISupportInitialize)CycleGroupDisplay).EndInit();
+			((System.ComponentModel.ISupportInitialize)CycleGroupIndicator).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 
@@ -117,6 +117,6 @@
 
 		private System.Windows.Forms.Label OverlayLabel;
 		private System.Windows.Forms.PictureBox OverlayAreaPictureBox;
-		private System.Windows.Forms.PictureBox CycleGroupDisplay;
+		private System.Windows.Forms.PictureBox CycleGroupIndicator;
 	}
 }

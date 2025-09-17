@@ -104,7 +104,7 @@ namespace EveOPreview.View
 				SetDefaultBorderColor();
 				SetPreventPreviews();
 				this._overlay.EnableFakePreview(this._preventPreviews.Value, false, 0, SystemColors.Control);
-				this._overlay.SetCycleStatusLabel(this.IsExcludedFromCycleGroup);
+				this._overlay.SetCycleGroupIndicator(this.IsExcludedFromCycleGroup , _config.CycleGroupIndicatorAnchor);
 			}
 		}
 
@@ -286,9 +286,9 @@ namespace EveOPreview.View
 		public void SetOverlayLabel()
 		{
 		}
-		public void SetCycleStatusLabel(bool displayCycleGroup)
+		public void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor)
 		{
-			this._overlay.SetCycleStatusLabel(displayCycleGroup);
+			this._overlay.SetCycleGroupIndicator(displayCycleGroup, anchor);
 		}
 
 		public void SetTopMost(bool enableTopmost)

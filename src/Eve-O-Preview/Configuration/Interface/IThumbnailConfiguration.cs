@@ -61,7 +61,8 @@ namespace EveOPreview.Configuration
 		bool ThumbnailZoomEnabled { get; set; }
 		int ThumbnailZoomFactor { get; set; }
 		ZoomAnchor ThumbnailZoomAnchor { get; set; }
-		ZoomAnchor OverlayLabelAnchor {  get; set; }
+		ZoomAnchor OverlayLabelAnchor { get; set; }
+		ZoomAnchor CycleGroupIndicatorAnchor { get; set; }
 
 		bool ShowThumbnailOverlays { get; set; }
 		bool ShowThumbnailFrames { get; set; }
