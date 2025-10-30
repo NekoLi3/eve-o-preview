@@ -304,7 +304,9 @@ namespace EveOPreview.Services.Implementation
 			// Check if there is anything to make thumbnail of
 			if ((width < WINDOW_SIZE_THRESHOLD) || (height < WINDOW_SIZE_THRESHOLD))
 			{
-				return null;
+                User32NativeMethods.ReleaseDC(source, sourceContext);
+
+                return null;
 			}
 
 			var destContext = Gdi32NativeMethods.CreateCompatibleDC(sourceContext);
