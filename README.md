@@ -4,6 +4,10 @@ The purpose of this application is to provide a simple way to keep an eye on sev
 
 It's essentially a task switcher, it does not relay any keyboard/mouse events and suchlike. The application works with EVE, EVE through Steam, or any combination thereof.
 
+If you have questions come to the Discord and chat.
+
+Discord: https://discord.gg/xYt8R9AFXB
+
 The program does NOT (and will NOT ever) do the following things:
 
 * modify EVE Online interface
@@ -361,4 +365,5 @@ https://bitbucket.org/ulph/eve-o-preview-git
 ## CCP Copyright Notice
 
 EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. CCP hf. has granted permission to Eve-O-Preview to use EVE Online and all associated logos and designs for promotional and information purposes on its website but does not endorse, and is not in any way affiliated with, Eve-O-Preview. CCP is in no way responsible for the content on or functioning of this program, nor can it be liable for any damage arising from the use of this program. 
+
 
