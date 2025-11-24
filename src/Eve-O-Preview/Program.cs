@@ -37,6 +37,9 @@ namespace EveOPreview
 			IApplicationController controller = Program.InitializeApplicationController();
 
 			Program.InitializeWinForms();
+
+			Application.SetCompatibleTextRenderingDefault(false);
+
 			controller.Run<MainFormPresenter>();
 		}
 

@@ -27,7 +27,10 @@ namespace EveOPreview.Configuration
 		Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
 
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
+		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
+		Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 		Dictionary<string, Size> PerClientThumbnailSize { get; set; }
+		Dictionary<string, bool> CycleGroupExclusions { get; set; }
 
 		bool MinimizeToTray { get; set; }
 		int ThumbnailRefreshPeriod { get; set; }
@@ -40,10 +43,12 @@ namespace EveOPreview.Configuration
 		bool HideActiveClientThumbnail { get; set; }
 		bool HideLoginClientThumbnail { get; set; }
 		bool MinimizeInactiveClients { get; set; }
+		bool HideCaptionOnClients { get; set; }
 		AnimationStyle WindowsAnimationStyle { get; set; }
 		bool ShowThumbnailsAlwaysOnTop { get; set; }
 		bool EnablePerClientThumbnailLayouts { get; set; }
 
+		bool PreventPreviews { get; set; }
 		bool HideThumbnailsOnLostFocus { get; set; }
 		int HideThumbnailsDelay { get; set; }
 
@@ -56,7 +61,8 @@ namespace EveOPreview.Configuration
 		bool ThumbnailZoomEnabled { get; set; }
 		int ThumbnailZoomFactor { get; set; }
 		ZoomAnchor ThumbnailZoomAnchor { get; set; }
-		ZoomAnchor OverlayLabelAnchor {  get; set; }
+		ZoomAnchor OverlayLabelAnchor { get; set; }
+		ZoomAnchor CycleGroupIndicatorAnchor { get; set; }
 
 		bool ShowThumbnailOverlays { get; set; }
 		bool ShowThumbnailFrames { get; set; }
@@ -67,11 +73,13 @@ namespace EveOPreview.Configuration
 
 		bool EnableActiveClientHighlight { get; set; }
 		Color ActiveClientHighlightColor { get; set; }
+		Color PreventPreviewColor { get; set; }
 		int ActiveClientHighlightThickness { get; set; }
 		Color OverlayLabelColor { get; set; }
-		int OverlayLabelSize { get; set; }
+		Font OverlayLabelFont { get; set; }
 
 		string IconName { get; set; }
+		List<string> MinimizeAllClientsHotkeys { get; set; }
 
 		Point LoginThumbnailLocation { get; set; }
 
@@ -86,7 +94,6 @@ namespace EveOPreview.Configuration
 		Keys GetClientHotkey(string currentClient);
 		void SetClientHotkey(string currentClient, Keys hotkey);
 		Keys StringToKey(string hotkey);
-
 		bool IsPriorityClient(string currentClient);
 		bool IsExecutableToPreview(string processName);
 

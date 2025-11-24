@@ -12,7 +12,7 @@ namespace EveOPreview.Presenters
 	public class MainFormPresenter : Presenter<IMainFormView>, IMainFormPresenter
 	{
 		#region Private constants
-		private const string FORUM_URL = @"https://forum.eveonline.com/t/4202";
+		private const string FORUM_URL = @"https://forums.eveonline.com/t/eve-o-preview-v8-0-2-0";
 		#endregion
 
 		#region Private fields
@@ -109,8 +109,10 @@ namespace EveOPreview.Presenters
 			this.View.EnableClientLayoutTracking = this._configuration.EnableClientLayoutTracking;
 			this.View.HideActiveClientThumbnail = this._configuration.HideActiveClientThumbnail;
 			this.View.MinimizeInactiveClients = this._configuration.MinimizeInactiveClients;
+			this.View.HideCaptionOnClients = this._configuration.HideCaptionOnClients;
 			this.View.WindowsAnimationStyle = ViewAnimationStyleConverter.Convert(this._configuration.WindowsAnimationStyle);
 			this.View.ShowThumbnailsAlwaysOnTop = this._configuration.ShowThumbnailsAlwaysOnTop;
+			this.View.PreventPreviews = this._configuration.PreventPreviews;
 			this.View.HideThumbnailsOnLostFocus = this._configuration.HideThumbnailsOnLostFocus;
 			this.View.EnablePerClientThumbnailLayouts = this._configuration.EnablePerClientThumbnailLayouts;
 
@@ -121,6 +123,7 @@ namespace EveOPreview.Presenters
 			this.View.ThumbnailZoomFactor = this._configuration.ThumbnailZoomFactor;
 			this.View.ThumbnailZoomAnchor = ViewZoomAnchorConverter.Convert(this._configuration.ThumbnailZoomAnchor);
 			this.View.OverlayLabelAnchor = ViewZoomAnchorConverter.Convert(this._configuration.OverlayLabelAnchor);
+			this.View.CycleGroupIndicatorAnchor = ViewZoomAnchorConverter.Convert(this._configuration.CycleGroupIndicatorAnchor);
 
 			this.View.ShowThumbnailOverlays = this._configuration.ShowThumbnailOverlays;
 			this.View.ShowThumbnailFrames = this._configuration.ShowThumbnailFrames;
@@ -130,9 +133,11 @@ namespace EveOPreview.Presenters
 			this.View.ThumbnailSnapToGridSizeY = this._configuration.ThumbnailSnapToGridSizeY;
 			this.View.EnableActiveClientHighlight = this._configuration.EnableActiveClientHighlight;
 			this.View.ActiveClientHighlightColor = this._configuration.ActiveClientHighlightColor;
+			this.View.PreventPreviewColor = this._configuration.PreventPreviewColor;
 
 			this.View.OverlayLabelColor = this._configuration.OverlayLabelColor;
-			this.View.OverlayLabelSize = this._configuration.OverlayLabelSize;
+			this.View.OverlayLabelFont = this._configuration.OverlayLabelFont;
+
 
 			this.View.IconName = this._configuration.IconName;
 		}
@@ -146,8 +151,20 @@ namespace EveOPreview.Presenters
 			this._configuration.EnableClientLayoutTracking = this.View.EnableClientLayoutTracking;
 			this._configuration.HideActiveClientThumbnail = this.View.HideActiveClientThumbnail;
 			this._configuration.MinimizeInactiveClients = this.View.MinimizeInactiveClients;
+
+			if (this._configuration.HideCaptionOnClients != this.View.HideCaptionOnClients ) {
+				this._configuration.HideCaptionOnClients = this.View.HideCaptionOnClients;
+				await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
+			}
 			this._configuration.WindowsAnimationStyle = ViewAnimationStyleConverter.Convert(this.View.WindowsAnimationStyle); 
             this._configuration.ShowThumbnailsAlwaysOnTop = this.View.ShowThumbnailsAlwaysOnTop;
+
+			if (this._configuration.PreventPreviews != this.View.PreventPreviews)
+			{
+				this._configuration.PreventPreviews = this.View.PreventPreviews;
+				await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
+			}
+
 			this._configuration.HideThumbnailsOnLostFocus = this.View.HideThumbnailsOnLostFocus;
 			this._configuration.EnablePerClientThumbnailLayouts = this.View.EnablePerClientThumbnailLayouts;
 
@@ -157,6 +174,12 @@ namespace EveOPreview.Presenters
 			this._configuration.ThumbnailZoomFactor = this.View.ThumbnailZoomFactor;
 			this._configuration.ThumbnailZoomAnchor = ViewZoomAnchorConverter.Convert(this.View.ThumbnailZoomAnchor);
 			this._configuration.OverlayLabelAnchor = ViewZoomAnchorConverter.Convert(this.View.OverlayLabelAnchor);
+
+			if (this._configuration.CycleGroupIndicatorAnchor != ViewZoomAnchorConverter.Convert(this.View.CycleGroupIndicatorAnchor))
+			{
+				this._configuration.CycleGroupIndicatorAnchor = ViewZoomAnchorConverter.Convert(this.View.CycleGroupIndicatorAnchor);
+				await this._mediator.Publish(new ThumbnailCycleGroupIndicatorUpdated());
+			}
 
 			this._configuration.ShowThumbnailOverlays = this.View.ShowThumbnailOverlays;
 			if (this._configuration.ShowThumbnailFrames != this.View.ShowThumbnailFrames)
@@ -173,8 +196,14 @@ namespace EveOPreview.Presenters
             this._configuration.EnableActiveClientHighlight = this.View.EnableActiveClientHighlight;
 			this._configuration.ActiveClientHighlightColor = this.View.ActiveClientHighlightColor;
 
+			if (this._configuration.PreventPreviewColor != this.View.PreventPreviewColor)
+			{
+				this._configuration.PreventPreviewColor = this.View.PreventPreviewColor;
+				await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
+			}
+
 			this._configuration.OverlayLabelColor = this.View.OverlayLabelColor;
-			this._configuration.OverlayLabelSize = this.View.OverlayLabelSize;
+			this._configuration.OverlayLabelFont = this.View.OverlayLabelFont;
 
 			this._configuration.IconName = this.View.IconName;
 

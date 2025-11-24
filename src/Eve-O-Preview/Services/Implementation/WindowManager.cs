@@ -80,7 +80,7 @@ namespace EveOPreview.Services.Implementation
 			return User32NativeMethods.GetForegroundWindow();
 		}
 
-		private void TurnOffAnimation()
+		public void TurnOffAnimation()
 		{
 			var currentAnimationSetup = User32NativeMethods.SystemParametersInfo(User32NativeMethods.SPI_GETANIMATION, (System.Int32)Marshal.SizeOf(typeof(ANIMATIONINFO)), ref _animationParam, 0);
 			if (_currentAnimationSetting == null)
@@ -97,7 +97,7 @@ namespace EveOPreview.Services.Implementation
 			}
 		}
 
-		private void RestoreAnimation()
+		public void RestoreAnimation()
 		{
 			var currentAnimationSetup = User32NativeMethods.SystemParametersInfo(User32NativeMethods.SPI_GETANIMATION, (System.Int32)Marshal.SizeOf(typeof(ANIMATIONINFO)), ref _animationParam, 0);
 			// Restore current Animation Settings
@@ -115,7 +115,7 @@ namespace EveOPreview.Services.Implementation
 			User32NativeMethods.SetForegroundWindow(handle);
 			User32NativeMethods.SetFocus(handle);
 
-			int style = User32NativeMethods.GetWindowLong(handle, InteropConstants.GWL_STYLE);
+			uint style = User32NativeMethods.GetWindowLong(handle, InteropConstants.GWL_STYLE);
 
 			if ((style & InteropConstants.WS_MINIMIZE) == InteropConstants.WS_MINIMIZE)
 			{
@@ -202,7 +202,7 @@ namespace EveOPreview.Services.Implementation
 			User32NativeMethods.SetForegroundWindow(handle);
 			User32NativeMethods.SetFocus(handle);
 
-			int style = User32NativeMethods.GetWindowLong(handle, InteropConstants.GWL_STYLE);
+			uint style = User32NativeMethods.GetWindowLong(handle, InteropConstants.GWL_STYLE);
 
 			if ((style & InteropConstants.WS_MINIMIZE) == InteropConstants.WS_MINIMIZE)
 			{

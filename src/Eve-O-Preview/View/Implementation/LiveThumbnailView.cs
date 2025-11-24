@@ -27,11 +27,11 @@ namespace EveOPreview.View
 			// To prevent flickering the old broken thumbnail is removed AFTER the new shiny one is created
 			IDwmThumbnail obsoleteThumbnail = forceRefresh ? this._thumbnail : null;
 
-			if ((this._thumbnail == null) || forceRefresh)
+			if ((this._thumbnail == null) || forceRefresh && ! this.IsPreventPreviews() )
 			{
 				this.RegisterThumbnail();
 			}
-
+			
 			obsoleteThumbnail?.Unregister();
 		}
 

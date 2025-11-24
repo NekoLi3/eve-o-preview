@@ -17,8 +17,10 @@ namespace EveOPreview.View
 		bool EnableClientLayoutTracking { get; set; }
 		bool HideActiveClientThumbnail { get; set; }
 		bool MinimizeInactiveClients { get; set; }
-        ViewAnimationStyle WindowsAnimationStyle { get; set; }
+		bool HideCaptionOnClients { get; set; }
+		ViewAnimationStyle WindowsAnimationStyle { get; set; }
         bool ShowThumbnailsAlwaysOnTop { get; set; }
+		bool PreventPreviews { get; set; }
 		bool HideThumbnailsOnLostFocus { get; set; }
 		bool EnablePerClientThumbnailLayouts { get; set; }
 
@@ -28,6 +30,7 @@ namespace EveOPreview.View
 		int ThumbnailZoomFactor { get; set; }
 		ViewZoomAnchor ThumbnailZoomAnchor { get; set; }
 		ViewZoomAnchor OverlayLabelAnchor { get; set; }
+		ViewZoomAnchor CycleGroupIndicatorAnchor { get; set; }
 
 		bool ShowThumbnailOverlays { get; set; }
 		bool ShowThumbnailFrames { get; set; }
@@ -39,8 +42,9 @@ namespace EveOPreview.View
 
 		bool EnableActiveClientHighlight { get; set; }
 		Color ActiveClientHighlightColor { get; set; }
+		Color PreventPreviewColor { get; set; }
 		Color OverlayLabelColor { get; set; }
-		int OverlayLabelSize { get; set; }
+		Font OverlayLabelFont { get; set; }
 
 		string IconName { get; set; }
 

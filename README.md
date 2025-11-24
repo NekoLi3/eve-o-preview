@@ -34,6 +34,9 @@ Video Guides:
 
 * [Eve online , How To : EVE-O Preview (multiboxing; legal)](https://youtu.be/2r0NMKbogXU)
 
+Support:
+* Discord: https://discord.gg/xYt8R9AFXB
+
 ## Development Details
 We have migrated to a unified source code where Windows and Linux share the same code base. When doing do we also implemented the ability to build the source using Github Actions. If you would like to make changed to the code for yourself, fork this repo, make changes to the code as you see fit and actions will build the .exe files. If you would like to share your code changes with the community open a PR for approval.
 
@@ -75,6 +78,7 @@ CCP Grimmi wrote:
 | Hide preview of active EVE client | Determines whether the thumbnail corresponding to the active EVE client is not displayed |
 | Minimize inactive EVE clients | Allows to auto-minimize inactive EVE clients to save CPU and GPU |
 | Animation Style | Use original animation style (0) or No Animation style (1). You may find Original is cleaner with fixed window mode and No Animation is cleaner with windowed mode. Especially when using minimize inactive clients.
+| Hide caption bar on clients | Hides (or shows) caption bar on eve clients |
 | Previews always on top | Determines whether EVE client thumbnails should stay on top of all other windows |
 | Hide previews when EVE client is not active | Determines whether all thumbnails should be visible only when an EVE client is active |
 | Unique layout for each EVE client | Determines whether thumbnails positions are different depending on the EVE client being active |
@@ -88,6 +92,8 @@ CCP Grimmi wrote:
 | Lock Thumbnail Location | Lock position of thumbnails, preventing misclicks moving your thumbnails |
 | Thumbnail Snap to Grid | Force Thumbnails to snap to defined grid when moved |
 | Snap X / Snap Y | X/Y grid Pixels |
+| Do not display previews | Prevent previews to show of clients - unless overridden by PerClient settings |
+| Do not display previews background color | Background colour to use for preview windows if not showing preview (and not overridden by PerClient settings). Do NOT select #000001 else you will be clashing with Transparency settings. |
 
 #### **Zoom** Tab
 | Option | Description |
@@ -103,7 +109,8 @@ CCP Grimmi wrote:
 | Show frames | Determines whether thumbnails should be displays with window caption and borders |
 | Highlight active client | Determines whether the thumbnail of the active EVE client should be highlighted with a bright border |
 | Color | Color used to highlight the active client's thumbnail in case the corresponding option is set |
-| Label Size | The fontsize of the overlay label (Character Name) |
+| Cycle Group Indicator Position | The position of Exclude from Cycle Group Indicator |
+| Label Font | The font name, style and size of the overlay label (Character Name) |
 | Label Color | The color of the Font for the Overlay Label |
 | Position | The position of the overlay label in the thumbnail |
 
@@ -122,6 +129,7 @@ Mouse gestures are applied to the thumbnail window currently being hovered over.
 | --- | --- |
 | Activate the EVE Online client and bring it to front  | Click the thumbnail |
 | Minimize the EVE Online client | Hold Control key and click the thumbnail |
+| Toggle the EVE Online client inclusion in the configured cycle groups[| Hold Shift key and click the thumbnail |
 | Switch to the last used application that is not an EVE Online client | Hold Control + Shift keys and click any thumbnail |
 | Move thumbnail to a new position | Press right mouse button and move the mouse |
 | Adjust thumbnail height | Press both left and right mouse buttons and move the mouse up or down |
@@ -239,6 +247,15 @@ Should you wish to remove these HotKeys completely, Simply set the values to emp
 	  "CycleGroup5BackwardHotkeys": [],
 	  "CycleGroup5ClientsOrder": {}
 
+### Minimize All Clients with Hotkey Setup
+
+In a similar pattern to the per client Hotkey Setup, It is possible to set a key combinations to Minimize all the Eve Windows. EVE-O Preview doesn't provide any GUI to set the these hotkeys. It should be done via editing the configuration file directly. Don't forget to make a backup copy of the file before editing it.
+
+  "MinimizeAllClientsHotkeys": [
+    "F22"
+  ],
+
+
 **Hints** 
 * Minimise the use of modifiers or standard keys to minimise issues with the client playing up. In the default example unusual Function keys (e.g. F14) are used which are then bound to a game pad or gaming mouse.
 * The Eve client can be somewhat less than stable, often getting confused as client focus switches. It is near certain that you will experience issues such as keys sticking or even in some cases D-Scan running each time the client swaps. So far I have found no perfect solution and opt for the most stable solution instead, of sticking to the F14+ keys.
@@ -300,6 +317,41 @@ You should modify this entry with a list of each of your clients replacing "Exam
 Valid values are 0-8 : 0-NW, 1-North, 2-NE, 3-West, 4-Center, 5-East, 6-SW, 7-South, 8-SE.
 
 If a client does not appear in this list, then it will use the global Zoom Anchor by default.
+
+### Per Client Prevent Preview
+Would you like to prevent previews of some clients, or enforce preview of some clients ?
+
+EVE-O Preview doesn't provide any GUI to set the these per client overrides as yet. Though, It can be done via editing the configuration file directly. 
+**Note** Don't forget to make a backup copy of the file before editing it.
+
+Open the file using any text editor. find the entry **PerClientZoomAnchor**. Most probably it will look like
+
+  "PerClientPreventPreviews": {
+      "EVE - Example Toon 1": false,
+      "EVE - Example Toon 2": true
+    }
+
+You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to enforce always showing preview (if not minimized) or never showing preview.
+
+If a client does not appear in this list, then it will use the global Prevent Preview by default.
+
+### Per Client Prevent Preview Color
+Would you like different background colors for specific clients when you prevent preview on those clients ?
+
+EVE-O Preview doesn't provide any GUI to set the these per client overrides as yet. Though, It can be done via editing the configuration file directly. 
+**Note** Don't forget to make a backup copy of the file before editing it.
+
+Open the file using any text editor. find the entry **PerClientPreventPreviewColor**. Most probably it will look like
+
+"PerClientPreventPreviewColor": {
+      "EVE - Example Toon 1": "Red",
+      "EVE - Example Toon 2": "Blue"
+    }
+
+You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a background color for when that client has prevent preview true (either Per Client or global). Do NOT select #000001 else you will be clashing with Transparency settings.
+
+If a client does not appear in this list, then it will use the global Prevent Preview Color by default.
+
 ### Compatibility Mode
 
 This setting allows to enable an alternate thumbnail render. This render doesn't use advanced DWM API to create live previews. Instead it is a screenshot-based render with the following pros and cons:

@@ -44,6 +44,8 @@ namespace EveOPreview.View
 
 		private IThumbnailConfiguration _config;
 		private Lazy<Color> _myBorderColor;
+		private Lazy<Color> _preventPreviewColor;
+		private Lazy<bool> _preventPreviews;
 		private IThumbnailManager _thumbnailManager;
 		#endregion
 
@@ -58,6 +60,8 @@ namespace EveOPreview.View
 
 			this.IsOverlayEnabled = false;
 			this._isOverlayVisible = false;
+			this.IsExcludedFromCycleGroup = false;
+
 			this._isTopMost = false;
 			this._isHighlightEnabled = false;
 			this._isHighlightRequested = false;
@@ -71,9 +75,17 @@ namespace EveOPreview.View
 
 			InitializeComponent();
 
-			this._overlay = new ThumbnailOverlay(this, this.MouseDown_Handler);
+			this._overlay = new ThumbnailOverlay(this,
+				this.MouseEnter_Handler,
+				this.MouseLeave_Handler,
+				this.MouseDown_Handler,
+				this.MouseUp_Handler,
+				this.MouseMove_Handler
+				);
 
 			SetDefaultBorderColor();
+			SetPreventPreviews();
+			this._overlay.EnableFakePreview(this._preventPreviews.Value, false, 0, SystemColors.Control);
 			this._thumbnailManager = thumbnailManager;
 		}
 
@@ -88,14 +100,18 @@ namespace EveOPreview.View
 			{
 				this.Text = value;
 				this._overlay.SetOverlayLabel(value.Replace("EVE - ", "").Replace("EVE Frontier - ", "*"));
-				this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelSize, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
+				this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
 				SetDefaultBorderColor();
+				SetPreventPreviews();
+				this._overlay.EnableFakePreview(this._preventPreviews.Value, false, 0, SystemColors.Control);
+				this._overlay.SetCycleGroupIndicator(this.IsExcludedFromCycleGroup , _config.CycleGroupIndicatorAnchor);
 			}
 		}
 
 		public bool IsActive { get; set; }
 
 		public bool IsOverlayEnabled { get; set; }
+		public bool IsExcludedFromCycleGroup { get; set; }
 		public ZoomAnchor ClientZoomAnchor { get; set; }
 
 		public Point ThumbnailLocation
@@ -125,6 +141,7 @@ namespace EveOPreview.View
 		public Action<IntPtr> ThumbnailActivated { get; set; }
 
 		public Action<IntPtr, bool> ThumbnailDeactivated { get; set; }
+		public Action<IntPtr> ThumbnailToggleCycleGroup { get; set; }
 
 		private bool WindowMoved = false;
 
@@ -139,6 +156,37 @@ namespace EveOPreview.View
 				else
 				{
 					return _config.ActiveClientHighlightColor;
+				}
+			});
+		}
+
+		public bool IsPreventPreviews()
+		{
+			return this._preventPreviews.Value;
+		}
+		public void SetPreventPreviews()
+		{
+			this._preventPreviews = new Lazy<bool>(() =>
+			{
+				if (this._config.PerClientPreventPreviews.Any(x => x.Key == this.Title))
+				{
+					return this._config.PerClientPreventPreviews[Title];
+				}
+				else
+				{
+					return _config.PreventPreviews;
+				}
+			});
+
+			this._preventPreviewColor = new Lazy<Color>(() =>
+			{
+				if (this._config.PerClientPreventPreviewColor.Any(x => x.Key == this.Title))
+				{
+					return this._config.PerClientPreventPreviewColor[Title];
+				}
+				else
+				{
+					return _config.PreventPreviewColor;
 				}
 			});
 		}
@@ -164,6 +212,7 @@ namespace EveOPreview.View
 
 			this.IsActive = false;
 
+			this._isOverlayVisible = false;
 			this._overlay.Hide();
 			base.Hide();
 		}
@@ -237,6 +286,10 @@ namespace EveOPreview.View
 		public void SetOverlayLabel()
 		{
 		}
+		public void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor)
+		{
+			this._overlay.SetCycleGroupIndicator(displayCycleGroup, anchor);
+		}
 
 		public void SetTopMost(bool enableTopmost)
 		{
@@ -272,7 +325,7 @@ namespace EveOPreview.View
 			else
 			{
 				this._isHighlightRequested = false;
-				this.BackColor = SystemColors.Control;
+				this.BackColor = Color.Black;
 			}
 
 			this._isSizeChanged = true;
@@ -401,6 +454,7 @@ namespace EveOPreview.View
 			{
 				//No highlighting enabled, so no math required
 				this.ResizeThumbnail(baseWidth, baseHeight, 0, 0, 0, 0);
+				this._overlay.EnableFakePreview(this._preventPreviews.Value,false, 0, this._preventPreviewColor.Value);
 				return;
 			}
 
@@ -412,6 +466,7 @@ namespace EveOPreview.View
 			int highlightWidthLeft = (baseWidth - actualWidth) / 2;
 			int highlightWidthRight = baseWidth - actualWidth - highlightWidthLeft;
 
+			this._overlay.EnableFakePreview(this._preventPreviews.Value, true, this._highlightWidth, this._preventPreviewColor.Value);
 			this.ResizeThumbnail(this.ClientSize.Width, this.ClientSize.Height, this._highlightWidth, highlightWidthRight, this._highlightWidth, highlightWidthLeft);
 		}
 
@@ -426,7 +481,7 @@ namespace EveOPreview.View
 			// Only show overlay if enabled AND thumbnail is active/visible.
 			this._overlay.EnableOverlayLabel(this.IsOverlayEnabled && this.Visible);
 
-			if (!this._isOverlayVisible)
+			if (!this._isOverlayVisible && ((this.IsOverlayEnabled && this.Visible) || this.IsPreventPreviews() ) && !_config.IsThumbnailDisabled(this.Title) )
 			{
 				// One-time action to show the Overlay before it is set up
 				// Otherwise its position won't be set
@@ -444,7 +499,7 @@ namespace EveOPreview.View
 			this._isLocationChanged = false;
 			this._overlay.Size = overlaySize;
 
-			this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelSize, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
+			this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
 
 			this._overlay.Location = overlayLocation;
 			this._overlay.Refresh();
@@ -608,6 +663,9 @@ namespace EveOPreview.View
 			{
 				case MouseButtons.Left when modifierKeys == Keys.Control:
 					this.ThumbnailDeactivated?.Invoke(this.Id, false);
+					break;
+				case MouseButtons.Left when modifierKeys == Keys.Shift:
+					this.ThumbnailToggleCycleGroup?.Invoke(this.Id);
 					break;
 				case MouseButtons.Left when modifierKeys == (Keys.Control | Keys.Shift):
 					this.ThumbnailDeactivated?.Invoke(this.Id, true);

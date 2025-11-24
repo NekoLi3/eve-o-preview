@@ -16,8 +16,10 @@ namespace EveOPreview.View
 		private readonly ApplicationContext _context;
 		private readonly Dictionary<ViewZoomAnchor, RadioButton> _zoomAnchorMap;
 		private readonly Dictionary<ViewZoomAnchor, RadioButton> _overlayLabelMap;
+		private readonly Dictionary<ViewZoomAnchor, RadioButton> _cycleGroupIndicatorMap;
 		private ViewZoomAnchor _cachedThumbnailZoomAnchor;
 		private ViewZoomAnchor _cachedOverlayLabelAnchor;
+		private ViewZoomAnchor _cachedCycleGroupIndicatorAnchor;
 		private bool _suppressEvents;
 		private Size _minimumSize;
 		private Size _maximumSize;
@@ -29,6 +31,7 @@ namespace EveOPreview.View
 			this._context = context;
 			this._zoomAnchorMap = new Dictionary<ViewZoomAnchor, RadioButton>();
 			this._overlayLabelMap = new Dictionary<ViewZoomAnchor, RadioButton>();
+			this._cycleGroupIndicatorMap = new Dictionary<ViewZoomAnchor, RadioButton>();
 			this._cachedThumbnailZoomAnchor = ViewZoomAnchor.NW;
 			this._suppressEvents = false;
 			this._minimumSize = new Size(20, 20);
@@ -40,6 +43,7 @@ namespace EveOPreview.View
 
 			this.InitZoomAnchorMap();
 			this.InitOverlayLabelMap();
+			this.InitCycleGroupIndicatorMap();
 			this.InitFormSize();
 
 			this.AnimationStyleCombo.DataSource = Enum.GetValues(typeof(AnimationStyle));
@@ -54,7 +58,8 @@ namespace EveOPreview.View
 		public string IconName
 		{
 			get => this._iconName;
-			set {
+			set
+			{
 
 
 				this._iconName = value;
@@ -124,6 +129,11 @@ namespace EveOPreview.View
 			get => this.MinimizeInactiveClientsCheckBox.Checked;
 			set => this.MinimizeInactiveClientsCheckBox.Checked = value;
 		}
+		public bool HideCaptionOnClients
+		{
+			get => this.HideCaptionOnClientsCheckBox.Checked;
+			set => this.HideCaptionOnClientsCheckBox.Checked = value;
+		}
 		public ViewAnimationStyle WindowsAnimationStyle
 		{
 			get => (ViewAnimationStyle)this.AnimationStyleCombo.SelectedItem;
@@ -134,6 +144,11 @@ namespace EveOPreview.View
 		{
 			get => this.ShowThumbnailsAlwaysOnTopCheckBox.Checked;
 			set => this.ShowThumbnailsAlwaysOnTopCheckBox.Checked = value;
+		}
+		public bool PreventPreviews
+		{
+			get => this.PreventPreviewsCheckBox.Checked;
+			set => this.PreventPreviewsCheckBox.Checked = value;
 		}
 
 		public bool HideThumbnailsOnLostFocus
@@ -234,6 +249,36 @@ namespace EveOPreview.View
 			}
 		}
 
+		public ViewZoomAnchor CycleGroupIndicatorAnchor
+		{
+			get
+			{
+				if (this._cycleGroupIndicatorMap[this._cachedCycleGroupIndicatorAnchor].Checked)
+				{
+					return this._cachedCycleGroupIndicatorAnchor;
+				}
+
+				foreach (KeyValuePair<ViewZoomAnchor, RadioButton> valuePair in this._cycleGroupIndicatorMap)
+				{
+					if (!valuePair.Value.Checked)
+					{
+						continue;
+					}
+
+					this._cachedCycleGroupIndicatorAnchor = valuePair.Key;
+					return this._cachedCycleGroupIndicatorAnchor;
+				}
+
+				// Default Value
+				return ViewZoomAnchor.NW;
+			}
+			set
+			{
+				this._cachedCycleGroupIndicatorAnchor = value;
+				this._cycleGroupIndicatorMap[this._cachedCycleGroupIndicatorAnchor].Checked = true;
+			}
+		}
+
 		public bool ShowThumbnailOverlays
 		{
 			get => this.ShowThumbnailOverlaysCheckBox.Checked;
@@ -283,6 +328,17 @@ namespace EveOPreview.View
 		}
 		private Color _activeClientHighlightColor;
 
+		public Color PreventPreviewColor
+		{
+			get => this._preventPreviewColor;
+			set
+			{
+				this._preventPreviewColor = value;
+				this.PreventPreviewColorButton.BackColor = value;
+			}
+		}
+		private Color _preventPreviewColor;
+
 		public Color OverlayLabelColor
 		{
 			get => this._OverlayLabelColor;
@@ -294,14 +350,17 @@ namespace EveOPreview.View
 		}
 		private Color _OverlayLabelColor;
 
-		public int OverlayLabelSize
+		public Font OverlayLabelFont
 		{
-			get => (int)this.OverlayLabelSizeNumericEdit.Value;
+			get => (Font)this._OverlayLabelFont;
 			set
 			{
-				this.OverlayLabelSizeNumericEdit.Value = value;
+				this._OverlayLabelFont = value;
+				this.LabelOverlayLabelFont.Font = value;
 			}
 		}
+		private Font _OverlayLabelFont;
+
 		public new void Show()
 		{
 			// Registers the current instance as the application's Main Form
@@ -534,15 +593,28 @@ namespace EveOPreview.View
 		private void InitOverlayLabelMap()
 		{
 			this._overlayLabelMap[ViewZoomAnchor.NW] = this.OverlayLabelNWRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.N] = this.OverlayLabelNRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.NE] = this.OverlayLabelNERadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.W] = this.OverlayLabelWRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.C] = this.OverlayLabelCRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.E] = this.OverlayLabelERadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.SW] = this.OverlayLabelSWRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.S] = this.OverlayLabelSRadioButton;
-            this._overlayLabelMap[ViewZoomAnchor.SE] = this.OverlayLabelSERadioButton;
-        }
+			this._overlayLabelMap[ViewZoomAnchor.N] = this.OverlayLabelNRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.NE] = this.OverlayLabelNERadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.W] = this.OverlayLabelWRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.C] = this.OverlayLabelCRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.E] = this.OverlayLabelERadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.SW] = this.OverlayLabelSWRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.S] = this.OverlayLabelSRadioButton;
+			this._overlayLabelMap[ViewZoomAnchor.SE] = this.OverlayLabelSERadioButton;
+		}
+		private void InitCycleGroupIndicatorMap()
+		{
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.NW] = this.CycleGroupIndicatorNWRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.N] = this.CycleGroupIndicatorNRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.NE] = this.CycleGroupIndicatorNERadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.W] = this.CycleGroupIndicatorWRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.C] = this.CycleGroupIndicatorCRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.E] = this.CycleGroupIndicatorERadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.SW] = this.CycleGroupIndicatorSWRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.S] = this.CycleGroupIndicatorSRadioButton;
+			this._cycleGroupIndicatorMap[ViewZoomAnchor.SE] = this.CycleGroupIndicatorSERadioButton;
+		}
+
 		private void InitFormSize()
 		{
 			const int BUFFER_PIXEL_AMOUNT = 8;
@@ -559,13 +631,36 @@ namespace EveOPreview.View
 			}
 		}
 
-		private void AnimationStyleCombo_SelectedIndexChanged(object sender, EventArgs e)
+		private void btnLabelFont_Click(object sender, EventArgs e)
 		{
-
+			FontDialog fontSelector = new FontDialog();
+			fontSelector.Font = OverlayLabelFont;
+			fontSelector.ShowColor = false;
+			fontSelector.ShowApply = false;
+			fontSelector.ShowHelp = false;
+			if (fontSelector.ShowDialog() != DialogResult.Cancel)
+			{
+				OverlayLabelFont = fontSelector.Font;
+				LabelOverlayLabelFont.Font = fontSelector.Font;
+				this.OptionChanged_Handler(sender, e);
+			}
 		}
 
-		private void GeneralSettingsPanel_Paint(object sender, PaintEventArgs e)
+		private void PreventPreviewColorButton_Click(object sender, EventArgs e)
 		{
+			using (ColorDialog dialog = new ColorDialog())
+			{
+				dialog.Color = this.PreventPreviewColor;
+
+				if (dialog.ShowDialog() != DialogResult.OK)
+				{
+					return;
+				}
+
+				this.PreventPreviewColor = dialog.Color;
+			}
+
+			this.OptionChanged_Handler(sender, e);
 
 		}
 	}

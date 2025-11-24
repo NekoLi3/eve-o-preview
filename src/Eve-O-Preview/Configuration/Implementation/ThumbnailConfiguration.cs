@@ -60,6 +60,16 @@ namespace EveOPreview.Configuration.Implementation
 				{"EVE - Example Toon 1", Color.Red},
 				{"EVE - Example Toon 2", Color.Green}
 			};
+			this.PerClientPreventPreviewColor = new Dictionary<string, Color>
+			{
+				{"EVE - Example Toon 1", Color.Red},
+				{"EVE - Example Toon 2", Color.Green}
+			};
+			this.PerClientPreventPreviews = new Dictionary<string, bool>
+			{
+				{"EVE - Example Toon 1", false},
+				{"EVE - Example Toon 2", true}
+			};
 
 			this.PerClientThumbnailSize = new Dictionary<string, Size>
 			{
@@ -77,6 +87,7 @@ namespace EveOPreview.Configuration.Implementation
 			this.FlatLayout = new Dictionary<string, Point>();
 			this.ClientLayout = new Dictionary<string, ClientLayout>();
 			this.ClientHotkey = new Dictionary<string, string>();
+			this.MinimizeAllClientsHotkeys = new List<string> { "Control+F22" };
 			this.DisableThumbnail = new Dictionary<string, bool>();
 			this.PriorityClients = new List<string>();
 
@@ -98,11 +109,13 @@ namespace EveOPreview.Configuration.Implementation
 			this.HideActiveClientThumbnail = false;
 			this.HideLoginClientThumbnail = false;
 			this.MinimizeInactiveClients = false;
+			this.HideCaptionOnClients = false;
 			this.WindowsAnimationStyle = AnimationStyle.NoAnimation;
 			this.ShowThumbnailsAlwaysOnTop = true;
 			this.EnablePerClientThumbnailLayouts = false;
 
 			this.HideThumbnailsOnLostFocus = false;
+			this.PreventPreviews = false;
 			this.HideThumbnailsDelay = 2; // 2 thumbnails refresh cycles (1.0 sec)
 
 			this.ThumbnailSize = new Size(384, 216);
@@ -114,9 +127,10 @@ namespace EveOPreview.Configuration.Implementation
 			this.ThumbnailZoomEnabled = false;
 			this.ThumbnailZoomFactor = 2;
 			this.ThumbnailZoomAnchor = ZoomAnchor.NW;
-            this.OverlayLabelAnchor = ZoomAnchor.NW;
+			this.OverlayLabelAnchor = ZoomAnchor.NW;
+			this.CycleGroupIndicatorAnchor = ZoomAnchor.NW;
 
-            this.ShowThumbnailOverlays = true;
+			this.ShowThumbnailOverlays = true;
 			this.ShowThumbnailFrames = false;
 			this.LockThumbnailLocation = false;
 
@@ -126,10 +140,11 @@ namespace EveOPreview.Configuration.Implementation
 
             this.EnableActiveClientHighlight = false;
 			this.ActiveClientHighlightColor = Color.GreenYellow;
+			this.PreventPreviewColor = Color.Purple;
 			this.ActiveClientHighlightThickness = 3;
 
 			this.OverlayLabelColor = Color.Orange;
-			this.OverlayLabelSize = 10;
+			this.OverlayLabelFont = new Font(FontFamily.GenericSansSerif,10.0F, FontStyle.Bold);
 
 			this.IconName = "";
 
@@ -139,6 +154,9 @@ namespace EveOPreview.Configuration.Implementation
 
 		[JsonProperty("ConfigVersion")]
 		public int ConfigVersion { get; set; }
+
+		[JsonIgnore]
+		public Dictionary<string, bool> CycleGroupExclusions { get; set; }
 
 		[JsonProperty("CycleGroup1ForwardHotkeys")]
 		public List<string> CycleGroup1ForwardHotkeys { get; set; }
@@ -185,8 +203,14 @@ namespace EveOPreview.Configuration.Implementation
 		[JsonProperty("CycleGroup5ClientsOrder")]
 		public Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
 
+		[JsonProperty("PerClientPreventPreviewColor")]
+		public Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
+
 		[JsonProperty("PerClientActiveClientHighlightColor")]
 		public Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
+
+		[JsonProperty("PerClientPreventPreviews")]
+		public Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 
 		[JsonProperty("PerClientThumbnailSize")]
 		public Dictionary<string, Size> PerClientThumbnailSize { get; set; }
@@ -220,6 +244,7 @@ namespace EveOPreview.Configuration.Implementation
 		public bool HideActiveClientThumbnail { get; set; }
 		public bool HideLoginClientThumbnail { get; set; }
 		public bool MinimizeInactiveClients { get; set; }
+		public bool HideCaptionOnClients { get; set; }
 		public AnimationStyle WindowsAnimationStyle { get; set; }
 		public bool ShowThumbnailsAlwaysOnTop { get; set; }
 
@@ -237,6 +262,7 @@ namespace EveOPreview.Configuration.Implementation
 			}
 		}
 
+		public bool PreventPreviews { get; set; }
 		public bool HideThumbnailsOnLostFocus { get; set; }
 		public int HideThumbnailsDelay { get; set; }
 
@@ -251,6 +277,7 @@ namespace EveOPreview.Configuration.Implementation
 		public int ThumbnailZoomFactor { get; set; }
 		public ZoomAnchor ThumbnailZoomAnchor { get; set; }
 		public ZoomAnchor OverlayLabelAnchor { get; set; }
+		public ZoomAnchor CycleGroupIndicatorAnchor { get; set; }
 
 		public bool ShowThumbnailOverlays { get; set; }
 		public bool ShowThumbnailFrames { get; set; }
@@ -262,8 +289,11 @@ namespace EveOPreview.Configuration.Implementation
 		public bool EnableActiveClientHighlight { get; set; }
 
 		public Color ActiveClientHighlightColor { get; set; }
+		public Color PreventPreviewColor { get; set; }
 		public Color OverlayLabelColor { get; set; }
-		public int OverlayLabelSize {  get; set; }
+
+		[JsonProperty]
+		public Font OverlayLabelFont { get; set; }
 		public string IconName { get; set; }
 
 		public int ActiveClientHighlightThickness { get; set; }
@@ -279,6 +309,8 @@ namespace EveOPreview.Configuration.Implementation
 		private Dictionary<string, ClientLayout> ClientLayout { get; set; }
 		[JsonProperty]
 		private Dictionary<string, string> ClientHotkey { get; set; }
+		[JsonProperty]
+		public List<string> MinimizeAllClientsHotkeys { get; set; }
 		[JsonProperty]
 		private Dictionary<string, bool> DisableThumbnail { get; set; }
 		[JsonProperty]
