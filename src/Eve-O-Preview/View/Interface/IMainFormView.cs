@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EveOPreview.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using EveOPreview.Configuration;
@@ -25,7 +26,7 @@ namespace EveOPreview.View
 		bool EnableClientLayoutTracking { get; set; }
 		bool HideActiveClientThumbnail { get; set; }
 		bool MinimizeInactiveClients { get; set; }
-		bool HideCaptionOnClients { get; set; }
+		ViewCaptionBarStyle CaptionOnClientsStyle { get; set; }
 		ViewAnimationStyle WindowsAnimationStyle { get; set; }
         bool ShowThumbnailsAlwaysOnTop { get; set; }
 		bool PreventPreviews { get; set; }

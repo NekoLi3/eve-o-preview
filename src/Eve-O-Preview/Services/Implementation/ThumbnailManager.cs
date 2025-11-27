@@ -960,9 +960,9 @@ namespace EveOPreview.Services
 
 		{
 			if (view.Title == ThumbnailManager.DEFAULT_CLIENT_TITLE) return;
-			IntPtr handle = view.Id;
+			if (this._configuration.CaptionOnClientsStyle == CaptionBarStyle.DoNothing) return;
 
-			bool enable = this._configuration.HideCaptionOnClients;
+			bool enable = (this._configuration.CaptionOnClientsStyle == CaptionBarStyle.ForceNoCaptionBar ? true : false) ;
 			bool changed = false;
 			changed = changed | SetWindowStyle(view, InteropConstants.WS_CAPTION, enable);
 			changed = changed | SetWindowStyle(view, InteropConstants.WS_THICKFRAME, enable);
