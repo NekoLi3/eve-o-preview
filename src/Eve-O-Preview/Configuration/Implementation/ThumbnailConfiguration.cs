@@ -78,6 +78,12 @@ namespace EveOPreview.Configuration.Implementation
 				{"EVE - Example Toon 2", true}
 			};
 
+			this.PerClientAliases = new Dictionary<string, string>
+			{
+				{"EVE - Example Toon 1", "Main"},
+				{"EVE - Example Toon 2", "Alt"}
+			};
+
 			this.PerClientThumbnailSize = new Dictionary<string, Size>
 			{
 				{"EVE - Example Toon 1", new Size(200, 200)},
@@ -237,6 +243,9 @@ namespace EveOPreview.Configuration.Implementation
 
 		[JsonProperty("PerClientPreventPreviews")]
 		public Dictionary<string, bool> PerClientPreventPreviews { get; set; }
+
+		[JsonProperty("PerClientAliases")]
+		public Dictionary<string, string> PerClientAliases { get; set; }
 
 		[JsonProperty("PerClientThumbnailSize")]
 		public Dictionary<string, Size> PerClientThumbnailSize { get; set; }

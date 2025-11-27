@@ -36,6 +36,7 @@ namespace EveOPreview.Configuration
 
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
+		Dictionary<string, string> PerClientAliases { get; set; }
 		Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 		Dictionary<string, Size> PerClientThumbnailSize { get; set; }
 		Dictionary<string, bool> CycleGroupExclusions { get; set; }

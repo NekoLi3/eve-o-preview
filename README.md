@@ -352,6 +352,23 @@ You should modify this entry with a list of each of your clients replacing "Exam
 
 If a client does not appear in this list, then it will use the global Prevent Preview Color by default.
 
+### Per Client Alias
+Would you like something other than the character name to appear in the preview window ? Maybe you want Main, Scout, Miner1,Miner2,etc... or just wish to hide your toon names when streaming on Eve-O-Previews....
+
+EVE-O Preview doesn't provide any GUI to set the these per client overrides as yet. Though, It can be done via editing the configuration file directly. 
+**Note** Don't forget to make a backup copy of the file before editing it.
+
+Open the file using any text editor. find the entry **PerClientAliases**. Most probably it will look like
+
+"PerClientAliases": {
+      "EVE - Example Toon 1": "Main",
+      "EVE - Example Toon 2": "Alt"
+    }
+
+You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a label for the preview overlay. 
+
+If a client does not appear in this list, then it will use the actual toon name.
+
 ### Compatibility Mode
 
 This setting allows to enable an alternate thumbnail render. This render doesn't use advanced DWM API to create live previews. Instead it is a screenshot-based render with the following pros and cons:
