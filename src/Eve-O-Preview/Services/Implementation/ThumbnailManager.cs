@@ -127,6 +127,19 @@ namespace EveOPreview.Services
 				this._windowManager.MinimizeWindow(x.Value.Id, this._configuration.WindowsAnimationStyle, false);
 			}
 		}
+
+		public void ShowAllClients()
+		{
+			foreach (var x in _thumbnailViews.Reverse())
+			{
+#if LINUX
+			this._windowManager.ActivateWindow(x.Value.Id, x.Value.Title);
+#else
+				this._windowManager.ActivateWindow(x.Value.Id, this._configuration.WindowsAnimationStyle);
+#endif
+			}
+		}
+
 		public void CycleNextClient(bool isForwards, Dictionary<string, int> cycleOrder)
 		{
 			IOrderedEnumerable<KeyValuePair<string, int>> clientOrder;
