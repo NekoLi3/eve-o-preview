@@ -46,12 +46,32 @@ namespace EveOPreview.Services.Implementation
 			this._syncRoot = new object();
 			this._characterSystems = new Dictionary<string, string>();
 
-			this._gamelogPath = string.IsNullOrEmpty(this._configuration.GamelogPath)
-				? Path.Combine(Path.GetTempPath(), GamelogMonitor.DEFAULT_GAMELOG_SUBDIRECTORY, GamelogMonitor.DEFAULT_GAMELOG_FILENAME)
-				: this._configuration.GamelogPath;
+			this._gamelogPath = this.ResolveGamelogPath();
 
 			this._lastPosition = 0;
 			this._stopped = true;
+		}
+
+		private string ResolveGamelogPath()
+		{
+			// Explicit user override wins
+			if (!string.IsNullOrEmpty(this._configuration.GamelogPath))
+			{
+				return this._configuration.GamelogPath;
+			}
+
+			// Modern EVE clients (launcher) write logs to Documents\EVE\logs\Gamelogs\gamelog.txt
+			string documentsLogsPath = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+				"EVE", "logs", "Gamelogs", GamelogMonitor.DEFAULT_GAMELOG_FILENAME);
+
+			if (File.Exists(documentsLogsPath) || Directory.Exists(Path.GetDirectoryName(documentsLogsPath)))
+			{
+				return documentsLogsPath;
+			}
+
+			// Legacy clients wrote the gamelog to %TMP%\EVE Online\gamelog.txt
+			return Path.Combine(Path.GetTempPath(), GamelogMonitor.DEFAULT_GAMELOG_SUBDIRECTORY, GamelogMonitor.DEFAULT_GAMELOG_FILENAME);
 		}
 
 		public void Start()

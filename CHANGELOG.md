@@ -3,6 +3,11 @@
 Cambios del fork privado sobre la base `Proopai/eve-o-preview` (rama `unified-source-build`).
 Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstream, `custom` cuenta releases del fork. A partir de 8.0.3.0 el minor sube con features grandes.
 
+## [8.0.3.1] — 2026-08-16
+
+### Fix
+- **Sistema solar en thumbnail no mostraba nada** (reportado por Rai): el `GamelogMonitor` buscaba el gamelog en `%TMP%\EVE Online\gamelog.txt` (clientes antiguos), pero el cliente moderno (launcher) escribe los logs en `Documents\EVE\logs\Gamelogs\gamelog.txt`. Ahora resuelve el path en orden: `GamelogPath` configurado → `Documents\EVE\logs\Gamelogs\gamelog.txt` (si existe el directorio) → fallback `%TMP%\EVE Online\gamelog.txt` (legacy).
+
 ## [8.0.3.0-custom.2] — 2026-08-16
 
 ### Agregado
