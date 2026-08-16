@@ -40,7 +40,7 @@
 			// OverlayAreaPictureBox
 			// 
 			OverlayAreaPictureBox.BackColor = System.Drawing.Color.FromArgb(0, 0, 1);
-			OverlayAreaPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+			OverlayAreaPictureBox.Cursor = System.Windows.Forms.Cursors.Default;
 			OverlayAreaPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			OverlayAreaPictureBox.Location = new System.Drawing.Point(0, 0);
 			OverlayAreaPictureBox.Name = "OverlayAreaPictureBox";
