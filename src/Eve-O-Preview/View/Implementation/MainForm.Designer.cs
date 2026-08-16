@@ -302,6 +302,7 @@ namespace EveOPreview.View
 			HideCaptionOnClientsCheckBox.TabIndex = 28;
 			HideCaptionOnClientsCheckBox.Text = "Hide caption bar on clients";
 			HideCaptionOnClientsCheckBox.UseVisualStyleBackColor = true;
+			HideCaptionOnClientsCheckBox.Checked = true;
 			HideCaptionOnClientsCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// label4

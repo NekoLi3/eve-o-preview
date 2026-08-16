@@ -3,6 +3,14 @@
 Cambios del fork privado sobre la base `Proopai/eve-o-preview` (rama `unified-source-build`).
 Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstream, `custom` cuenta releases del fork. A partir de 8.0.3.0 el minor sube con features grandes.
 
+## [8.0.4.2] — 2026-08-16
+
+### Cambiado
+- **"Hide caption bar on clients" ahora activado por defecto** (antes off). El default aplica a configs nuevos o que no guarden la clave explícitamente; configs existentes con `HideCaptionOnClients: false` guardado se respetan.
+
+### Fix
+- **Cursor de thumbnails vuelve a la flecha por defecto** (antes manita `Cursors.Hand`; se veía solo con overlays visibles). Commit `40a9a22`/`490710d`, previo a este release pero nunca lanzado.
+
 ## [8.0.3.1] — 2026-08-16
 
 ### Fix

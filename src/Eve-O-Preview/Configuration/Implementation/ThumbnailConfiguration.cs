@@ -116,7 +116,7 @@ namespace EveOPreview.Configuration.Implementation
 			this.HideActiveClientThumbnail = false;
 			this.HideLoginClientThumbnail = false;
 			this.MinimizeInactiveClients = false;
-			this.HideCaptionOnClients = false;
+			this.HideCaptionOnClients = true;
 			this.WindowsAnimationStyle = AnimationStyle.NoAnimation;
 			this.ShowThumbnailsAlwaysOnTop = true;
 			this.EnablePerClientThumbnailLayouts = false;
