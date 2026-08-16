@@ -12,6 +12,8 @@ namespace EveOPreview.View
 	{
 		bool MinimizeToTray { get; set; }
 
+		bool CycleHotkeysEnabled { get; set; }
+
 		double ThumbnailOpacity { get; set; }
 
 		bool EnableClientLayoutTracking { get; set; }

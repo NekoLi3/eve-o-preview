@@ -103,6 +103,7 @@ namespace EveOPreview.Presenters
 			this._configurationStorage.Load();
 
 			this.View.MinimizeToTray = this._configuration.MinimizeToTray;
+			this.View.CycleHotkeysEnabled = this._configuration.CycleHotkeysEnabled;
 
 			this.View.ThumbnailOpacity = this._configuration.ThumbnailOpacity;
 
@@ -145,6 +146,12 @@ namespace EveOPreview.Presenters
 		private async void SaveApplicationSettings()
 		{
 			this._configuration.MinimizeToTray = this.View.MinimizeToTray;
+
+			if (this._configuration.CycleHotkeysEnabled != this.View.CycleHotkeysEnabled)
+			{
+				this._configuration.CycleHotkeysEnabled = this.View.CycleHotkeysEnabled;
+				await this._mediator.Publish(new ThumbnailCycleHotkeysSettingsUpdated());
+			}
 
 			this._configuration.ThumbnailOpacity = (float)this.View.ThumbnailOpacity;
 

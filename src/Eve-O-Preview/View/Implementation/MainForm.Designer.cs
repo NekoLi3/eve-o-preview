@@ -69,6 +69,7 @@ namespace EveOPreview.View
 			HideThumbnailsOnLostFocusCheckBox = new CheckBox();
 			EnablePerClientThumbnailsLayoutsCheckBox = new CheckBox();
 			MinimizeToTrayCheckBox = new CheckBox();
+			EnableCycleHotkeysCheckBox = new CheckBox();
 			label1 = new Label();
 			PreventPreviewColorButton = new Panel();
 			PreventPreviewsCheckBox = new CheckBox();
@@ -255,6 +256,7 @@ namespace EveOPreview.View
 			GeneralSettingsPanel.Controls.Add(HideThumbnailsOnLostFocusCheckBox);
 			GeneralSettingsPanel.Controls.Add(EnablePerClientThumbnailsLayoutsCheckBox);
 			GeneralSettingsPanel.Controls.Add(MinimizeToTrayCheckBox);
+			GeneralSettingsPanel.Controls.Add(EnableCycleHotkeysCheckBox);
 			GeneralSettingsPanel.Dock = DockStyle.Fill;
 			GeneralSettingsPanel.Location = new Point(4, 4);
 			GeneralSettingsPanel.Margin = new Padding(4);
@@ -387,6 +389,20 @@ namespace EveOPreview.View
 			MinimizeToTrayCheckBox.Text = "Minimize to System Tray";
 			MinimizeToTrayCheckBox.UseVisualStyleBackColor = true;
 			MinimizeToTrayCheckBox.CheckedChanged += OptionChanged_Handler;
+			// 
+			// EnableCycleHotkeysCheckBox
+			// 
+			EnableCycleHotkeysCheckBox.AutoSize = true;
+			EnableCycleHotkeysCheckBox.Checked = true;
+			EnableCycleHotkeysCheckBox.CheckState = CheckState.Checked;
+			EnableCycleHotkeysCheckBox.Location = new Point(9, 207);
+			EnableCycleHotkeysCheckBox.Margin = new Padding(4);
+			EnableCycleHotkeysCheckBox.Name = "EnableCycleHotkeysCheckBox";
+			EnableCycleHotkeysCheckBox.Size = new Size(142, 19);
+			EnableCycleHotkeysCheckBox.TabIndex = 29;
+			EnableCycleHotkeysCheckBox.Text = "Enable cycle hotkeys";
+			EnableCycleHotkeysCheckBox.UseVisualStyleBackColor = true;
+			EnableCycleHotkeysCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailTabPage
 			// 
@@ -1440,6 +1456,7 @@ namespace EveOPreview.View
 		private CheckBox HideThumbnailsOnLostFocusCheckBox;
 		private CheckBox EnablePerClientThumbnailsLayoutsCheckBox;
 		private CheckBox MinimizeToTrayCheckBox;
+		private CheckBox EnableCycleHotkeysCheckBox;
 		private NumericUpDown ThumbnailsWidthNumericEdit;
 		private NumericUpDown ThumbnailsHeightNumericEdit;
 		private TrackBar ThumbnailOpacityTrackBar;

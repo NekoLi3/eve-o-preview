@@ -54,6 +54,7 @@ namespace EveOPreview.Configuration.Implementation
 			{
 				{ "EVE - cycle group 5", 1 },
 			};
+			this.CycleHotkeysEnabled = true;
 
 			this.PerClientActiveClientHighlightColor = new Dictionary<string, Color>
 			{
@@ -202,6 +203,9 @@ namespace EveOPreview.Configuration.Implementation
 
 		[JsonProperty("CycleGroup5ClientsOrder")]
 		public Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
+
+		[JsonProperty("CycleHotkeysEnabled")]
+		public bool CycleHotkeysEnabled { get; set; }
 
 		[JsonProperty("PerClientPreventPreviewColor")]
 		public Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
