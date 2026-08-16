@@ -55,6 +55,8 @@ namespace EveOPreview.Configuration.Implementation
 				{ "EVE - cycle group 5", 1 },
 			};
 			this.CycleHotkeysEnabled = true;
+			this.ShowSystemInThumbnail = false;
+			this.GamelogPath = "";
 
 			this.PerClientActiveClientHighlightColor = new Dictionary<string, Color>
 			{
@@ -206,6 +208,12 @@ namespace EveOPreview.Configuration.Implementation
 
 		[JsonProperty("CycleHotkeysEnabled")]
 		public bool CycleHotkeysEnabled { get; set; }
+
+		[JsonProperty("ShowSystemInThumbnail")]
+		public bool ShowSystemInThumbnail { get; set; }
+
+		[JsonProperty("GamelogPath")]
+		public string GamelogPath { get; set; }
 
 		[JsonProperty("PerClientPreventPreviewColor")]
 		public Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }

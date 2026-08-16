@@ -27,6 +27,8 @@ namespace EveOPreview.Configuration
 		Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
 
 		bool CycleHotkeysEnabled { get; set; }
+		bool ShowSystemInThumbnail { get; set; }
+		string GamelogPath { get; set; }
 
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }

@@ -35,6 +35,7 @@ namespace EveOPreview.Services
 		private readonly IProcessMonitor _processMonitor;
 		private readonly IWindowManager _windowManager;
 		private readonly IThumbnailConfiguration _configuration;
+		private readonly IGamelogMonitor _gamelogMonitor;
 		private readonly DispatcherTimer _thumbnailUpdateTimer;
 		private readonly IThumbnailViewFactory _thumbnailViewFactory;
 		private readonly Dictionary<IntPtr, IThumbnailView> _thumbnailViews;
@@ -55,12 +56,13 @@ namespace EveOPreview.Services
 		private List<HotkeyHandler> _minimizeAllClientsHotkeyHandlers = new List<HotkeyHandler>();
 		#endregion
 
-		public ThumbnailManager(IMediator mediator, IThumbnailConfiguration configuration, IProcessMonitor processMonitor, IWindowManager windowManager, IThumbnailViewFactory factory)
+		public ThumbnailManager(IMediator mediator, IThumbnailConfiguration configuration, IProcessMonitor processMonitor, IWindowManager windowManager, IThumbnailViewFactory factory, IGamelogMonitor gamelogMonitor)
 		{
 			this._mediator = mediator;
 			this._processMonitor = processMonitor;
 			this._windowManager = windowManager;
 			this._configuration = configuration;
+			this._gamelogMonitor = gamelogMonitor;
 			this._thumbnailViewFactory = factory;
 
 			this._activeClient = (IntPtr.Zero, ThumbnailManager.DEFAULT_CLIENT_TITLE);
@@ -279,6 +281,15 @@ namespace EveOPreview.Services
 			}
 		}
 
+		public void UpdateClientHotkeys()
+		{
+			// Re-register the per-client hotkeys (e.g. after a layout profile was applied)
+			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+			{
+				entry.Value.RegisterHotkey(this._configuration.GetClientHotkey(entry.Value.Title));
+			}
+		}
+
 		private void RegisterCycleHotkeys()
 		{
 			// The hotkeys are already active, nothing to do
@@ -316,6 +327,7 @@ namespace EveOPreview.Services
 		public void Start()
 		{
 			this._thumbnailUpdateTimer.Start();
+			this._gamelogMonitor.Start();
 
 			this.RefreshThumbnails();
 		}
@@ -323,6 +335,7 @@ namespace EveOPreview.Services
 		public void Stop()
 		{
 			this._thumbnailUpdateTimer.Stop();
+			this._gamelogMonitor.Stop();
 		}
 
 		private void ThumbnailUpdateTimerTick(object sender, EventArgs e)
@@ -526,8 +539,11 @@ namespace EveOPreview.Services
 			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
 			{
 				IThumbnailView view = entry.Value;
-				// update ZoomAnchor regardless
+			// update ZoomAnchor regardless
 				view.ClientZoomAnchor = this._configuration.GetZoomAnchor(view.Title, this._configuration.ThumbnailZoomAnchor);
+
+				// update the solar system location label from the EVE Gamelog (no-op when disabled)
+				view.SetSystemLocation(this._gamelogMonitor.GetSystemForCharacter(this.GetCharacterName(view)));
 
 
 				if (hideAllThumbnails || this._configuration.IsThumbnailDisabled(view.Title))
@@ -1081,6 +1097,21 @@ namespace EveOPreview.Services
 		private bool IsManageableThumbnail(IThumbnailView view)
 		{
 			return view.Title != ThumbnailManager.DEFAULT_CLIENT_TITLE;
+		}
+
+		// EVE client titles are prefixed with the client type: "EVE - <character>" / "EVE Frontier - <character>"
+		private string GetCharacterName(IThumbnailView view)
+		{
+			string title = view.Title;
+			if (title.StartsWith("EVE - ", StringComparison.Ordinal))
+			{
+				return title.Substring("EVE - ".Length);
+			}
+			if (title.StartsWith("EVE Frontier - ", StringComparison.Ordinal))
+			{
+				return title.Substring("EVE Frontier - ".Length);
+			}
+			return title;
 		}
 
 		// Quick sanity check that the window is not minimized

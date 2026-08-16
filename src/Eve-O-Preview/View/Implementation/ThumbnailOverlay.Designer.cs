@@ -31,6 +31,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThumbnailOverlay));
 			OverlayAreaPictureBox = new System.Windows.Forms.PictureBox();
 			OverlayLabel = new System.Windows.Forms.Label();
+			SystemLabel = new System.Windows.Forms.Label();
 			CycleGroupIndicator = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)OverlayAreaPictureBox).BeginInit();
 			((System.ComponentModel.ISupportInitialize)CycleGroupIndicator).BeginInit();
@@ -71,6 +72,24 @@
 			OverlayLabel.MouseMove += OverlayArea_MouseMove;
 			OverlayLabel.MouseUp += OverlayArea_MouseUp;
 			// 
+			// SystemLabel
+			// 
+			SystemLabel.AutoSize = false;
+			SystemLabel.BackColor = System.Drawing.Color.FromArgb(0, 0, 1);
+			SystemLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			SystemLabel.ForeColor = System.Drawing.Color.DarkGray;
+			SystemLabel.Location = new System.Drawing.Point(8, 23);
+			SystemLabel.Name = "SystemLabel";
+			SystemLabel.Size = new System.Drawing.Size(25, 13);
+			SystemLabel.TabIndex = 2;
+			SystemLabel.Text = "";
+			SystemLabel.Visible = false;
+			SystemLabel.MouseDown += OverlayArea_MouseDown;
+			SystemLabel.MouseEnter += OverlayArea_MouseEnter;
+			SystemLabel.MouseLeave += OverlayArea_MouseLeave;
+			SystemLabel.MouseMove += OverlayArea_MouseMove;
+			SystemLabel.MouseUp += OverlayArea_MouseUp;
+			// 
 			// CycleGroupIndicator
 			// 
 			CycleGroupIndicator.BackColor = System.Drawing.Color.Transparent;
@@ -95,6 +114,7 @@
 			ClientSize = new System.Drawing.Size(438, 351);
 			ControlBox = false;
 			Controls.Add(OverlayLabel);
+			Controls.Add(SystemLabel);
 			Controls.Add(CycleGroupIndicator);
 			Controls.Add(OverlayAreaPictureBox);
 			FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -116,6 +136,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label OverlayLabel;
+		private System.Windows.Forms.Label SystemLabel;
 		private System.Windows.Forms.PictureBox OverlayAreaPictureBox;
 		private System.Windows.Forms.PictureBox CycleGroupIndicator;
 	}

@@ -286,6 +286,11 @@ namespace EveOPreview.View
 		public void SetOverlayLabel()
 		{
 		}
+
+		public void SetSystemLocation(string system)
+		{
+			this._overlay.SetSystemLabel(this._config.ShowSystemInThumbnail ? system : null);
+		}
 		public void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor)
 		{
 			this._overlay.SetCycleGroupIndicator(displayCycleGroup, anchor);
@@ -500,6 +505,7 @@ namespace EveOPreview.View
 			this._overlay.Size = overlaySize;
 
 			this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
+			this._overlay.SetPropertiesSystemLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
 
 			this._overlay.Location = overlayLocation;
 			this._overlay.Refresh();

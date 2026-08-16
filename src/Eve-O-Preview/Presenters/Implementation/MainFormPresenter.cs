@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using EveOPreview.Configuration;
 using EveOPreview.Mediator.Messages;
+using EveOPreview.Services;
 using EveOPreview.View;
 using MediatR;
 
@@ -19,18 +20,20 @@ namespace EveOPreview.Presenters
 		private readonly IMediator _mediator;
 		private readonly IThumbnailConfiguration _configuration;
 		private readonly IConfigurationStorage _configurationStorage;
+		private readonly IProfileManager _profileManager;
 		private readonly IDictionary<string, IThumbnailDescription> _descriptionsCache;
 		private bool _suppressSizeNotifications;
 
 		private bool _exitApplication;
 		#endregion
 
-		public MainFormPresenter(IApplicationController controller, IMainFormView view, IMediator mediator, IThumbnailConfiguration configuration, IConfigurationStorage configurationStorage)
+		public MainFormPresenter(IApplicationController controller, IMainFormView view, IMediator mediator, IThumbnailConfiguration configuration, IConfigurationStorage configurationStorage, IProfileManager profileManager)
 			: base(controller, view)
 		{
 			this._mediator = mediator;
 			this._configuration = configuration;
 			this._configurationStorage = configurationStorage;
+			this._profileManager = profileManager;
 
 			this._descriptionsCache = new Dictionary<string, IThumbnailDescription>();
 
@@ -45,6 +48,9 @@ namespace EveOPreview.Presenters
 			this.View.ThumbnailStateChanged = this.UpdateThumbnailState;
 			this.View.DocumentationLinkActivated = this.OpenDocumentationLink;
 			this.View.ApplicationExitRequested = this.ExitApplication;
+			this.View.ProfileSaveRequested = this.SaveProfile;
+			this.View.ProfileLoadRequested = this.LoadProfile;
+			this.View.ProfileDeleteRequested = this.DeleteProfile;
 
 			this.View.IconName = this._configuration.IconName;
 		}
@@ -55,6 +61,7 @@ namespace EveOPreview.Presenters
 			this.LoadApplicationSettings();
 			this.View.SetDocumentationUrl(MainFormPresenter.FORUM_URL);
 			this.View.SetVersionInfo(this.GetApplicationVersion());
+			this.RefreshProfileList();
 			if (this._configuration.MinimizeToTray)
 			{
 				this.View.Minimize();
@@ -104,6 +111,7 @@ namespace EveOPreview.Presenters
 
 			this.View.MinimizeToTray = this._configuration.MinimizeToTray;
 			this.View.CycleHotkeysEnabled = this._configuration.CycleHotkeysEnabled;
+			this.View.ShowSystemInThumbnail = this._configuration.ShowSystemInThumbnail;
 
 			this.View.ThumbnailOpacity = this._configuration.ThumbnailOpacity;
 
@@ -143,9 +151,68 @@ namespace EveOPreview.Presenters
 			this.View.IconName = this._configuration.IconName;
 		}
 
+		private void RefreshProfileList()
+		{
+			this.View.ProfileNames = this._profileManager.GetProfileNames();
+		}
+
+		private void SaveProfile()
+		{
+			string profileName = this.View.NewProfileName;
+			if (!this._profileManager.IsProfileNameValid(profileName))
+			{
+				return;
+			}
+
+			this._profileManager.SaveProfile(profileName);
+			this.RefreshProfileList();
+		}
+
+		private async void LoadProfile()
+		{
+			string profileName = this.View.SelectedProfileName;
+			if (!this._profileManager.IsProfileNameValid(profileName))
+			{
+				return;
+			}
+
+			// Apply the profile to the live configuration, then re-apply everything
+			// the way it is done at startup: refresh the view and notify the
+			// ThumbnailManager so it re-applies frames, sizes, indicators,
+			// cycle hotkeys and per-client hotkeys without a restart
+			this._profileManager.LoadProfile(profileName);
+
+			this._suppressSizeNotifications = true;
+			this.LoadApplicationSettings();
+			this._suppressSizeNotifications = false;
+
+			await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
+			await this._mediator.Publish(new ThumbnailConfiguredSizeUpdated());
+			await this._mediator.Publish(new ThumbnailCycleGroupIndicatorUpdated());
+			await this._mediator.Publish(new ThumbnailCycleHotkeysSettingsUpdated());
+			await this._mediator.Publish(new ThumbnailClientHotkeysUpdated());
+
+			// Persist the applied profile as the active configuration
+			this._configurationStorage.Save();
+			await this._mediator.Send(new SaveConfiguration());
+		}
+
+		private void DeleteProfile()
+		{
+			string profileName = this.View.SelectedProfileName;
+			if (!this._profileManager.IsProfileNameValid(profileName))
+			{
+				return;
+			}
+
+			this._profileManager.DeleteProfile(profileName);
+			this.RefreshProfileList();
+		}
+
 		private async void SaveApplicationSettings()
 		{
 			this._configuration.MinimizeToTray = this.View.MinimizeToTray;
+			this._configuration.ShowSystemInThumbnail = this.View.ShowSystemInThumbnail;
 
 			if (this._configuration.CycleHotkeysEnabled != this.View.CycleHotkeysEnabled)
 			{

@@ -11,6 +11,7 @@ namespace EveOPreview.Services
 		void UpdateThumbnailsSize();
 		void UpdateThumbnailFrames();
 		void UpdateCycleHotkeys();
+		void UpdateClientHotkeys();
 
 		IThumbnailView GetClientByTitle(string title);
 		IThumbnailView GetClientByPointer(System.IntPtr ptr);

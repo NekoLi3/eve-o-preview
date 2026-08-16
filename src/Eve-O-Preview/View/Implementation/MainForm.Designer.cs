@@ -53,6 +53,9 @@ namespace EveOPreview.View
 			TabPage ClientsTabPage;
 			Panel ClientsPanel;
 			Label ThumbnailsListLabel;
+			TabPage ProfilesTabPage;
+			Panel ProfilesSettingsPanel;
+			Label ProfileNameLabel;
 			TabPage AboutTabPage;
 			Panel AboutPanel;
 			Label CreditMaintLabel;
@@ -70,6 +73,7 @@ namespace EveOPreview.View
 			EnablePerClientThumbnailsLayoutsCheckBox = new CheckBox();
 			MinimizeToTrayCheckBox = new CheckBox();
 			EnableCycleHotkeysCheckBox = new CheckBox();
+			ShowSystemInThumbnailCheckBox = new CheckBox();
 			label1 = new Label();
 			PreventPreviewColorButton = new Panel();
 			PreventPreviewsCheckBox = new CheckBox();
@@ -152,6 +156,14 @@ namespace EveOPreview.View
 			ClientsTabPage = new TabPage();
 			ClientsPanel = new Panel();
 			ThumbnailsListLabel = new Label();
+			ProfilesTabPage = new TabPage();
+			ProfilesSettingsPanel = new Panel();
+			ProfilesListBox = new ListBox();
+			ProfileNameLabel = new Label();
+			ProfileNameTextBox = new TextBox();
+			SaveProfileButton = new Button();
+			LoadProfileButton = new Button();
+			DeleteProfileButton = new Button();
 			AboutTabPage = new TabPage();
 			AboutPanel = new Panel();
 			CreditMaintLabel = new Label();
@@ -178,6 +190,8 @@ namespace EveOPreview.View
 			panel1.SuspendLayout();
 			ClientsTabPage.SuspendLayout();
 			ClientsPanel.SuspendLayout();
+			ProfilesTabPage.SuspendLayout();
+			ProfilesSettingsPanel.SuspendLayout();
 			AboutTabPage.SuspendLayout();
 			AboutPanel.SuspendLayout();
 			TrayMenu.SuspendLayout();
@@ -217,6 +231,7 @@ namespace EveOPreview.View
 			ContentTabControl.Controls.Add(ZoomTabPage);
 			ContentTabControl.Controls.Add(OverlayTabPage);
 			ContentTabControl.Controls.Add(ClientsTabPage);
+			ContentTabControl.Controls.Add(ProfilesTabPage);
 			ContentTabControl.Controls.Add(AboutTabPage);
 			ContentTabControl.Dock = DockStyle.Fill;
 			ContentTabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -257,6 +272,7 @@ namespace EveOPreview.View
 			GeneralSettingsPanel.Controls.Add(EnablePerClientThumbnailsLayoutsCheckBox);
 			GeneralSettingsPanel.Controls.Add(MinimizeToTrayCheckBox);
 			GeneralSettingsPanel.Controls.Add(EnableCycleHotkeysCheckBox);
+			GeneralSettingsPanel.Controls.Add(ShowSystemInThumbnailCheckBox);
 			GeneralSettingsPanel.Dock = DockStyle.Fill;
 			GeneralSettingsPanel.Location = new Point(4, 4);
 			GeneralSettingsPanel.Margin = new Padding(4);
@@ -267,7 +283,7 @@ namespace EveOPreview.View
 			// HideCaptionOnClientsCheckBox
 			// 
 			HideCaptionOnClientsCheckBox.AutoSize = true;
-			HideCaptionOnClientsCheckBox.Location = new Point(9, 121);
+			HideCaptionOnClientsCheckBox.Location = new Point(9, 116);
 			HideCaptionOnClientsCheckBox.Margin = new Padding(4);
 			HideCaptionOnClientsCheckBox.Name = "HideCaptionOnClientsCheckBox";
 			HideCaptionOnClientsCheckBox.Size = new Size(168, 19);
@@ -279,7 +295,7 @@ namespace EveOPreview.View
 			// label4
 			// 
 			label4.AutoSize = true;
-			label4.Location = new Point(6, 96);
+			label4.Location = new Point(6, 87);
 			label4.Margin = new Padding(4, 0, 4, 0);
 			label4.Name = "label4";
 			label4.Size = new Size(91, 15);
@@ -290,7 +306,7 @@ namespace EveOPreview.View
 			// 
 			AnimationStyleCombo.DropDownStyle = ComboBoxStyle.DropDownList;
 			AnimationStyleCombo.FormattingEnabled = true;
-			AnimationStyleCombo.Location = new Point(105, 93);
+			AnimationStyleCombo.Location = new Point(105, 84);
 			AnimationStyleCombo.Margin = new Padding(4);
 			AnimationStyleCombo.Name = "AnimationStyleCombo";
 			AnimationStyleCombo.Size = new Size(177, 23);
@@ -300,7 +316,7 @@ namespace EveOPreview.View
 			// MinimizeInactiveClientsCheckBox
 			// 
 			MinimizeInactiveClientsCheckBox.AutoSize = true;
-			MinimizeInactiveClientsCheckBox.Location = new Point(9, 73);
+			MinimizeInactiveClientsCheckBox.Location = new Point(9, 65);
 			MinimizeInactiveClientsCheckBox.Margin = new Padding(4);
 			MinimizeInactiveClientsCheckBox.Name = "MinimizeInactiveClientsCheckBox";
 			MinimizeInactiveClientsCheckBox.Size = new Size(178, 19);
@@ -312,7 +328,7 @@ namespace EveOPreview.View
 			// EnableClientLayoutTrackingCheckBox
 			// 
 			EnableClientLayoutTrackingCheckBox.AutoSize = true;
-			EnableClientLayoutTrackingCheckBox.Location = new Point(9, 30);
+			EnableClientLayoutTrackingCheckBox.Location = new Point(9, 27);
 			EnableClientLayoutTrackingCheckBox.Margin = new Padding(4);
 			EnableClientLayoutTrackingCheckBox.Name = "EnableClientLayoutTrackingCheckBox";
 			EnableClientLayoutTrackingCheckBox.Size = new Size(137, 19);
@@ -326,7 +342,7 @@ namespace EveOPreview.View
 			HideActiveClientThumbnailCheckBox.AutoSize = true;
 			HideActiveClientThumbnailCheckBox.Checked = true;
 			HideActiveClientThumbnailCheckBox.CheckState = CheckState.Checked;
-			HideActiveClientThumbnailCheckBox.Location = new Point(9, 52);
+			HideActiveClientThumbnailCheckBox.Location = new Point(9, 46);
 			HideActiveClientThumbnailCheckBox.Margin = new Padding(4);
 			HideActiveClientThumbnailCheckBox.Name = "HideActiveClientThumbnailCheckBox";
 			HideActiveClientThumbnailCheckBox.Size = new Size(197, 19);
@@ -340,7 +356,7 @@ namespace EveOPreview.View
 			ShowThumbnailsAlwaysOnTopCheckBox.AutoSize = true;
 			ShowThumbnailsAlwaysOnTopCheckBox.Checked = true;
 			ShowThumbnailsAlwaysOnTopCheckBox.CheckState = CheckState.Checked;
-			ShowThumbnailsAlwaysOnTopCheckBox.Location = new Point(9, 142);
+			ShowThumbnailsAlwaysOnTopCheckBox.Location = new Point(9, 135);
 			ShowThumbnailsAlwaysOnTopCheckBox.Margin = new Padding(4);
 			ShowThumbnailsAlwaysOnTopCheckBox.Name = "ShowThumbnailsAlwaysOnTopCheckBox";
 			ShowThumbnailsAlwaysOnTopCheckBox.RightToLeft = RightToLeft.No;
@@ -355,7 +371,7 @@ namespace EveOPreview.View
 			HideThumbnailsOnLostFocusCheckBox.AutoSize = true;
 			HideThumbnailsOnLostFocusCheckBox.Checked = true;
 			HideThumbnailsOnLostFocusCheckBox.CheckState = CheckState.Checked;
-			HideThumbnailsOnLostFocusCheckBox.Location = new Point(9, 163);
+			HideThumbnailsOnLostFocusCheckBox.Location = new Point(9, 154);
 			HideThumbnailsOnLostFocusCheckBox.Margin = new Padding(4);
 			HideThumbnailsOnLostFocusCheckBox.Name = "HideThumbnailsOnLostFocusCheckBox";
 			HideThumbnailsOnLostFocusCheckBox.Size = new Size(252, 19);
@@ -369,7 +385,7 @@ namespace EveOPreview.View
 			EnablePerClientThumbnailsLayoutsCheckBox.AutoSize = true;
 			EnablePerClientThumbnailsLayoutsCheckBox.Checked = true;
 			EnablePerClientThumbnailsLayoutsCheckBox.CheckState = CheckState.Checked;
-			EnablePerClientThumbnailsLayoutsCheckBox.Location = new Point(9, 185);
+			EnablePerClientThumbnailsLayoutsCheckBox.Location = new Point(9, 173);
 			EnablePerClientThumbnailsLayoutsCheckBox.Margin = new Padding(4);
 			EnablePerClientThumbnailsLayoutsCheckBox.Name = "EnablePerClientThumbnailsLayoutsCheckBox";
 			EnablePerClientThumbnailsLayoutsCheckBox.Size = new Size(200, 19);
@@ -395,7 +411,7 @@ namespace EveOPreview.View
 			EnableCycleHotkeysCheckBox.AutoSize = true;
 			EnableCycleHotkeysCheckBox.Checked = true;
 			EnableCycleHotkeysCheckBox.CheckState = CheckState.Checked;
-			EnableCycleHotkeysCheckBox.Location = new Point(9, 207);
+			EnableCycleHotkeysCheckBox.Location = new Point(9, 192);
 			EnableCycleHotkeysCheckBox.Margin = new Padding(4);
 			EnableCycleHotkeysCheckBox.Name = "EnableCycleHotkeysCheckBox";
 			EnableCycleHotkeysCheckBox.Size = new Size(142, 19);
@@ -403,6 +419,18 @@ namespace EveOPreview.View
 			EnableCycleHotkeysCheckBox.Text = "Enable cycle hotkeys";
 			EnableCycleHotkeysCheckBox.UseVisualStyleBackColor = true;
 			EnableCycleHotkeysCheckBox.CheckedChanged += OptionChanged_Handler;
+			// 
+			// ShowSystemInThumbnailCheckBox
+			// 
+			ShowSystemInThumbnailCheckBox.AutoSize = true;
+			ShowSystemInThumbnailCheckBox.Location = new Point(9, 211);
+			ShowSystemInThumbnailCheckBox.Margin = new Padding(4);
+			ShowSystemInThumbnailCheckBox.Name = "ShowSystemInThumbnailCheckBox";
+			ShowSystemInThumbnailCheckBox.Size = new Size(142, 19);
+			ShowSystemInThumbnailCheckBox.TabIndex = 30;
+			ShowSystemInThumbnailCheckBox.Text = "Show system location";
+			ShowSystemInThumbnailCheckBox.UseVisualStyleBackColor = true;
+			ShowSystemInThumbnailCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailTabPage
 			// 
@@ -1283,6 +1311,99 @@ namespace EveOPreview.View
 			ThumbnailsListLabel.TabIndex = 33;
 			ThumbnailsListLabel.Text = "Thumbnails (check to force hide)";
 			// 
+			// ProfilesTabPage
+			// 
+			ProfilesTabPage.BackColor = SystemColors.Control;
+			ProfilesTabPage.Controls.Add(ProfilesSettingsPanel);
+			ProfilesTabPage.Location = new Point(124, 4);
+			ProfilesTabPage.Margin = new Padding(4);
+			ProfilesTabPage.Name = "ProfilesTabPage";
+			ProfilesTabPage.Padding = new Padding(4);
+			ProfilesTabPage.Size = new Size(327, 243);
+			ProfilesTabPage.TabIndex = 6;
+			ProfilesTabPage.Text = "Profiles";
+			// 
+			// ProfilesSettingsPanel
+			// 
+			ProfilesSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			ProfilesSettingsPanel.Controls.Add(ProfilesListBox);
+			ProfilesSettingsPanel.Controls.Add(ProfileNameLabel);
+			ProfilesSettingsPanel.Controls.Add(ProfileNameTextBox);
+			ProfilesSettingsPanel.Controls.Add(SaveProfileButton);
+			ProfilesSettingsPanel.Controls.Add(LoadProfileButton);
+			ProfilesSettingsPanel.Controls.Add(DeleteProfileButton);
+			ProfilesSettingsPanel.Dock = DockStyle.Fill;
+			ProfilesSettingsPanel.Location = new Point(4, 4);
+			ProfilesSettingsPanel.Margin = new Padding(4);
+			ProfilesSettingsPanel.Name = "ProfilesSettingsPanel";
+			ProfilesSettingsPanel.Size = new Size(319, 235);
+			ProfilesSettingsPanel.TabIndex = 33;
+			// 
+			// ProfilesListBox
+			// 
+			ProfilesListBox.FormattingEnabled = true;
+			ProfilesListBox.IntegralHeight = false;
+			ProfilesListBox.Location = new Point(9, 8);
+			ProfilesListBox.Margin = new Padding(4);
+			ProfilesListBox.Name = "ProfilesListBox";
+			ProfilesListBox.Size = new Size(200, 110);
+			ProfilesListBox.TabIndex = 34;
+			ProfilesListBox.SelectedIndexChanged += ProfilesListBox_SelectedIndexChanged;
+			// 
+			// ProfileNameLabel
+			// 
+			ProfileNameLabel.AutoSize = true;
+			ProfileNameLabel.Location = new Point(9, 128);
+			ProfileNameLabel.Margin = new Padding(4, 0, 4, 0);
+			ProfileNameLabel.Name = "ProfileNameLabel";
+			ProfileNameLabel.Size = new Size(79, 15);
+			ProfileNameLabel.TabIndex = 35;
+			ProfileNameLabel.Text = "Profile name";
+			// 
+			// ProfileNameTextBox
+			// 
+			ProfileNameTextBox.Location = new Point(9, 146);
+			ProfileNameTextBox.Margin = new Padding(4);
+			ProfileNameTextBox.Name = "ProfileNameTextBox";
+			ProfileNameTextBox.Size = new Size(200, 23);
+			ProfileNameTextBox.TabIndex = 36;
+			ProfileNameTextBox.TextChanged += ProfileNameTextBox_TextChanged;
+			// 
+			// SaveProfileButton
+			// 
+			SaveProfileButton.Location = new Point(9, 178);
+			SaveProfileButton.Margin = new Padding(4);
+			SaveProfileButton.Name = "SaveProfileButton";
+			SaveProfileButton.Size = new Size(64, 25);
+			SaveProfileButton.TabIndex = 37;
+			SaveProfileButton.Text = "Save";
+			SaveProfileButton.UseVisualStyleBackColor = true;
+			SaveProfileButton.Click += SaveProfileButton_Click;
+			// 
+			// LoadProfileButton
+			// 
+			LoadProfileButton.Enabled = false;
+			LoadProfileButton.Location = new Point(77, 178);
+			LoadProfileButton.Margin = new Padding(4);
+			LoadProfileButton.Name = "LoadProfileButton";
+			LoadProfileButton.Size = new Size(64, 25);
+			LoadProfileButton.TabIndex = 38;
+			LoadProfileButton.Text = "Load";
+			LoadProfileButton.UseVisualStyleBackColor = true;
+			LoadProfileButton.Click += LoadProfileButton_Click;
+			// 
+			// DeleteProfileButton
+			// 
+			DeleteProfileButton.Enabled = false;
+			DeleteProfileButton.Location = new Point(145, 178);
+			DeleteProfileButton.Margin = new Padding(4);
+			DeleteProfileButton.Name = "DeleteProfileButton";
+			DeleteProfileButton.Size = new Size(64, 25);
+			DeleteProfileButton.TabIndex = 39;
+			DeleteProfileButton.Text = "Delete";
+			DeleteProfileButton.UseVisualStyleBackColor = true;
+			DeleteProfileButton.Click += DeleteProfileButton_Click;
+			// 
 			// AboutTabPage
 			// 
 			AboutTabPage.BackColor = SystemColors.Control;
@@ -1438,6 +1559,9 @@ namespace EveOPreview.View
 			ClientsTabPage.ResumeLayout(false);
 			ClientsPanel.ResumeLayout(false);
 			ClientsPanel.PerformLayout();
+			ProfilesTabPage.ResumeLayout(false);
+			ProfilesSettingsPanel.ResumeLayout(false);
+			ProfilesSettingsPanel.PerformLayout();
 			AboutTabPage.ResumeLayout(false);
 			AboutPanel.ResumeLayout(false);
 			AboutPanel.PerformLayout();
@@ -1457,6 +1581,7 @@ namespace EveOPreview.View
 		private CheckBox EnablePerClientThumbnailsLayoutsCheckBox;
 		private CheckBox MinimizeToTrayCheckBox;
 		private CheckBox EnableCycleHotkeysCheckBox;
+		private CheckBox ShowSystemInThumbnailCheckBox;
 		private NumericUpDown ThumbnailsWidthNumericEdit;
 		private NumericUpDown ThumbnailsHeightNumericEdit;
 		private TrackBar ThumbnailOpacityTrackBar;
@@ -1481,6 +1606,11 @@ namespace EveOPreview.View
 		private LinkLabel DocumentationLink;
 		private Label VersionLabel;
 		private CheckBox MinimizeInactiveClientsCheckBox;
+        private ListBox ProfilesListBox;
+        private TextBox ProfileNameTextBox;
+        private Button SaveProfileButton;
+        private Button LoadProfileButton;
+        private Button DeleteProfileButton;
         private CheckBox LockThumbnailLocationCheckbox;
         private NumericUpDown ThumbnailSnapToGridSizeYNumericEdit;
         private Label SnapYLabel;

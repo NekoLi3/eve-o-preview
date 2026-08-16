@@ -63,6 +63,20 @@ namespace EveOPreview.View
 		{
 			this.OverlayLabel.Text = label;
 		}
+		public void SetSystemLabel(string label)
+		{
+			label = label ?? "";
+			if (this.SystemLabel.Text == label)
+			{
+				return;
+			}
+
+			this.SystemLabel.Text = label;
+			this.UpdateSystemLabelLayout();
+
+			// The labels are drawn manually on the picture box, so a repaint is required
+			this.OverlayAreaPictureBox.Invalidate();
+		}
 		public void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor)
 		{
 			if (displayCycleGroup)
@@ -188,6 +202,28 @@ namespace EveOPreview.View
 					this.OverlayLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 					break;
 			}
+
+			// The system label always sits right below the character name label
+			this.UpdateSystemLabelLayout();
+		}
+
+		public void SetPropertiesSystemLabel(Font f, System.Drawing.Color c, ZoomAnchor anchor)
+		{
+			// The system label reuses the character name label styling and is
+			// positioned right below it, so only the layout needs to be refreshed
+			this.UpdateSystemLabelLayout();
+		}
+
+		private void UpdateSystemLabelLayout()
+		{
+			if (!string.IsNullOrEmpty(this.SystemLabel.Text))
+			{
+				this.SystemLabel.Size = TextRenderer.MeasureText(this.SystemLabel.Text, this.SystemLabel.Font);
+			}
+			this.SystemLabel.Left = this.OverlayLabel.Left;
+			this.SystemLabel.Top = this.OverlayLabel.Top + this.OverlayLabel.Height + 2;
+			this.SystemLabel.Font = this.OverlayLabel.Font;
+			this.SystemLabel.ForeColor = this.OverlayLabel.ForeColor;
 		}
 
 		public void EnableOverlayLabel(bool enable)
@@ -249,6 +285,7 @@ namespace EveOPreview.View
 		private void OverlayAreaPictureBox_Paint(object sender, PaintEventArgs e)
 		{
 			if (this._showOverlayText) PaintDrawText(e, OverlayLabel);
+			if (this._showOverlayText && !string.IsNullOrEmpty(this.SystemLabel.Text)) PaintDrawText(e, SystemLabel);
 		}
 
 		protected override CreateParams CreateParams

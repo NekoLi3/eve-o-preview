@@ -47,6 +47,8 @@ namespace EveOPreview.View
 			this.InitFormSize();
 
 			this.AnimationStyleCombo.DataSource = Enum.GetValues(typeof(AnimationStyle));
+
+			this.UpdateProfileButtons();
 		}
 
 		public bool MinimizeToTray
@@ -60,6 +62,37 @@ namespace EveOPreview.View
 			get => this.EnableCycleHotkeysCheckBox.Checked;
 			set => this.EnableCycleHotkeysCheckBox.Checked = value;
 		}
+
+		public bool ShowSystemInThumbnail
+		{
+			get => this.ShowSystemInThumbnailCheckBox.Checked;
+			set => this.ShowSystemInThumbnailCheckBox.Checked = value;
+		}
+
+		public IList<string> ProfileNames
+		{
+			set
+			{
+				this.ProfilesListBox.BeginUpdate();
+				this.ProfilesListBox.Items.Clear();
+				foreach (string name in value)
+				{
+					this.ProfilesListBox.Items.Add(name);
+				}
+				this.ProfilesListBox.EndUpdate();
+				this.UpdateProfileButtons();
+			}
+		}
+
+		public string SelectedProfileName => this.ProfilesListBox.SelectedItem as string;
+
+		public string NewProfileName => this.ProfileNameTextBox.Text.Trim();
+
+		public Action ProfileSaveRequested { get; set; }
+
+		public Action ProfileLoadRequested { get; set; }
+
+		public Action ProfileDeleteRequested { get; set; }
 
 		public string IconName
 		{
@@ -669,5 +702,40 @@ namespace EveOPreview.View
 			this.OptionChanged_Handler(sender, e);
 
 		}
+
+		#region Profile UI handlers
+		private void ProfilesListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.UpdateProfileButtons();
+		}
+
+		private void ProfileNameTextBox_TextChanged(object sender, EventArgs e)
+		{
+			this.UpdateProfileButtons();
+		}
+
+		private void SaveProfileButton_Click(object sender, EventArgs e)
+		{
+			this.ProfileSaveRequested?.Invoke();
+		}
+
+		private void LoadProfileButton_Click(object sender, EventArgs e)
+		{
+			this.ProfileLoadRequested?.Invoke();
+		}
+
+		private void DeleteProfileButton_Click(object sender, EventArgs e)
+		{
+			this.ProfileDeleteRequested?.Invoke();
+		}
+
+		private void UpdateProfileButtons()
+		{
+			bool hasSelection = this.ProfilesListBox.SelectedItem != null;
+			this.LoadProfileButton.Enabled = hasSelection;
+			this.DeleteProfileButton.Enabled = hasSelection;
+			this.SaveProfileButton.Enabled = !string.IsNullOrWhiteSpace(this.ProfileNameTextBox.Text);
+		}
+		#endregion
 	}
 }

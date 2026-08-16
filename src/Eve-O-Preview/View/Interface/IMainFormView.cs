@@ -13,6 +13,11 @@ namespace EveOPreview.View
 		bool MinimizeToTray { get; set; }
 
 		bool CycleHotkeysEnabled { get; set; }
+		bool ShowSystemInThumbnail { get; set; }
+
+		IList<string> ProfileNames { set; }
+		string SelectedProfileName { get; }
+		string NewProfileName { get; }
 
 		double ThumbnailOpacity { get; set; }
 
@@ -68,5 +73,8 @@ namespace EveOPreview.View
 		Action ThumbnailsSizeChanged { get; set; }
 		Action<string> ThumbnailStateChanged { get; set; }
 		Action DocumentationLinkActivated { get; set; }
+		Action ProfileSaveRequested { get; set; }
+		Action ProfileLoadRequested { get; set; }
+		Action ProfileDeleteRequested { get; set; }
 	}
 }
