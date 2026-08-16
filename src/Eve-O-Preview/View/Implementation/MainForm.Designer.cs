@@ -56,6 +56,8 @@ namespace EveOPreview.View
 			TabPage ProfilesTabPage;
 			Panel ProfilesSettingsPanel;
 			Label ProfileNameLabel;
+			TabPage SystemTabPage;
+			Panel SystemSettingsPanel;
 			TabPage AboutTabPage;
 			Panel AboutPanel;
 			Label CreditMaintLabel;
@@ -130,6 +132,12 @@ namespace EveOPreview.View
 			EnableActiveClientHighlightCheckBox = new CheckBox();
 			ShowThumbnailOverlaysCheckBox = new CheckBox();
 			ShowThumbnailFramesCheckBox = new CheckBox();
+			btnSystemLabelFont = new Button();
+			LabelSystemLabelFont = new Label();
+			SystemLabelColorLabel = new Label();
+			SystemLabelColorButton = new Panel();
+			SystemLabelPositionLabel = new Label();
+			SystemLabelPositionCombo = new ComboBox();
 			ThumbnailsList = new CheckedListBox();
 			VersionLabel = new Label();
 			DocumentationLink = new LinkLabel();
@@ -164,6 +172,8 @@ namespace EveOPreview.View
 			SaveProfileButton = new Button();
 			LoadProfileButton = new Button();
 			DeleteProfileButton = new Button();
+			SystemTabPage = new TabPage();
+			SystemSettingsPanel = new Panel();
 			AboutTabPage = new TabPage();
 			AboutPanel = new Panel();
 			CreditMaintLabel = new Label();
@@ -192,6 +202,8 @@ namespace EveOPreview.View
 			ClientsPanel.SuspendLayout();
 			ProfilesTabPage.SuspendLayout();
 			ProfilesSettingsPanel.SuspendLayout();
+			SystemTabPage.SuspendLayout();
+			SystemSettingsPanel.SuspendLayout();
 			AboutTabPage.SuspendLayout();
 			AboutPanel.SuspendLayout();
 			TrayMenu.SuspendLayout();
@@ -230,6 +242,7 @@ namespace EveOPreview.View
 			ContentTabControl.Controls.Add(ThumbnailTabPage);
 			ContentTabControl.Controls.Add(ZoomTabPage);
 			ContentTabControl.Controls.Add(OverlayTabPage);
+			ContentTabControl.Controls.Add(SystemTabPage);
 			ContentTabControl.Controls.Add(ClientsTabPage);
 			ContentTabControl.Controls.Add(ProfilesTabPage);
 			ContentTabControl.Controls.Add(AboutTabPage);
@@ -272,7 +285,6 @@ namespace EveOPreview.View
 			GeneralSettingsPanel.Controls.Add(EnablePerClientThumbnailsLayoutsCheckBox);
 			GeneralSettingsPanel.Controls.Add(MinimizeToTrayCheckBox);
 			GeneralSettingsPanel.Controls.Add(EnableCycleHotkeysCheckBox);
-			GeneralSettingsPanel.Controls.Add(ShowSystemInThumbnailCheckBox);
 			GeneralSettingsPanel.Dock = DockStyle.Fill;
 			GeneralSettingsPanel.Location = new Point(4, 4);
 			GeneralSettingsPanel.Margin = new Padding(4);
@@ -419,18 +431,6 @@ namespace EveOPreview.View
 			EnableCycleHotkeysCheckBox.Text = "Enable cycle hotkeys";
 			EnableCycleHotkeysCheckBox.UseVisualStyleBackColor = true;
 			EnableCycleHotkeysCheckBox.CheckedChanged += OptionChanged_Handler;
-			// 
-			// ShowSystemInThumbnailCheckBox
-			// 
-			ShowSystemInThumbnailCheckBox.AutoSize = true;
-			ShowSystemInThumbnailCheckBox.Location = new Point(9, 211);
-			ShowSystemInThumbnailCheckBox.Margin = new Padding(4);
-			ShowSystemInThumbnailCheckBox.Name = "ShowSystemInThumbnailCheckBox";
-			ShowSystemInThumbnailCheckBox.Size = new Size(142, 19);
-			ShowSystemInThumbnailCheckBox.TabIndex = 30;
-			ShowSystemInThumbnailCheckBox.Text = "Show system location";
-			ShowSystemInThumbnailCheckBox.UseVisualStyleBackColor = true;
-			ShowSystemInThumbnailCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
 			// ThumbnailTabPage
 			// 
@@ -1263,6 +1263,109 @@ namespace EveOPreview.View
 			ShowThumbnailFramesCheckBox.UseVisualStyleBackColor = true;
 			ShowThumbnailFramesCheckBox.CheckedChanged += OptionChanged_Handler;
 			// 
+			// SystemTabPage
+			// 
+			SystemTabPage.BackColor = SystemColors.Control;
+			SystemTabPage.Controls.Add(SystemSettingsPanel);
+			SystemTabPage.Location = new Point(124, 4);
+			SystemTabPage.Margin = new Padding(4);
+			SystemTabPage.Name = "SystemTabPage";
+			SystemTabPage.Padding = new Padding(4);
+			SystemTabPage.Size = new Size(327, 243);
+			SystemTabPage.TabIndex = 7;
+			SystemTabPage.Text = "System";
+			// 
+			// SystemSettingsPanel
+			// 
+			SystemSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			SystemSettingsPanel.Controls.Add(ShowSystemInThumbnailCheckBox);
+			SystemSettingsPanel.Controls.Add(btnSystemLabelFont);
+			SystemSettingsPanel.Controls.Add(LabelSystemLabelFont);
+			SystemSettingsPanel.Controls.Add(SystemLabelColorLabel);
+			SystemSettingsPanel.Controls.Add(SystemLabelColorButton);
+			SystemSettingsPanel.Controls.Add(SystemLabelPositionLabel);
+			SystemSettingsPanel.Controls.Add(SystemLabelPositionCombo);
+			SystemSettingsPanel.Dock = DockStyle.Fill;
+			SystemSettingsPanel.Location = new Point(4, 4);
+			SystemSettingsPanel.Margin = new Padding(4);
+			SystemSettingsPanel.Name = "SystemSettingsPanel";
+			SystemSettingsPanel.Size = new Size(319, 235);
+			SystemSettingsPanel.TabIndex = 54;
+			// 
+			// ShowSystemInThumbnailCheckBox
+			// 
+			ShowSystemInThumbnailCheckBox.AutoSize = true;
+			ShowSystemInThumbnailCheckBox.Location = new Point(9, 8);
+			ShowSystemInThumbnailCheckBox.Margin = new Padding(4);
+			ShowSystemInThumbnailCheckBox.Name = "ShowSystemInThumbnailCheckBox";
+			ShowSystemInThumbnailCheckBox.Size = new Size(142, 19);
+			ShowSystemInThumbnailCheckBox.TabIndex = 30;
+			ShowSystemInThumbnailCheckBox.Text = "Show system location";
+			ShowSystemInThumbnailCheckBox.UseVisualStyleBackColor = true;
+			ShowSystemInThumbnailCheckBox.CheckedChanged += OptionChanged_Handler;
+			// 
+			// btnSystemLabelFont
+			// 
+			btnSystemLabelFont.Location = new Point(9, 40);
+			btnSystemLabelFont.Margin = new Padding(2);
+			btnSystemLabelFont.Name = "btnSystemLabelFont";
+			btnSystemLabelFont.Size = new Size(87, 26);
+			btnSystemLabelFont.TabIndex = 48;
+			btnSystemLabelFont.Text = "System Font";
+			btnSystemLabelFont.UseVisualStyleBackColor = true;
+			btnSystemLabelFont.Click += SystemLabelFontButton_Click;
+			// 
+			// LabelSystemLabelFont
+			// 
+			LabelSystemLabelFont.AutoSize = true;
+			LabelSystemLabelFont.Location = new Point(104, 45);
+			LabelSystemLabelFont.Margin = new Padding(4, 0, 4, 0);
+			LabelSystemLabelFont.Name = "LabelSystemLabelFont";
+			LabelSystemLabelFont.Size = new Size(47, 15);
+			LabelSystemLabelFont.TabIndex = 49;
+			LabelSystemLabelFont.Text = "System";
+			// 
+			// SystemLabelColorLabel
+			// 
+			SystemLabelColorLabel.AutoSize = true;
+			SystemLabelColorLabel.Location = new Point(9, 80);
+			SystemLabelColorLabel.Margin = new Padding(4, 0, 4, 0);
+			SystemLabelColorLabel.Name = "SystemLabelColorLabel";
+			SystemLabelColorLabel.Size = new Size(36, 15);
+			SystemLabelColorLabel.TabIndex = 50;
+			SystemLabelColorLabel.Text = "Color";
+			// 
+			// SystemLabelColorButton
+			// 
+			SystemLabelColorButton.BorderStyle = BorderStyle.FixedSingle;
+			SystemLabelColorButton.Location = new Point(52, 79);
+			SystemLabelColorButton.Margin = new Padding(4);
+			SystemLabelColorButton.Name = "SystemLabelColorButton";
+			SystemLabelColorButton.Size = new Size(108, 19);
+			SystemLabelColorButton.TabIndex = 51;
+			SystemLabelColorButton.Click += SystemLabelColorButton_Click;
+			// 
+			// SystemLabelPositionLabel
+			// 
+			SystemLabelPositionLabel.AutoSize = true;
+			SystemLabelPositionLabel.Location = new Point(9, 108);
+			SystemLabelPositionLabel.Margin = new Padding(4, 0, 4, 0);
+			SystemLabelPositionLabel.Name = "SystemLabelPositionLabel";
+			SystemLabelPositionLabel.Size = new Size(50, 15);
+			SystemLabelPositionLabel.TabIndex = 52;
+			SystemLabelPositionLabel.Text = "Position";
+			// 
+			// SystemLabelPositionCombo
+			// 
+			SystemLabelPositionCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+			SystemLabelPositionCombo.FormattingEnabled = true;
+			SystemLabelPositionCombo.Location = new Point(64, 106);
+			SystemLabelPositionCombo.Margin = new Padding(4);
+			SystemLabelPositionCombo.Name = "SystemLabelPositionCombo";
+			SystemLabelPositionCombo.Size = new Size(200, 23);
+			SystemLabelPositionCombo.TabIndex = 53;
+			SystemLabelPositionCombo.SelectedIndexChanged += OptionChanged_Handler;
+			// 
 			// ClientsTabPage
 			// 
 			ClientsTabPage.BackColor = SystemColors.Control;
@@ -1441,7 +1544,7 @@ namespace EveOPreview.View
 			CreditMaintLabel.Padding = new Padding(9, 4, 9, 4);
 			CreditMaintLabel.Size = new Size(292, 23);
 			CreditMaintLabel.TabIndex = 7;
-			CreditMaintLabel.Text = "Credit to previous maintainer: Phrynohyas Tig-Rah";
+			CreditMaintLabel.Text = "Base: Proopai/eve-o-preview — fork NekoLi3";
 			// 
 			// DocumentationLinkLabel
 			// 
@@ -1452,7 +1555,7 @@ namespace EveOPreview.View
 			DocumentationLinkLabel.Padding = new Padding(9, 4, 9, 4);
 			DocumentationLinkLabel.Size = new Size(259, 23);
 			DocumentationLinkLabel.TabIndex = 6;
-			DocumentationLinkLabel.Text = "For more information visit the forum thread:";
+			DocumentationLinkLabel.Text = "Fork con features custom — releases y changelog:";
 			// 
 			// DescriptionLabel
 			// 
@@ -1562,6 +1665,9 @@ namespace EveOPreview.View
 			ProfilesTabPage.ResumeLayout(false);
 			ProfilesSettingsPanel.ResumeLayout(false);
 			ProfilesSettingsPanel.PerformLayout();
+			SystemTabPage.ResumeLayout(false);
+			SystemSettingsPanel.ResumeLayout(false);
+			SystemSettingsPanel.PerformLayout();
 			AboutTabPage.ResumeLayout(false);
 			AboutPanel.ResumeLayout(false);
 			AboutPanel.PerformLayout();
@@ -1632,6 +1738,12 @@ namespace EveOPreview.View
         private RadioButton OverlayLabelSWRadioButton;
 		private ComboBox AnimationStyleCombo;
 		private CheckBox HideCaptionOnClientsCheckBox;
+		private Button btnSystemLabelFont;
+		private Label LabelSystemLabelFont;
+		private Label SystemLabelColorLabel;
+		private Panel SystemLabelColorButton;
+		private Label SystemLabelPositionLabel;
+		private ComboBox SystemLabelPositionCombo;
 		private Button btnLabelFont;
 		private Label LabelOverlayLabelFont;
 		private CheckBox PreventPreviewsCheckBox;

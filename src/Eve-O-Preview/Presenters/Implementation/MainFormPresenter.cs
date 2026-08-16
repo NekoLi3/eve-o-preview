@@ -13,7 +13,7 @@ namespace EveOPreview.Presenters
 	public class MainFormPresenter : Presenter<IMainFormView>, IMainFormPresenter
 	{
 		#region Private constants
-		private const string FORUM_URL = @"https://forums.eveonline.com/t/eve-o-preview-v8-0-2-0";
+		private const string FORUM_URL = @"https://github.com/NekoLi3/eve-o-preview/releases";
 		#endregion
 
 		#region Private fields
@@ -147,6 +147,10 @@ namespace EveOPreview.Presenters
 			this.View.OverlayLabelColor = this._configuration.OverlayLabelColor;
 			this.View.OverlayLabelFont = this._configuration.OverlayLabelFont;
 
+			this.View.SystemLabelPosition = this._configuration.SystemLabelPosition;
+			this.View.SystemLabelFont = this.ParseSystemLabelFont(this._configuration.SystemLabelFont);
+			this.View.SystemLabelColor = this.ParseSystemLabelColor(this._configuration.SystemLabelColor);
+
 
 			this.View.IconName = this._configuration.IconName;
 		}
@@ -207,6 +211,45 @@ namespace EveOPreview.Presenters
 
 			this._profileManager.DeleteProfile(profileName);
 			this.RefreshProfileList();
+		}
+
+		private Font ParseSystemLabelFont(string fontString)
+		{
+			if (string.IsNullOrEmpty(fontString))
+			{
+				// Empty means "inherit the character name label font"
+				return null;
+			}
+
+			try
+			{
+				return (Font)new FontConverter().ConvertFromInvariantString(fontString);
+			}
+			catch (Exception)
+			{
+				// Invalid value in the config - fall back to inheriting
+				return null;
+			}
+		}
+
+		private Color? ParseSystemLabelColor(string colorString)
+		{
+			if (string.IsNullOrEmpty(colorString))
+			{
+				// Empty means "inherit the character name label color"
+				return null;
+			}
+
+			try
+			{
+				object rawColor = new ColorConverter().ConvertFromInvariantString(colorString);
+				return rawColor != null ? (Color?)rawColor : null;
+			}
+			catch (Exception)
+			{
+				// Invalid value in the config - fall back to inheriting
+				return null;
+			}
 		}
 
 		private async void SaveApplicationSettings()
@@ -278,6 +321,10 @@ namespace EveOPreview.Presenters
 
 			this._configuration.OverlayLabelColor = this.View.OverlayLabelColor;
 			this._configuration.OverlayLabelFont = this.View.OverlayLabelFont;
+
+			this._configuration.SystemLabelPosition = this.View.SystemLabelPosition;
+			this._configuration.SystemLabelFont = this.View.SystemLabelFont == null ? "" : new FontConverter().ConvertToInvariantString(this.View.SystemLabelFont);
+			this._configuration.SystemLabelColor = this.View.SystemLabelColor == null ? "" : new ColorConverter().ConvertToInvariantString(this.View.SystemLabelColor.Value);
 
 			this._configuration.IconName = this.View.IconName;
 

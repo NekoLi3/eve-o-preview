@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace EveOPreview.Configuration.Implementation
 {
@@ -56,7 +57,10 @@ namespace EveOPreview.Configuration.Implementation
 			};
 			this.CycleHotkeysEnabled = true;
 			this.ShowSystemInThumbnail = false;
-			this.GamelogPath = "";
+			this.ChatlogsPath = "";
+			this.SystemLabelFont = "";
+			this.SystemLabelColor = "";
+			this.SystemLabelPosition = SystemLabelPosition.BelowName;
 
 			this.PerClientActiveClientHighlightColor = new Dictionary<string, Color>
 			{
@@ -212,8 +216,18 @@ namespace EveOPreview.Configuration.Implementation
 		[JsonProperty("ShowSystemInThumbnail")]
 		public bool ShowSystemInThumbnail { get; set; }
 
-		[JsonProperty("GamelogPath")]
-		public string GamelogPath { get; set; }
+		[JsonProperty("ChatlogsPath")]
+		public string ChatlogsPath { get; set; }
+
+		[JsonProperty("SystemLabelFont")]
+		public string SystemLabelFont { get; set; }
+
+		[JsonProperty("SystemLabelColor")]
+		public string SystemLabelColor { get; set; }
+
+		[JsonProperty("SystemLabelPosition")]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public SystemLabelPosition SystemLabelPosition { get; set; }
 
 		[JsonProperty("PerClientPreventPreviewColor")]
 		public Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }

@@ -8,6 +8,28 @@ Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstrea
 ### Fix
 - **Sistema solar en thumbnail no mostraba nada** (reportado por Rai): el `GamelogMonitor` buscaba el gamelog en `%TMP%\EVE Online\gamelog.txt` (clientes antiguos), pero el cliente moderno (launcher) escribe los logs en `Documents\EVE\logs\Gamelogs\gamelog.txt`. Ahora resuelve el path en orden: `GamelogPath` configurado → `Documents\EVE\logs\Gamelogs\gamelog.txt` (si existe el directorio) → fallback `%TMP%\EVE Online\gamelog.txt` (legacy).
 
+## [8.0.4.1] — 2026-08-16
+
+### Agregado
+- **Pestaña "System" nueva** en el panel de opciones (entre Overlay y Active Clients): agrupa el checkbox "Show system location" (movido de General) y la configuración del label del sistema (fuente, color, posición) en un layout limpio de columna única.
+- **Configuración del label del sistema** (independiente del label del personaje): `SystemLabelFont`, `SystemLabelColor` (vacío = hereda del label del personaje) y `SystemLabelPosition` (BelowName + 9 anclas). Sección en la pestaña System.
+- **About actualizado:** link a los releases del fork (NekoLi3/eve-o-preview) y crédito a la base Proopai.
+
+### Fix
+- **Sistema solar en thumbnail ahora lee los CHATLOGS de Local por personaje** (antes gamelog): el cliente moderno escribe los logs en `Documents\EVE\logs\Chatlogs\Local_*.txt` (UTF-16LE con BOM, uno por personaje con "Listener:" y "Channel changed to Local : <sistema>"). Watcher + refresco periódico (3s), parseo incremental, manejo de rotación por sesión (LastWriteTime), tolerante a archivos bloqueados por EVE. Opción de config: `ChatlogsPath` (default: auto = Documents\EVE\logs\Chatlogs).
+- Fix previo (8.0.3.1, no lanzado): path del gamelog para clientes modernos.
+
+### Archivos clave
+- `Services/Implementation/GamelogMonitor.cs` — fuente: chatlogs de Local (rewrite)
+- `Configuration/Interface/SystemLabelPosition.cs` — enum de posiciones (nuevo)
+- `View/Implementation/MainForm.Designer.cs` — pestaña System + About
+- `View/Implementation/ThumbnailOverlay.cs` — posicionamiento del label por ancla
+- `Presenters/Implementation/MainFormPresenter.cs` — About URL
+
+### Notas
+- Build: 0 errores (4 warnings pre-existentes). Binario framework-dependent (~2.3MB).
+- `ShowSystemInThumbnail` default `false`: el overlay no cambia hasta activar la opción.
+
 ## [8.0.3.0-custom.2] — 2026-08-16
 
 ### Agregado

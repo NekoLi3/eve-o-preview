@@ -28,7 +28,11 @@ namespace EveOPreview.Configuration
 
 		bool CycleHotkeysEnabled { get; set; }
 		bool ShowSystemInThumbnail { get; set; }
-		string GamelogPath { get; set; }
+		string ChatlogsPath { get; set; }
+
+		string SystemLabelFont { get; set; }
+		string SystemLabelColor { get; set; }
+		SystemLabelPosition SystemLabelPosition { get; set; }
 
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }

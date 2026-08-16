@@ -47,6 +47,11 @@ namespace EveOPreview.View
 		private Lazy<Color> _preventPreviewColor;
 		private Lazy<bool> _preventPreviews;
 		private IThumbnailManager _thumbnailManager;
+
+		// Cached parsed system label font (the config stores it as a string, and
+		// creating a new Font on every refresh would leak GDI handles)
+		private string _resolvedSystemLabelFontKey;
+		private Font _resolvedSystemLabelFont;
 		#endregion
 
 		protected ThumbnailView(IWindowManager windowManager, IThumbnailConfiguration config, IThumbnailManager thumbnailManager)
@@ -505,7 +510,7 @@ namespace EveOPreview.View
 			this._overlay.Size = overlaySize;
 
 			this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
-			this._overlay.SetPropertiesSystemLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
+			this._overlay.SetPropertiesSystemLabel(this.GetSystemLabelFont(), this.GetSystemLabelColor(), _config.SystemLabelPosition);
 
 			this._overlay.Location = overlayLocation;
 			this._overlay.Refresh();
@@ -516,6 +521,56 @@ namespace EveOPreview.View
 			// Workaround for WinForms issue with the Resize event being fired with inconsistent ClientSize value
 			// Any Resize events fired before this timestamp will be ignored
 			this._suppressResizeEventsTimestamp = DateTime.UtcNow.AddMilliseconds(_config.ThumbnailResizeTimeoutPeriod);
+		}
+
+		// Empty system label font/color strings in the config mean "inherit the
+		// character name label styling"
+		private Font GetSystemLabelFont()
+		{
+			string fontString = this._config.SystemLabelFont;
+			if (string.IsNullOrEmpty(fontString))
+			{
+				return this._config.OverlayLabelFont;
+			}
+
+			if (this._resolvedSystemLabelFont == null || this._resolvedSystemLabelFontKey != fontString)
+			{
+				this._resolvedSystemLabelFont?.Dispose();
+				this._resolvedSystemLabelFont = null;
+				this._resolvedSystemLabelFontKey = null;
+
+				try
+				{
+					this._resolvedSystemLabelFont = (Font)new FontConverter().ConvertFromInvariantString(fontString);
+					this._resolvedSystemLabelFontKey = fontString;
+				}
+				catch (Exception)
+				{
+					// Invalid font string in the config - fall back to inheriting
+					return this._config.OverlayLabelFont;
+				}
+			}
+
+			return this._resolvedSystemLabelFont;
+		}
+
+		private Color GetSystemLabelColor()
+		{
+			string colorString = this._config.SystemLabelColor;
+			if (string.IsNullOrEmpty(colorString))
+			{
+				return this._config.OverlayLabelColor;
+			}
+
+			try
+			{
+				object rawColor = new ColorConverter().ConvertFromInvariantString(colorString);
+				return rawColor != null ? (Color)rawColor : this._config.OverlayLabelColor;
+			}
+			catch (Exception)
+			{
+				return this._config.OverlayLabelColor;
+			}
 		}
 
 		#region GUI events

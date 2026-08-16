@@ -48,6 +48,11 @@ namespace EveOPreview.View
 
 			this.AnimationStyleCombo.DataSource = Enum.GetValues(typeof(AnimationStyle));
 
+			this.SystemLabelPositionCombo.Items.AddRange(new object[]
+			{
+				"Below name", "Top left", "Top", "Top right", "Left", "Center", "Right", "Bottom left", "Bottom", "Bottom right"
+			});
+
 			this.UpdateProfileButtons();
 		}
 
@@ -400,6 +405,35 @@ namespace EveOPreview.View
 		}
 		private Font _OverlayLabelFont;
 
+		// The system label font/color: null means "inherit from the character name label"
+		public Font SystemLabelFont
+		{
+			get => this._systemLabelFont;
+			set
+			{
+				this._systemLabelFont = value;
+				this.LabelSystemLabelFont.Font = value ?? this.OverlayLabelFont;
+			}
+		}
+		private Font _systemLabelFont;
+
+		public Color? SystemLabelColor
+		{
+			get => this._systemLabelColor;
+			set
+			{
+				this._systemLabelColor = value;
+				this.SystemLabelColorButton.BackColor = value ?? this.OverlayLabelColor;
+			}
+		}
+		private Color? _systemLabelColor;
+
+		public SystemLabelPosition SystemLabelPosition
+		{
+			get => (SystemLabelPosition)this.SystemLabelPositionCombo.SelectedIndex;
+			set => this.SystemLabelPositionCombo.SelectedIndex = (int)value;
+		}
+
 		public new void Show()
 		{
 			// Registers the current instance as the application's Main Form
@@ -567,6 +601,23 @@ namespace EveOPreview.View
 			this.OptionChanged_Handler(sender, e);
 		}
 
+		private void SystemLabelColorButton_Click(object sender, EventArgs e)
+		{
+			using (ColorDialog dialog = new ColorDialog())
+			{
+				dialog.Color = this.SystemLabelColor ?? this.OverlayLabelColor;
+
+				if (dialog.ShowDialog() != DialogResult.OK)
+				{
+					return;
+				}
+
+				this.SystemLabelColor = dialog.Color;
+			}
+
+			this.OptionChanged_Handler(sender, e);
+		}
+
 		private void ThumbnailsList_ItemCheck_Handler(object sender, ItemCheckEventArgs e)
 		{
 			if (!(this.ThumbnailsList.Items[e.Index] is IThumbnailDescription selectedItem))
@@ -681,6 +732,21 @@ namespace EveOPreview.View
 			{
 				OverlayLabelFont = fontSelector.Font;
 				LabelOverlayLabelFont.Font = fontSelector.Font;
+				this.OptionChanged_Handler(sender, e);
+			}
+		}
+
+		private void SystemLabelFontButton_Click(object sender, EventArgs e)
+		{
+			FontDialog fontSelector = new FontDialog();
+			fontSelector.Font = this.SystemLabelFont ?? OverlayLabelFont;
+			fontSelector.ShowColor = false;
+			fontSelector.ShowApply = false;
+			fontSelector.ShowHelp = false;
+			if (fontSelector.ShowDialog() != DialogResult.Cancel)
+			{
+				this.SystemLabelFont = fontSelector.Font;
+				LabelSystemLabelFont.Font = fontSelector.Font;
 				this.OptionChanged_Handler(sender, e);
 			}
 		}

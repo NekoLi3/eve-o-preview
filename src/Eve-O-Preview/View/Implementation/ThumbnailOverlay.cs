@@ -18,6 +18,7 @@ namespace EveOPreview.View
 		private readonly Action<object, MouseEventArgs> _areaMouseUpAction;
 		private readonly Action<object, MouseEventArgs> _areaMouseMoveAction;
 		private bool _showOverlayText = true;
+		private SystemLabelPosition _systemLabelPosition = SystemLabelPosition.BelowName;
 		#endregion
 
 		public ThumbnailOverlay(Form owner,
@@ -207,10 +208,11 @@ namespace EveOPreview.View
 			this.UpdateSystemLabelLayout();
 		}
 
-		public void SetPropertiesSystemLabel(Font f, System.Drawing.Color c, ZoomAnchor anchor)
+		public void SetPropertiesSystemLabel(Font f, System.Drawing.Color c, SystemLabelPosition position)
 		{
-			// The system label reuses the character name label styling and is
-			// positioned right below it, so only the layout needs to be refreshed
+			this.SystemLabel.Font = f;
+			this.SystemLabel.ForeColor = c;
+			this._systemLabelPosition = position;
 			this.UpdateSystemLabelLayout();
 		}
 
@@ -220,10 +222,58 @@ namespace EveOPreview.View
 			{
 				this.SystemLabel.Size = TextRenderer.MeasureText(this.SystemLabel.Text, this.SystemLabel.Font);
 			}
-			this.SystemLabel.Left = this.OverlayLabel.Left;
-			this.SystemLabel.Top = this.OverlayLabel.Top + this.OverlayLabel.Height + 2;
-			this.SystemLabel.Font = this.OverlayLabel.Font;
-			this.SystemLabel.ForeColor = this.OverlayLabel.ForeColor;
+
+			if (this._systemLabelPosition == SystemLabelPosition.BelowName)
+			{
+				// Default behavior: right below the character name label, aligned with it
+				this.SystemLabel.Left = this.OverlayLabel.Left;
+				this.SystemLabel.Top = this.OverlayLabel.Top + this.OverlayLabel.Height + 2;
+				return;
+			}
+
+			// Absolute positioning, same margins as the character name label anchors
+			const int margin = 5;
+			ZoomAnchor anchor = (ZoomAnchor)((int)this._systemLabelPosition - 1);
+
+			switch (anchor)
+			{
+				case ZoomAnchor.NW:
+					this.SystemLabel.Left = margin;
+					this.SystemLabel.Top = margin;
+					break;
+				case ZoomAnchor.N:
+					this.SystemLabel.Left = (this.Width / 2) - (this.SystemLabel.Width / 2);
+					this.SystemLabel.Top = margin;
+					break;
+				case ZoomAnchor.NE:
+					this.SystemLabel.Left = this.Width - this.SystemLabel.Width - margin;
+					this.SystemLabel.Top = margin;
+					break;
+				case ZoomAnchor.W:
+					this.SystemLabel.Left = margin;
+					this.SystemLabel.Top = (this.Height / 2) - (this.SystemLabel.Height / 2);
+					break;
+				case ZoomAnchor.C:
+					this.SystemLabel.Left = (this.Width / 2) - (this.SystemLabel.Width / 2);
+					this.SystemLabel.Top = (this.Height / 2) - (this.SystemLabel.Height / 2);
+					break;
+				case ZoomAnchor.E:
+					this.SystemLabel.Left = this.Width - this.SystemLabel.Width - margin;
+					this.SystemLabel.Top = (this.Height / 2) - (this.SystemLabel.Height / 2);
+					break;
+				case ZoomAnchor.SW:
+					this.SystemLabel.Left = margin;
+					this.SystemLabel.Top = this.Height - this.SystemLabel.Height - margin;
+					break;
+				case ZoomAnchor.S:
+					this.SystemLabel.Left = (this.Width / 2) - (this.SystemLabel.Width / 2);
+					this.SystemLabel.Top = this.Height - this.SystemLabel.Height - margin;
+					break;
+				case ZoomAnchor.SE:
+					this.SystemLabel.Left = this.Width - this.SystemLabel.Width - margin;
+					this.SystemLabel.Top = this.Height - this.SystemLabel.Height - margin;
+					break;
+			}
 		}
 
 		public void EnableOverlayLabel(bool enable)

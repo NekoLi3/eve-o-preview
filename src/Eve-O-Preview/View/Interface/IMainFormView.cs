@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using EveOPreview.Configuration;
 
 namespace EveOPreview.View
 {
@@ -52,6 +53,9 @@ namespace EveOPreview.View
 		Color PreventPreviewColor { get; set; }
 		Color OverlayLabelColor { get; set; }
 		Font OverlayLabelFont { get; set; }
+		Font SystemLabelFont { get; set; }
+		Color? SystemLabelColor { get; set; }
+		SystemLabelPosition SystemLabelPosition { get; set; }
 
 		string IconName { get; set; }
 
