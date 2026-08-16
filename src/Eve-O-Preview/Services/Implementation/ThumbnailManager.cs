@@ -634,6 +634,17 @@ namespace EveOPreview.Services
 		{
 			this.SetCycleGroupIndicator(this._configuration.CycleGroupIndicatorAnchor);
 		}
+		public void UpdateActiveColour()
+		{
+			this.DisableViewEvents();
+
+			var view = GetActiveClient();
+			view.SetDefaultBorderColor();
+			view.SetHighlight(false, 0);
+			view.SetHighlight();
+
+			this.EnableViewEvents();
+		}
 
 		private void SetCycleGroupIndicator(ZoomAnchor anchor)
 		{

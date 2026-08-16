@@ -7,6 +7,7 @@ namespace EveOPreview.Services
 		void Start();
 		void Stop();
 
+		void UpdateActiveColour();
 		void UpdateCycleGroupIndicator();
 		void UpdateThumbnailsSize();
 		void UpdateThumbnailFrames();
