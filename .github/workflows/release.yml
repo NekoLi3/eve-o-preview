@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Release
@@ -21,27 +24,30 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+      - name: Compute version
+        id: version
+        shell: bash
+        run: |
+          VER="${TAG#v}"
+          echo "VERSION=${VER%-*}" >> $GITHUB_OUTPUT
+        env:
+          TAG: ${{ github.event.release.tag_name }}
       - name: Restore
         run: dotnet restore src\\Eve-O-Preview\\Eve-O-Preview.csproj
       - name: Build
         run: |
            echo "${{matrix.platform.name}} ${{ github.event.release.tag_name }}"
-           dotnet build src\\Eve-O-Preview\\Eve-O-Preview.csproj --configuration Release  -p:EVEOTARGET="${{matrix.platform.name}}" -p:AssemblyVersion="${{ github.event.release.tag_name }}" -p:FileVersion="${{ github.event.release.tag_name }}"
+           dotnet build src\\Eve-O-Preview\\Eve-O-Preview.csproj --configuration Release  -p:EVEOTARGET="${{matrix.platform.name}}" -p:AssemblyVersion="${{ steps.version.outputs.VERSION }}" -p:FileVersion="${{ steps.version.outputs.VERSION }}"
       - name: BuildPackage
         run: |
           git log --pretty=format:'%d %s' ${GITHUB_REF} | perl -pe 's| \(.*tag: v(\d+.\d+.\d+(-preview\d{3})?)(, .*?)*\)|\n## \1\n|g' 
           # Build everything
-          dotnet publish src\\Eve-O-Preview\\Eve-O-Preview.csproj -c Release -o "Eve-O-Preview-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}" -p:EVEOTARGET="${{matrix.platform.name}}" -p:AssemblyVersion="${{ github.event.release.tag_name }}" -p:FileVersion="${{ github.event.release.tag_name }}" --self-contained  ${{matrix.platform.self_contained}}
+          dotnet publish src\\Eve-O-Preview\\Eve-O-Preview.csproj -c Release -o "Eve-O-Preview-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}" -p:EVEOTARGET="${{matrix.platform.name}}" -p:AssemblyVersion="${{ steps.version.outputs.VERSION }}" -p:FileVersion="${{ steps.version.outputs.VERSION }}" --self-contained  ${{matrix.platform.self_contained}}
       - name: Create archive
         run: |
           Compress-Archive -Path "Eve-O-Preview-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}\\*" -Destination "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip"
       - name: Upload Asset
-        id: upload-release-client-asset 
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip"
-          asset_name: "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip"
-          asset_content_type: application/zip
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip" --clobber
