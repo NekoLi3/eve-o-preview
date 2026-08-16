@@ -26,6 +26,8 @@ namespace EveOPreview.Configuration
 		List<string> CycleGroup5BackwardHotkeys { get; set; }
 		Dictionary<string, int> CycleGroup5ClientsOrder { get; set; }
 
+		bool CycleHotkeysEnabled { get; set; }
+
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
 		Dictionary<string, bool> PerClientPreventPreviews { get; set; }

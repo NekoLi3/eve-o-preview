@@ -55,6 +55,12 @@ namespace EveOPreview.View
 			set => this.MinimizeToTrayCheckBox.Checked = value;
 		}
 
+		public bool CycleHotkeysEnabled
+		{
+			get => this.EnableCycleHotkeysCheckBox.Checked;
+			set => this.EnableCycleHotkeysCheckBox.Checked = value;
+		}
+
 		public string IconName
 		{
 			get => this._iconName;
