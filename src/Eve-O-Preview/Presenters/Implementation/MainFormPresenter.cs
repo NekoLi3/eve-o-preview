@@ -311,7 +311,12 @@ namespace EveOPreview.Presenters
             this._configuration.ThumbnailSnapToGridSizeY = this.View.ThumbnailSnapToGridSizeY;
 
             this._configuration.EnableActiveClientHighlight = this.View.EnableActiveClientHighlight;
-			this._configuration.ActiveClientHighlightColor = this.View.ActiveClientHighlightColor;
+
+			if (this._configuration.ActiveClientHighlightColor != this.View.ActiveClientHighlightColor)
+			{
+				this._configuration.ActiveClientHighlightColor = this.View.ActiveClientHighlightColor;
+				await this._mediator.Publish(new ThumbnailActiveColourUpdated());
+			}
 
 			if (this._configuration.PreventPreviewColor != this.View.PreventPreviewColor)
 			{
