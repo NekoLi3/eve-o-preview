@@ -1,9 +1,10 @@
-﻿using System;
+﻿using EveOPreview.Configuration;
+using EveOPreview.Services.Interop;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using EveOPreview.Configuration;
-using EveOPreview.Services.Interop;
+using System.Windows.Input;
 
 namespace EveOPreview.Services.Implementation
 {
@@ -222,6 +223,7 @@ namespace EveOPreview.Services.Implementation
 
 		public void MinimizeWindow(IntPtr handle, AnimationStyle animation, bool enableAnimation)
 		{
+			System.Diagnostics.Debug.WriteLine($"MinimizeWindow");
 			if (enableAnimation)
 			{
 				switch (animation)

@@ -139,6 +139,9 @@
   <data name="GeneralSettingsPanel.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="label6.GenerateMember" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="label4.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>

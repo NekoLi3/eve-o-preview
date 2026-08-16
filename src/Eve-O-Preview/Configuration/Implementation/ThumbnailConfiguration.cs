@@ -78,6 +78,12 @@ namespace EveOPreview.Configuration.Implementation
 				{"EVE - Example Toon 2", true}
 			};
 
+			this.PerClientAliases = new Dictionary<string, string>
+			{
+				{"EVE - Example Toon 1", "Main"},
+				{"EVE - Example Toon 2", "Alt"}
+			};
+
 			this.PerClientThumbnailSize = new Dictionary<string, Size>
 			{
 				{"EVE - Example Toon 1", new Size(200, 200)},
@@ -116,7 +122,7 @@ namespace EveOPreview.Configuration.Implementation
 			this.HideActiveClientThumbnail = false;
 			this.HideLoginClientThumbnail = false;
 			this.MinimizeInactiveClients = false;
-			this.HideCaptionOnClients = true;
+			this.CaptionOnClientsStyle = CaptionBarStyle.ForceNoCaptionBar; // predeterminado según pedido de Rai (equivale a HideCaptionOnClients = true)
 			this.WindowsAnimationStyle = AnimationStyle.NoAnimation;
 			this.ShowThumbnailsAlwaysOnTop = true;
 			this.EnablePerClientThumbnailLayouts = false;
@@ -238,6 +244,9 @@ namespace EveOPreview.Configuration.Implementation
 		[JsonProperty("PerClientPreventPreviews")]
 		public Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 
+		[JsonProperty("PerClientAliases")]
+		public Dictionary<string, string> PerClientAliases { get; set; }
+
 		[JsonProperty("PerClientThumbnailSize")]
 		public Dictionary<string, Size> PerClientThumbnailSize { get; set; }
 
@@ -270,7 +279,7 @@ namespace EveOPreview.Configuration.Implementation
 		public bool HideActiveClientThumbnail { get; set; }
 		public bool HideLoginClientThumbnail { get; set; }
 		public bool MinimizeInactiveClients { get; set; }
-		public bool HideCaptionOnClients { get; set; }
+		public CaptionBarStyle CaptionOnClientsStyle { get; set; }
 		public AnimationStyle WindowsAnimationStyle { get; set; }
 		public bool ShowThumbnailsAlwaysOnTop { get; set; }
 
