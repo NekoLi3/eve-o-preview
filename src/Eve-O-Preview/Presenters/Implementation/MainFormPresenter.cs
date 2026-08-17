@@ -108,7 +108,16 @@ namespace EveOPreview.Presenters
 		private void LoadApplicationSettings()
 		{
 			this._configurationStorage.Load();
+			this.ApplyConfigurationToView();
+		}
 
+		/// <summary>
+		/// Copies the in-memory configuration to the view without touching the
+		/// configuration storage. Used when a layout profile was just applied to
+		/// the live configuration object (reloading from disk would overwrite it).
+		/// </summary>
+		private void ApplyConfigurationToView()
+		{
 			this.View.MinimizeToTray = this._configuration.MinimizeToTray;
 			this.View.CycleHotkeysEnabled = this._configuration.CycleHotkeysEnabled;
 			this.View.ShowSystemInThumbnail = this._configuration.ShowSystemInThumbnail;
@@ -183,11 +192,14 @@ namespace EveOPreview.Presenters
 			// Apply the profile to the live configuration, then re-apply everything
 			// the way it is done at startup: refresh the view and notify the
 			// ThumbnailManager so it re-applies frames, sizes, indicators,
-			// cycle hotkeys and per-client hotkeys without a restart
+			// cycle hotkeys and per-client hotkeys without a restart.
+			// NOTE: this must NOT go through LoadApplicationSettings(), which
+			// reloads the configuration file from disk and would overwrite the
+			// profile that was just applied.
 			this._profileManager.LoadProfile(profileName);
 
 			this._suppressSizeNotifications = true;
-			this.LoadApplicationSettings();
+			this.ApplyConfigurationToView();
 			this._suppressSizeNotifications = false;
 
 			await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
