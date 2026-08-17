@@ -88,6 +88,7 @@ namespace EveOPreview.Configuration
 
 		string IconName { get; set; }
 		List<string> MinimizeAllClientsHotkeys { get; set; }
+		List<string> ToggleCycleHotkeysHotkey { get; set; }
 
 		Point LoginThumbnailLocation { get; set; }
 

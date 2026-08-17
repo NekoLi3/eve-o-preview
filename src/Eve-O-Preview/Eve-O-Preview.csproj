@@ -66,8 +66,8 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <UseWPF>True</UseWPF>
-    <AssemblyVersion>8.0.4.2</AssemblyVersion>
-    <FileVersion>8.0.4.2</FileVersion>
+    <AssemblyVersion>8.0.4.3</AssemblyVersion>
+    <FileVersion>8.0.4.3</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Build|AnyCPU'">

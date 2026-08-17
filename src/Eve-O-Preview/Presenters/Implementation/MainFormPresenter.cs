@@ -415,6 +415,16 @@ namespace EveOPreview.Presenters
 			this._suppressSizeNotifications = false;
 		}
 
+		/// <summary>
+		/// Synchronizes the "Enable cycle hotkeys" checkbox with the live
+		/// configuration. Used when the toggle hotkey (or a profile load)
+		/// changed CycleHotkeysEnabled outside of the UI controls.
+		/// </summary>
+		public void ApplyCycleHotkeysState()
+		{
+			this.View.CycleHotkeysEnabled = this._configuration.CycleHotkeysEnabled;
+		}
+
 		private void OpenDocumentationLink()
 		{
 			// funtimes

@@ -3,6 +3,25 @@
 Cambios del fork privado sobre la base `Proopai/eve-o-preview` (rama `unified-source-build`).
 Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstream, `custom` cuenta releases del fork. A partir de 8.0.3.0 el minor sube con features grandes.
 
+## [8.0.4.3] — 2026-08-16
+
+### Agregado
+- **Hotkey de toggle para "Enable cycle hotkeys"**: nueva hotkey global configurable (`ToggleCycleHotkeysHotkey`, default `Control+F23`, lista estilo `MinimizeAllClientsHotkeys`) que invierte `CycleHotkeysEnabled` al vuelo sin abrir la UI:
+  - Si las cycle hotkeys están activas → se desregistran (la tecla queda libre en Windows).
+  - Si están apagadas → se vuelven a registrar.
+  - El checkbox "Enable cycle hotkeys" en tab General se sincroniza inmediatamente y el nuevo estado persiste en la config (`EVE-O-Preview.json`).
+  - Flujo: ThumbnailManager (hotkey) → `CycleHotkeysToggleRequested` → handler → flip de config + `UpdateCycleHotkeys()` + sync de vista + save. Un solo re-registro por toggle, sin loops.
+  - Config-only: no hay campo UI (igual que las hotkeys de "Minimize all clients"), se configura vía JSON.
+
+### Archivos clave
+- `Configuration/.../ThumbnailConfiguration.cs` (+ interfaz) — `ToggleCycleHotkeysHotkey`
+- `Services/Implementation/ThumbnailManager.Hotkeys.cs` (nuevo partial) — `RegisterCycleHotkeysToggleHotkey`
+- `Mediator/.../CycleHotkeysToggleRequested.cs` (+ handler) — flujo toggle manager → presenter
+- `Presenters/.../MainFormPresenter.cs` (+ `IMainFormPresenter`) — `ApplyCycleHotkeysState()` (sync checkbox)
+
+### Notas
+- Build: 0 errores. Binario framework-dependent.
+
 ## [8.0.4.2] — 2026-08-16
 
 ### Cambiado

@@ -89,6 +89,8 @@ namespace EveOPreview.Services
 			}
 
 			RegisterMinimizeAllClientsHotkey(this._configuration.MinimizeAllClientsHotkeys?.Select(x => this._configuration.StringToKey(x)));
+
+			RegisterCycleHotkeysToggleHotkey(this._configuration.ToggleCycleHotkeysHotkey?.Select(x => this._configuration.StringToKey(x)));
 		}
 
 		public IThumbnailView GetClientByTitle(string title)
