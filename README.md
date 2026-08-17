@@ -78,7 +78,7 @@ CCP Grimmi wrote:
 | Hide preview of active EVE client | Determines whether the thumbnail corresponding to the active EVE client is not displayed |
 | Minimize inactive EVE clients | Allows to auto-minimize inactive EVE clients to save CPU and GPU |
 | Animation Style | Use original animation style (0) or No Animation style (1). You may find Original is cleaner with fixed window mode and No Animation is cleaner with windowed mode. Especially when using minimize inactive clients.
-| CaptionBar Style | Force show caption bar, force No caption bar or do Nothing on all eve clients. |
+| Hide caption bar on clients | Hides (or shows) caption bar on eve clients |
 | Previews always on top | Determines whether EVE client thumbnails should stay on top of all other windows |
 | Hide previews when EVE client is not active | Determines whether all thumbnails should be visible only when an EVE client is active |
 | Unique layout for each EVE client | Determines whether thumbnails positions are different depending on the EVE client being active |
@@ -351,23 +351,6 @@ Open the file using any text editor. find the entry **PerClientPreventPreviewCol
 You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a background color for when that client has prevent preview true (either Per Client or global). Do NOT select #000001 else you will be clashing with Transparency settings.
 
 If a client does not appear in this list, then it will use the global Prevent Preview Color by default.
-
-### Per Client Alias
-Would you like something other than the character name to appear in the preview window ? Maybe you want Main, Scout, Miner1,Miner2,etc... or just wish to hide your toon names when streaming on Eve-O-Previews....
-
-EVE-O Preview doesn't provide any GUI to set the these per client overrides as yet. Though, It can be done via editing the configuration file directly. 
-**Note** Don't forget to make a backup copy of the file before editing it.
-
-Open the file using any text editor. find the entry **PerClientAliases**. Most probably it will look like
-
-"PerClientAliases": {
-      "EVE - Example Toon 1": "Main",
-      "EVE - Example Toon 2": "Alt"
-    }
-
-You should modify this entry with a list of each of your clients replacing "Example Toon 1", etc with the name of your character. The values on the right allow you to set a label for the preview overlay. 
-
-If a client does not appear in this list, then it will use the actual toon name.
 
 ### Compatibility Mode
 

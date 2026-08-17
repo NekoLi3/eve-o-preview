@@ -108,17 +108,12 @@ namespace EveOPreview.Services
 
 		public void SetActive(KeyValuePair<IntPtr, IThumbnailView> newClient)
 		{
-			System.Diagnostics.Debug.WriteLine($"SetActive {newClient.Value.Title}");
-
 			this.GetActiveClient()?.ClearBorder();
-
-/*
 #if LINUX
 			this._windowManager.ActivateWindow(newClient.Key, newClient.Value.Title);
 #else
 			this._windowManager.ActivateWindow(newClient.Key, this._configuration.WindowsAnimationStyle);
 #endif
-*/
 			this.SwitchActiveClient(newClient.Key, newClient.Value.Title);
 
 			newClient.Value.SetHighlight();
@@ -132,19 +127,6 @@ namespace EveOPreview.Services
 				this._windowManager.MinimizeWindow(x.Value.Id, this._configuration.WindowsAnimationStyle, false);
 			}
 		}
-
-		public void ShowAllClients()
-		{
-			foreach (var x in _thumbnailViews.Reverse())
-			{
-#if LINUX
-			this._windowManager.ActivateWindow(x.Value.Id, x.Value.Title);
-#else
-				this._windowManager.ActivateWindow(x.Value.Id, this._configuration.WindowsAnimationStyle);
-#endif
-			}
-		}
-
 		public void CycleNextClient(bool isForwards, Dictionary<string, int> cycleOrder)
 		{
 			IOrderedEnumerable<KeyValuePair<string, int>> clientOrder;
@@ -155,9 +137,7 @@ namespace EveOPreview.Services
 				int order = 0;
 				foreach( var x in _thumbnailViews )
 				{
-					if (!_cycleOrder.ContainsKey(x.Value.Title)) {
-						_cycleOrder.Add(x.Value.Title, order++);
-					}
+					_cycleOrder.Add(x.Value.Title, order++);
 				}
 			}
 
@@ -634,17 +614,6 @@ namespace EveOPreview.Services
 		{
 			this.SetCycleGroupIndicator(this._configuration.CycleGroupIndicatorAnchor);
 		}
-		public void UpdateActiveColour()
-		{
-			this.DisableViewEvents();
-
-			var view = GetActiveClient();
-			view.SetDefaultBorderColor();
-			view.SetHighlight(false, 0);
-			view.SetHighlight();
-
-			this.EnableViewEvents();
-		}
 
 		private void SetCycleGroupIndicator(ZoomAnchor anchor)
 		{
@@ -703,21 +672,16 @@ namespace EveOPreview.Services
 			{
 				return;
 			}
-			System.Diagnostics.Debug.WriteLine($"SwitchActiveClient {foregroundClientTitle}");
-
-#if LINUX
-   			    this._windowManager.ActivateWindow(foregroundClientHandle, foregroundClientTitle);
-#else
-			this._windowManager.ActivateWindow(foregroundClientHandle, this._configuration.WindowsAnimationStyle);
-#endif
 
 			// Minimize the currently active client if needed
 			if (this._configuration.MinimizeInactiveClients && !this._configuration.IsPriorityClient(this._activeClient.Title))
 			{
-				System.Diagnostics.Debug.WriteLine($"Calling MinimizeWindow {this._activeClient.Title}");
-
-				System.Threading.Thread.Sleep(20);
 				this._windowManager.MinimizeWindow(this._activeClient.Handle, this._configuration.WindowsAnimationStyle, false);
+#if LINUX
+   			    this._windowManager.ActivateWindow(foregroundClientHandle, foregroundClientTitle);
+#else
+				this._windowManager.ActivateWindow(foregroundClientHandle, this._configuration.WindowsAnimationStyle);
+#endif
 			}
 
 			this._activeClient = (foregroundClientHandle, foregroundClientTitle);
@@ -766,8 +730,6 @@ namespace EveOPreview.Services
 		{
 			IThumbnailView view = this._thumbnailViews[id];
 
-			System.Diagnostics.Debug.WriteLine($"ThumbnailActivated {view.Title}");
-
 			Task.Run(() =>
 				{
 #if LINUX
@@ -787,8 +749,6 @@ namespace EveOPreview.Services
 
 		private void ThumbnailDeactivated(IntPtr id, bool switchOut)
 		{
-			System.Diagnostics.Debug.WriteLine($"ThumbnailDeactivated");
-
 			if (switchOut)
 			{
 #if LINUX
@@ -998,9 +958,9 @@ namespace EveOPreview.Services
 
 		{
 			if (view.Title == ThumbnailManager.DEFAULT_CLIENT_TITLE) return;
-			if (this._configuration.CaptionOnClientsStyle == CaptionBarStyle.DoNothing) return;
+			IntPtr handle = view.Id;
 
-			bool enable = (this._configuration.CaptionOnClientsStyle == CaptionBarStyle.ForceNoCaptionBar ? true : false) ;
+			bool enable = this._configuration.HideCaptionOnClients;
 			bool changed = false;
 			changed = changed | SetWindowStyle(view, InteropConstants.WS_CAPTION, enable);
 			changed = changed | SetWindowStyle(view, InteropConstants.WS_THICKFRAME, enable);
@@ -1036,8 +996,6 @@ namespace EveOPreview.Services
 			{
 				this._windowManager.MoveWindow(clientHandle, clientLayout.X, clientLayout.Y, clientLayout.Width, clientLayout.Height);
 			}
-
-			view.Title = clientTitle;
 		}
 
 		private void UpdateClientLayouts()

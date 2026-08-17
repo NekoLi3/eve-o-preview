@@ -36,7 +36,6 @@ namespace EveOPreview.Configuration
 
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
-		Dictionary<string, string> PerClientAliases { get; set; }
 		Dictionary<string, bool> PerClientPreventPreviews { get; set; }
 		Dictionary<string, Size> PerClientThumbnailSize { get; set; }
 		Dictionary<string, bool> CycleGroupExclusions { get; set; }
@@ -52,7 +51,7 @@ namespace EveOPreview.Configuration
 		bool HideActiveClientThumbnail { get; set; }
 		bool HideLoginClientThumbnail { get; set; }
 		bool MinimizeInactiveClients { get; set; }
-		CaptionBarStyle CaptionOnClientsStyle { get; set; }
+		bool HideCaptionOnClients { get; set; }
 		AnimationStyle WindowsAnimationStyle { get; set; }
 		bool ShowThumbnailsAlwaysOnTop { get; set; }
 		bool EnablePerClientThumbnailLayouts { get; set; }

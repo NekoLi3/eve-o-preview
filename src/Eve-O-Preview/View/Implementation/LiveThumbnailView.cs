@@ -27,7 +27,7 @@ namespace EveOPreview.View
 			// To prevent flickering the old broken thumbnail is removed AFTER the new shiny one is created
 			IDwmThumbnail obsoleteThumbnail = forceRefresh ? this._thumbnail : null;
 
-			if (  (this._thumbnail == null|| forceRefresh) && ! this.IsPreventPreviews() )
+			if ((this._thumbnail == null) || forceRefresh && ! this.IsPreventPreviews() )
 			{
 				this.RegisterThumbnail();
 			}
@@ -49,8 +49,8 @@ namespace EveOPreview.View
 			this._startLocation = new Point(left, top);
 			this._endLocation = new Point(right, bottom);
 
-			this._thumbnail?.Move(left, top, right, bottom);
-			this._thumbnail?.Update();
+			this._thumbnail.Move(left, top, right, bottom);
+			this._thumbnail.Update();
 		}
 
 		private void RegisterThumbnail()
