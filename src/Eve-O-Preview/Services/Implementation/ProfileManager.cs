@@ -105,6 +105,10 @@ namespace EveOPreview.Services.Implementation
 			{
 				// The profile could not be read; keep the current configuration untouched
 			}
+			catch (JsonException)
+			{
+				// The profile file is malformed JSON; keep the current configuration untouched
+			}
 		}
 
 		public void DeleteProfile(string name)
