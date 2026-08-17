@@ -626,9 +626,12 @@ namespace EveOPreview.Services
 			this.DisableViewEvents();
 
 			var view = GetActiveClient();
-			view.SetDefaultBorderColor();
-			view.SetHighlight(false, 0);
-			view.SetHighlight();
+			if (view != null)
+			{
+				view.SetDefaultBorderColor();
+				view.SetHighlight(false, 0);
+				view.SetHighlight();
+			}
 
 			this.EnableViewEvents();
 		}
