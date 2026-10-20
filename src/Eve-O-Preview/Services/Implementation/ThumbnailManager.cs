@@ -208,6 +208,49 @@ namespace EveOPreview.Services
 			// unable to select anything !
 			return;
 		}
+		public void CycleNextExcludedClient(bool isForwards)
+		{
+			IEnumerable<KeyValuePair<IntPtr, IThumbnailView>> excludedClients = this._thumbnailViews
+				.Where(x => x.Value.IsExcludedFromCycleGroup);
+
+			List<KeyValuePair<IntPtr, IThumbnailView>> orderedClients = (isForwards
+					? excludedClients.OrderBy(x => x.Value.Id.ToInt64())
+					: excludedClients.OrderByDescending(x => x.Value.Id.ToInt64()))
+				.ToList();
+
+			if (orderedClients.Count == 0)
+			{
+				return;
+			}
+
+			int nextIndex = GetNextExcludedClientIndex(orderedClients.Select(x => x.Key).ToList(), this._activeClient.Handle);
+			if (nextIndex < 0)
+			{
+				return;
+			}
+
+			this.SetActive(orderedClients[nextIndex]);
+		}
+
+		internal static int GetNextExcludedClientIndex(IReadOnlyList<IntPtr> orderedHandles, IntPtr activeHandle)
+		{
+			if (orderedHandles == null || orderedHandles.Count == 0)
+			{
+				return -1;
+			}
+
+			int activeIndex = -1;
+			for (int i = 0; i < orderedHandles.Count; i++)
+			{
+				if (orderedHandles[i] == activeHandle)
+				{
+					activeIndex = i;
+					break;
+				}
+			}
+
+			return (activeIndex + 1) % orderedHandles.Count;
+		}
 
 		public void RegisterCycleClientHotkey(IEnumerable<Keys> keys, bool isForwards, Dictionary<string, int> cycleOrder)
 		{
@@ -229,6 +272,33 @@ namespace EveOPreview.Services
 				this._cycleClientHotkeyHandlers.Add(newHandler);
 			}
 		}
+
+		private void RegisterExcludedCycleClientHotkey(IEnumerable<Keys> keys, bool isForwards)
+		{
+			if (keys == null)
+			{
+				return;
+			}
+
+			foreach (var hotkey in keys)
+			{
+				if (hotkey == Keys.None)
+				{
+					return;
+				}
+
+				var newHandler = new HotkeyHandler(default(IntPtr), hotkey);
+				newHandler.Pressed += (object s, HandledEventArgs e) =>
+				{
+					this.CycleNextExcludedClient(isForwards);
+					e.Handled = true;
+				};
+
+				newHandler.Register();
+				this._cycleClientHotkeyHandlers.Add(newHandler);
+			}
+		}
+
 		public void RegisterMinimizeAllClientsHotkey(IEnumerable<Keys> keys)
 		{
 			foreach (var hotkey in keys)
@@ -293,6 +363,13 @@ namespace EveOPreview.Services
 
 			RegisterCycleClientHotkey(this._configuration.CycleGroup5ForwardHotkeys?.Select(x => this._configuration.StringToKey(x)), true, this._configuration.CycleGroup5ClientsOrder);
 			RegisterCycleClientHotkey(this._configuration.CycleGroup5BackwardHotkeys?.Select(x => this._configuration.StringToKey(x)), false, this._configuration.CycleGroup5ClientsOrder);
+
+			RegisterExcludedCycleClientHotkey(
+				this._configuration.CycleExcludedForwardHotkeys?.Select(x => this._configuration.StringToKey(x)),
+				true);
+			RegisterExcludedCycleClientHotkey(
+				this._configuration.CycleExcludedBackwardHotkeys?.Select(x => this._configuration.StringToKey(x)),
+				false);
 		}
 
 		private void UnregisterCycleHotkeys()

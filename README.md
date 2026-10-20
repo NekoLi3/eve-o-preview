@@ -247,6 +247,25 @@ Should you wish to remove these HotKeys completely, Simply set the values to emp
 	  "CycleGroup5BackwardHotkeys": [],
 	  "CycleGroup5ClientsOrder": {}
 
+### Cycle Only Excluded Clients with Hotkey Setup
+
+Clients can be excluded from the normal cycle groups with **Shift+Left-Click** on their thumbnail (the cycle group indicator shows the state). Excluded clients can be cycled separately with their own hotkeys. Like the other cycle hotkeys, there is no GUI for these; edit the configuration file directly and make a backup first.
+
+    "CycleExcludedForwardHotkeys": [
+      "Control+F17"
+    ],
+    "CycleExcludedBackwardHotkeys": [
+      "Control+F18"
+    ]
+
+Both lists are empty by default, so the feature stays off until you add keys.
+
+* Forward and backward cycle only through the excluded clients, wrapping around at the ends.
+* If no clients are excluded, the hotkeys do nothing.
+* The normal cycle group hotkeys continue to skip excluded clients.
+* These hotkeys obey the **Enable cycle hotkeys** setting (and the `ToggleCycleHotkeysHotkey`, `Control+F23` by default).
+* Exclusions are **session-only**: they are not saved to the configuration and reset when EVE-O Preview restarts or the client closes.
+
 ### Minimize All Clients with Hotkey Setup
 
 In a similar pattern to the per client Hotkey Setup, It is possible to set a key combinations to Minimize all the Eve Windows. EVE-O Preview doesn't provide any GUI to set the these hotkeys. It should be done via editing the configuration file directly. Don't forget to make a backup copy of the file before editing it.

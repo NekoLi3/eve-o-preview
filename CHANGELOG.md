@@ -3,6 +3,22 @@
 Cambios del fork privado sobre la base `Proopai/eve-o-preview` (rama `unified-source-build`).
 Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstream, `custom` cuenta releases del fork. A partir de 8.0.3.0 el minor sube con features grandes.
 
+## [8.0.4.4] — 2026-10-20
+
+### Agregado
+- **Ciclo por hotkey de los clientes excluidos de los cycle groups**: dos listas nuevas config-only (`CycleExcludedForwardHotkeys` y `CycleExcludedBackwardHotkeys`, vacías por defecto) que ciclan únicamente entre los clientes marcados con Shift+Left-Click (`IsExcludedFromCycleGroup`), con wrap-around en ambos sentidos.
+  - Comparten el flag `CycleHotkeysEnabled`: el checkbox "Enable cycle hotkeys" y `ToggleCycleHotkeysHotkey` (`Control+F23`) las habilitan/deshabilitan junto con las hotkeys de grupo.
+  - Si no hay clientes excluidos, la hotkey no hace nada.
+  - Las exclusiones siguen siendo solo de sesión: no se persisten y se pierden al reiniciar o cerrar el cliente.
+
+### Archivos clave
+- `Configuration/.../IThumbnailConfiguration.cs` (+ `ThumbnailConfiguration.cs`) — `CycleExcludedForwardHotkeys`, `CycleExcludedBackwardHotkeys`
+- `Services/Implementation/ThumbnailManager.cs` — `CycleNextExcludedClient()`, `RegisterExcludedCycleClientHotkey()` y registro en `RegisterCycleHotkeys()`
+
+### Notas
+- Build: 0 errores (4 warnings preexistentes).
+- Tests: 7/7 en `src/Eve-O-Preview.Tests` (xUnit).
+
 ## [8.0.4.3] — 2026-08-16
 
 ### Agregado
