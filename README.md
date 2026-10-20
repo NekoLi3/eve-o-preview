@@ -260,7 +260,8 @@ Clients can be excluded from the normal cycle groups with **Shift+Left-Click** o
 
 Both lists are empty by default, so the feature stays off until you add keys.
 
-* Forward and backward cycle only through the excluded clients, wrapping around at the ends.
+* Forward and backward cycle only through the excluded clients, in the order they were added to the group, wrapping around at the ends.
+* Excluding a client appends it to the end of that order; re-including it removes it from the order.
 * If no clients are excluded, the hotkeys do nothing.
 * The normal cycle group hotkeys continue to skip excluded clients.
 * These hotkeys obey the **Enable cycle hotkeys** setting (and the `ToggleCycleHotkeysHotkey`, `Control+F23` by default).

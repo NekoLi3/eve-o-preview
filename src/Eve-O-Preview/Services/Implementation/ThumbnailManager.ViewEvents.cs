@@ -119,6 +119,17 @@ namespace EveOPreview.Services
 				view.IsExcludedFromCycleGroup = !view.IsExcludedFromCycleGroup;
 				view.SetCycleGroupIndicator(view.IsExcludedFromCycleGroup, _configuration.CycleGroupIndicatorAnchor);
 
+				if (view.IsExcludedFromCycleGroup)
+				{
+					if (!this._excludedClientOrder.Contains(id))
+					{
+						this._excludedClientOrder.Add(id);
+					}
+				}
+				else
+				{
+					this._excludedClientOrder.Remove(id);
+				}
 			}
 			this.RefreshThumbnails();
 		}

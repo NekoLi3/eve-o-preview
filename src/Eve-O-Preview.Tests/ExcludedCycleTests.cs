@@ -93,6 +93,43 @@ namespace EveOPreview.Tests
             Assert.Equal(-1, ThumbnailManager.GetNextExcludedClientIndex(null, IntPtr.Zero));
         }
 
+        [Fact]
+        public void ExcludedOrder_Follows_Addition_Order_When_Cycling_Forward()
+        {
+            var additionOrder = Handles(30, 10, 20);
+
+            var result = ThumbnailManager.GetExcludedClientOrder(additionOrder, _ => true, true);
+
+            Assert.Equal(additionOrder, result);
+        }
+
+        [Fact]
+        public void ExcludedOrder_Is_Reversed_When_Cycling_Backward()
+        {
+            var additionOrder = Handles(30, 10, 20);
+
+            var result = ThumbnailManager.GetExcludedClientOrder(additionOrder, _ => true, false);
+
+            Assert.Equal(Handles(20, 10, 30), result);
+        }
+
+        [Fact]
+        public void ExcludedOrder_Skips_Clients_No_Longer_Excluded()
+        {
+            var additionOrder = Handles(30, 10, 20);
+
+            var result = ThumbnailManager.GetExcludedClientOrder(additionOrder, handle => handle != new IntPtr(10), true);
+
+            Assert.Equal(Handles(30, 20), result);
+        }
+
+        [Fact]
+        public void ExcludedOrder_Handles_Empty_And_Null_Orders()
+        {
+            Assert.Empty(ThumbnailManager.GetExcludedClientOrder(null, _ => true, true));
+            Assert.Empty(ThumbnailManager.GetExcludedClientOrder(new List<IntPtr>(), _ => true, true));
+        }
+
         private static List<IntPtr> Handles(params long[] values)
         {
             var handles = new List<IntPtr>();

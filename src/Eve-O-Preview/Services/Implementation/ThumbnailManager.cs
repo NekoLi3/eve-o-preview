@@ -39,6 +39,7 @@ namespace EveOPreview.Services
 		private readonly DispatcherTimer _thumbnailUpdateTimer;
 		private readonly IThumbnailViewFactory _thumbnailViewFactory;
 		private readonly Dictionary<IntPtr, IThumbnailView> _thumbnailViews;
+		private readonly List<IntPtr> _excludedClientOrder = new List<IntPtr>();
 
 		private (IntPtr Handle, string Title) _activeClient;
 		private IntPtr _externalApplication;
@@ -210,12 +211,11 @@ namespace EveOPreview.Services
 		}
 		public void CycleNextExcludedClient(bool isForwards)
 		{
-			IEnumerable<KeyValuePair<IntPtr, IThumbnailView>> excludedClients = this._thumbnailViews
-				.Where(x => x.Value.IsExcludedFromCycleGroup);
-
-			List<KeyValuePair<IntPtr, IThumbnailView>> orderedClients = (isForwards
-					? excludedClients.OrderBy(x => x.Value.Id.ToInt64())
-					: excludedClients.OrderByDescending(x => x.Value.Id.ToInt64()))
+			List<KeyValuePair<IntPtr, IThumbnailView>> orderedClients = GetExcludedClientOrder(
+					this._excludedClientOrder,
+					handle => this._thumbnailViews.TryGetValue(handle, out IThumbnailView view) && view.IsExcludedFromCycleGroup,
+					isForwards)
+				.Select(handle => new KeyValuePair<IntPtr, IThumbnailView>(handle, this._thumbnailViews[handle]))
 				.ToList();
 
 			if (orderedClients.Count == 0)
@@ -230,6 +230,22 @@ namespace EveOPreview.Services
 			}
 
 			this.SetActive(orderedClients[nextIndex]);
+		}
+
+		internal static List<IntPtr> GetExcludedClientOrder(IEnumerable<IntPtr> additionOrder, Func<IntPtr, bool> isExcluded, bool isForwards)
+		{
+			if (additionOrder == null)
+			{
+				return new List<IntPtr>();
+			}
+
+			List<IntPtr> orderedHandles = additionOrder.Where(isExcluded).ToList();
+			if (!isForwards)
+			{
+				orderedHandles.Reverse();
+			}
+
+			return orderedHandles;
 		}
 
 		internal static int GetNextExcludedClientIndex(IReadOnlyList<IntPtr> orderedHandles, IntPtr activeHandle)

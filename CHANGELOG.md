@@ -3,6 +3,25 @@
 Cambios del fork privado sobre la base `Proopai/eve-o-preview` (rama `unified-source-build`).
 Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstream, `custom` cuenta releases del fork. A partir de 8.0.3.0 el minor sube con features grandes.
 
+## [8.0.4.5] — 2026-10-20
+
+### Corregido
+- **Ciclo de clientes excluidos en orden de adición**: los clientes excluidos con Shift+Left-Click ahora se ciclan en el orden en que se agregaron al grupo, no por handle de ventana.
+  - Al excluir un cliente se agrega al final del orden; al volver a incluirlo se quita. Si se vuelve a excluir, se agrega nuevamente al final.
+  - El ciclo hacia atrás recorre el orden inverso. El wrap-around y el comportamiento cuando el cliente activo no está excluido no cambian.
+  - El orden es solo de sesión, igual que las exclusiones: no se persiste.
+
+### Archivos clave
+- `Services/Implementation/ThumbnailManager.cs` — `_excludedClientOrder`, `GetExcludedClientOrder()`
+- `Services/Implementation/ThumbnailManager.ViewEvents.cs` — alta/baja del orden en `ThumbnailToggleCycleGroup()`
+- `Services/Implementation/ThumbnailManager.Processes.cs` — limpieza al cerrar el cliente
+- `src/Eve-O-Preview.Tests/ExcludedCycleTests.cs` — cobertura del orden (11 tests)
+- `README.md` — documentación del orden de adición
+
+### Notas
+- Build: 0 errores (4 warnings preexistentes).
+- Tests: 11/11 en `src/Eve-O-Preview.Tests`.
+
 ## [8.0.4.4] — 2026-10-20
 
 ### Agregado
