@@ -56,14 +56,17 @@ namespace EveOPreview.Services.Implementation
 
 		public void Unregister()
 		{
-			if ((!this._windowManager.IsCompositionEnabled) || (this._handle == IntPtr.Zero))
+			IntPtr handle = this._handle;
+			this._handle = IntPtr.Zero;
+
+			if ((!this._windowManager.IsCompositionEnabled) || (handle == IntPtr.Zero))
 			{
 				return;
 			}
 
 			try
 			{
-				DwmNativeMethods.DwmUnregisterThumbnail(this._handle);
+				DwmNativeMethods.DwmUnregisterThumbnail(handle);
 			}
 			catch (ArgumentException)
 			{

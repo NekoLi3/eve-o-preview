@@ -52,6 +52,10 @@ namespace EveOPreview.View
 		// creating a new Font on every refresh would leak GDI handles)
 		private string _resolvedSystemLabelFontKey;
 		private Font _resolvedSystemLabelFont;
+		private string _resolvedSystemLabelColorKey;
+		private Color _resolvedSystemLabelColor;
+		private string _resolvedEventLabelFontKey;
+		private Font _resolvedEventLabelFont;
 		#endregion
 
 		protected ThumbnailView(IWindowManager windowManager, IThumbnailConfiguration config, IThumbnailManager thumbnailManager)
@@ -296,6 +300,11 @@ namespace EveOPreview.View
 		{
 			this._overlay.SetSystemLabel(this._config.ShowSystemInThumbnail ? system : null);
 		}
+
+		public void SetEventLabel(string text, Color color)
+		{
+			this._overlay.SetEventLabel(this._config.ShowEventLabelsInThumbnail ? text : null, color);
+		}
 		public void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor)
 		{
 			this._overlay.SetCycleGroupIndicator(displayCycleGroup, anchor);
@@ -321,7 +330,7 @@ namespace EveOPreview.View
 
 		public void SetHighlight(bool enabled, int width)
 		{
-			if (this._isHighlightRequested == enabled)
+			if (this._isHighlightRequested == enabled && (!enabled || this._highlightWidth == width))
 			{
 				return;
 			}
@@ -511,6 +520,7 @@ namespace EveOPreview.View
 
 			this._overlay.SetPropertiesOverlayLabel(_config.OverlayLabelFont, _config.OverlayLabelColor, _config.OverlayLabelAnchor);
 			this._overlay.SetPropertiesSystemLabel(this.GetSystemLabelFont(), this.GetSystemLabelColor(), _config.SystemLabelPosition);
+			this._overlay.SetPropertiesEventLabel(this.GetEventLabelFont(), _config.EventLabelAnchor);
 
 			this._overlay.Location = overlayLocation;
 			this._overlay.Refresh();
@@ -562,15 +572,71 @@ namespace EveOPreview.View
 				return this._config.OverlayLabelColor;
 			}
 
+			if (this._resolvedSystemLabelColorKey == colorString)
+			{
+				return this._resolvedSystemLabelColor;
+			}
+
 			try
 			{
 				object rawColor = new ColorConverter().ConvertFromInvariantString(colorString);
-				return rawColor != null ? (Color)rawColor : this._config.OverlayLabelColor;
+				if (rawColor != null)
+				{
+					this._resolvedSystemLabelColor = (Color)rawColor;
+					this._resolvedSystemLabelColorKey = colorString;
+					return this._resolvedSystemLabelColor;
+				}
 			}
 			catch (Exception)
 			{
-				return this._config.OverlayLabelColor;
+				// Invalid color string in the config - fall back to inheriting
 			}
+
+			return this._config.OverlayLabelColor;
+		}
+
+		// Empty event label font strings in the config mean "inherit the
+		// character name label styling"
+		private Font GetEventLabelFont()
+		{
+			string fontString = this._config.EventLabelFont;
+			if (string.IsNullOrEmpty(fontString))
+			{
+				return this._config.OverlayLabelFont;
+			}
+
+			if (this._resolvedEventLabelFont == null || this._resolvedEventLabelFontKey != fontString)
+			{
+				this._resolvedEventLabelFont?.Dispose();
+				this._resolvedEventLabelFont = null;
+				this._resolvedEventLabelFontKey = null;
+
+				try
+				{
+					this._resolvedEventLabelFont = (Font)new FontConverter().ConvertFromInvariantString(fontString);
+					this._resolvedEventLabelFontKey = fontString;
+				}
+				catch (Exception)
+				{
+					// Invalid font string in the config - fall back to inheriting
+					return this._config.OverlayLabelFont;
+				}
+			}
+
+			return this._resolvedEventLabelFont;
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				this._resolvedSystemLabelFont?.Dispose();
+				this._resolvedSystemLabelFont = null;
+				this._resolvedEventLabelFont?.Dispose();
+				this._resolvedEventLabelFont = null;
+			}
+
+			base.Dispose(disposing);
 		}
 
 		#region GUI events

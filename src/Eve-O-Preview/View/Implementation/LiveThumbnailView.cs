@@ -59,5 +59,16 @@ namespace EveOPreview.View
 			this._thumbnail.Move(this._startLocation.X, this._startLocation.Y, this._endLocation.X, this._endLocation.Y);
 			this._thumbnail.Update();
 		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				this._thumbnail?.Unregister();
+				this._thumbnail = null;
+			}
+
+			base.Dispose(disposing);
+		}
 	}
 }

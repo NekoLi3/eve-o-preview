@@ -57,6 +57,11 @@ namespace EveOPreview.View
 		Color? SystemLabelColor { get; set; }
 		SystemLabelPosition SystemLabelPosition { get; set; }
 
+		bool ShowEventLabelsInThumbnail { get; set; }
+		int EventLabelDurationMs { get; set; }
+		Font EventLabelFont { get; set; }
+		ViewZoomAnchor EventLabelAnchor { get; set; }
+
 		string IconName { get; set; }
 
 		void SetDocumentationUrl(string url);

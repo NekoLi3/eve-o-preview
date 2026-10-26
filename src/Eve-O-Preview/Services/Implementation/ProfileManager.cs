@@ -46,10 +46,17 @@ namespace EveOPreview.Services.Implementation
 				return new List<string>();
 			}
 
-			return Directory.GetFiles(directory, "*" + ProfileManager.PROFILE_FILE_EXTENSION)
-				.Select(Path.GetFileNameWithoutExtension)
-				.OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
-				.ToList();
+			try
+			{
+				return Directory.GetFiles(directory, "*" + ProfileManager.PROFILE_FILE_EXTENSION)
+					.Select(Path.GetFileNameWithoutExtension)
+					.OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+					.ToList();
+			}
+			catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
+			{
+				return new List<string>();
+			}
 		}
 
 		public void SaveProfile(string name)
@@ -67,7 +74,7 @@ namespace EveOPreview.Services.Implementation
 				string rawData = JsonConvert.SerializeObject(this._thumbnailConfiguration, Formatting.Indented);
 				File.WriteAllText(this.GetProfileFilePath(name), rawData);
 			}
-			catch (IOException)
+			catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
 			{
 				// The profile could not be written (locked file, invalid name for the OS, ...)
 			}
@@ -101,13 +108,11 @@ namespace EveOPreview.Services.Implementation
 
 				this._thumbnailConfiguration.ApplyRestrictions();
 			}
-			catch (IOException)
+			catch (Exception exception) when (exception is IOException
+				|| exception is UnauthorizedAccessException
+				|| exception is JsonException)
 			{
 				// The profile could not be read; keep the current configuration untouched
-			}
-			catch (JsonException)
-			{
-				// The profile file is malformed JSON; keep the current configuration untouched
 			}
 		}
 
@@ -126,7 +131,7 @@ namespace EveOPreview.Services.Implementation
 					File.Delete(filePath);
 				}
 			}
-			catch (IOException)
+			catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
 			{
 				// The profile could not be deleted; the list refresh will keep showing it
 			}

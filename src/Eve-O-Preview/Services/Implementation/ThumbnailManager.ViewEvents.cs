@@ -28,9 +28,13 @@ namespace EveOPreview.Services
 				return;
 			}
 
-			this._isHoverEffectActive = true;
+			if (!this._thumbnailViews.TryGetValue(id, out IThumbnailView view))
+			{
+				this._isHoverEffectActive = false;
+				return;
+			}
 
-			IThumbnailView view = this._thumbnailViews[id];
+			this._isHoverEffectActive = true;
 
 			view.SetTopMost(true);
 			view.SetOpacity(1.0);
@@ -49,7 +53,11 @@ namespace EveOPreview.Services
 				return;
 			}
 
-			IThumbnailView view = this._thumbnailViews[id];
+			if (!this._thumbnailViews.TryGetValue(id, out IThumbnailView view))
+			{
+				this._isHoverEffectActive = false;
+				return;
+			}
 
 			if (this._configuration.ThumbnailZoomEnabled)
 			{
@@ -64,7 +72,10 @@ namespace EveOPreview.Services
 
 		private void ThumbnailActivated(IntPtr id)
 		{
-			IThumbnailView view = this._thumbnailViews[id];
+			if (!this._thumbnailViews.TryGetValue(id, out IThumbnailView view))
+			{
+				return;
+			}
 
 			System.Diagnostics.Debug.WriteLine($"ThumbnailActivated {view.Title}");
 
@@ -138,12 +149,27 @@ namespace EveOPreview.Services
 
 		private async void ThumbnailViewResized(IntPtr id)
 		{
+			try
+			{
+				await this.ThumbnailViewResizedCore(id);
+			}
+			catch (Exception exception)
+			{
+				System.Diagnostics.Debug.WriteLine(exception);
+			}
+		}
+
+		private async Task ThumbnailViewResizedCore(IntPtr id)
+		{
 			if (this._ignoreViewEvents)
 			{
 				return;
 			}
 
-			IThumbnailView view = this._thumbnailViews[id];
+			if (!this._thumbnailViews.TryGetValue(id, out IThumbnailView view))
+			{
+				return;
+			}
 
 			this.SetThumbnailsSize(view.ThumbnailSize);
 
@@ -160,7 +186,11 @@ namespace EveOPreview.Services
 				return;
 			}
 
-			IThumbnailView view = this._thumbnailViews[id];
+			if (!this._thumbnailViews.TryGetValue(id, out IThumbnailView view))
+			{
+				return;
+			}
+
 			view.Refresh(false);
 			this.EnqueueLocationChange(view);
 		}

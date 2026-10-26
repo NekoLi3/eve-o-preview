@@ -3,6 +3,40 @@
 Cambios del fork privado sobre la base `Proopai/eve-o-preview` (rama `unified-source-build`).
 Versiones: `8.0.2.<patch>-custom.<n>` — patch sigue la numeración del upstream, `custom` cuenta releases del fork. A partir de 8.0.3.0 el minor sube con features grandes.
 
+## [8.0.4.6] — 2026-10-26
+
+### Agregado
+- **Labels temporales de eventos Gamelog en cada cliente**: cuando ocurre un evento en el gamelog de un personaje, su thumbnail muestra una etiqueta centrada durante 1.5 s (configurable de 0.5 a 10 s). La etiqueta más reciente reemplaza a la anterior.
+  - Reglas incorporadas: `Your cloak deactivates` → `DECLOAK` (naranja), `Following <nombre> in warp` → `WARP <nombre>` (celeste), `Warp scramble attempt` → `SCRAM` (rojo, solo si el personaje es el objetivo) y `Warp disruption attempt` → `DISRUPT` (rojo, solo si el personaje es el objetivo).
+  - Las reglas de combate se filtran por objetivo: una línea de flota que menciona a otro piloto no genera label. EVE escribe `you` en el log cuando el personaje es el objetivo, así que ese caso también se reconoce.
+  - Nueva pestaña **Events** (entre System y Active Clients): activar/desactivar labels, duración, fuente propia (vacío = hereda la del label del personaje) y posición dentro del thumbnail (9 anclas; por defecto centrada). Las reglas (patrón regex, texto, color, filtro self-only y orden de prioridad) se editan directamente en `EVE-O-Preview.json`, en `EventLabelRules`; las reglas incorporadas ya usan los mensajes canónicos de EVE y no necesitan modificarse. Soporta el placeholder `{name}` desde el grupo nombrado `name`.
+  - `GamelogsPath` permite apuntar a otra carpeta de Gamelogs (vacío = `Documents\EVE\logs\Gamelogs`).
+  - Se muestran sobre el overlay del thumbnail (requieren "Show thumbnail overlays") sin fondo: solo el texto coloreado, para no tapar la preview.
+  - Lectura eficiente: `FileSystemWatcher` solo encola archivos modificados y un timer hace la lectura incremental por offset, sin escanear los ~1.5 GB de gamelogs existentes. Solo se procesan archivos con header `Listener:`; se ignoran los de pantalla de login.
+  - Las etiquetas se aceptan hasta 5 s después del timestamp del evento (margen para el buffer del cliente); la expiración empieza al procesarlas, por lo que en la práctica se ven ~1.5–2.0 s con refresh de 500 ms.
+  - El label de evento se pinta por separado del nombre/sistema y no altera la feature de sistema existente.
+
+### Optimización y robustez
+- **Menos trabajo en segundo plano, mismo comportamiento visible**: la detección de clientes ahora consulta solo los ejecutables configurados en vez de recorrer todos los procesos de Windows; los monitores de chatlogs y Gamelogs omiten archivos sin cambios y hacen la lectura fuera del hilo de la UI; se reutilizan buffers con `ArrayPool` y se evitan actualizaciones nativas repetidas de posición/tamaño de los thumbnails.
+- **Menos fugas de recursos**: se liberan correctamente los `Process`, los contextos/bitmaps GDI y los thumbnails DWM; los diálogos de fuente y los objetos de dibujo de la UI ahora usan `using`.
+- **Más tolerancia a errores**: el guardado de configuración es atómico (archivo temporal + reemplazo), una config dañada ya no impide arrancar, un archivo de log bloqueado o rotado no corta el resto, y los `async void` restantes capturan sus excepciones para no tumbar la UI.
+- **Sin cambios de funcionalidad para el usuario**: mismas opciones, mismos labels, mismas hotkeys y misma UI; solo se reduce el consumo de CPU/IO/memoria y se mejora la resiliencia.
+
+### Archivos clave
+- `Services/Implementation/EventLogMonitor.cs`, `LogTailReader.cs`, `EventLogParser.cs`, `EventLabelStore.cs` — lectura incremental y parseo de Gamelogs
+- `Services/Interface/IEventLogMonitor.cs` — contrato y snapshot del evento
+- `Configuration/Interface/EventLabelRule.cs` (+ `ThumbnailConfiguration.cs`, `IThumbnailConfiguration.cs`) — reglas y settings (`ShowEventLabelsInThumbnail`, `EventLabelDurationMs`, `EventLabelFont`, `GamelogsPath`, `EventLabelRules`)
+- `View/Implementation/ThumbnailOverlay.cs`, `ThumbnailView.cs` — pintado centrado de labels
+- `View/Implementation/MainForm.cs`, `MainForm.Designer.cs`, `Presenters/Implementation/MainFormPresenter.cs` — pestaña Events y persistencia
+- `Services/Implementation/ThumbnailManager*.cs` — ciclo de vida del monitor y push del label en el refresh
+- `src/Eve-O-Preview.Tests/` — `EventLogParserTests`, `LogTailReaderTests`, `EventLabelStoreTests`, `EventLabelConfigurationTests`
+
+### Notas
+- Build: 0 errores y 0 warnings en Release.
+- Tests: 47/47 en `src/Eve-O-Preview.Tests` (36 nuevos), 0 fallos.
+- Binario framework-dependent: requiere .NET 8 Desktop Runtime.
+- Requiere que el cliente escriba Gamelogs (opción de logging habilitada en EVE).
+
 ## [8.0.4.5] — 2026-10-20
 
 ### Corregido

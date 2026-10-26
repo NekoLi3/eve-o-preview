@@ -23,6 +23,18 @@ namespace EveOPreview.Services
 		#region Client process tracking (add / update / remove / refresh loop)
 		private async void UpdateThumbnailsList()
 		{
+			try
+			{
+				await this.UpdateThumbnailsListCore();
+			}
+			catch (Exception exception)
+			{
+				System.Diagnostics.Debug.WriteLine(exception);
+			}
+		}
+
+		private async Task UpdateThumbnailsListCore()
+		{
 			this._processMonitor.GetUpdatedProcesses(out ICollection<IProcessInfo> addedProcesses, out ICollection<IProcessInfo> updatedProcesses, out ICollection<IProcessInfo> removedProcesses);
 
 			List<string> viewsAdded = new List<string>();
@@ -97,7 +109,10 @@ namespace EveOPreview.Services
 
 			foreach (IProcessInfo process in removedProcesses)
 			{
-				IThumbnailView view = this._thumbnailViews[process.Handle];
+				if (!this._thumbnailViews.TryGetValue(process.Handle, out IThumbnailView view))
+				{
+					continue;
+				}
 
 				this._thumbnailViews.Remove(view.Id);
 				this._excludedClientOrder.Remove(view.Id);
@@ -196,92 +211,109 @@ namespace EveOPreview.Services
 			}
 
 			this.DisableViewEvents();
-
-			// Snap thumbnail
-			// No need to update Thumbnails while one of them is highlighted
-			if ((!this._isHoverEffectActive) && this.TryDequeueLocationChange(out var locationChange))
+			try
 			{
-				if ((locationChange.ActiveClient == this._activeClient.Title) && this._thumbnailViews.TryGetValue(locationChange.Handle, out var view))
-				{
-					this.SnapThumbnailView(view);
-
-					this.RaiseThumbnailLocationUpdatedNotification(view.Title);
-				}
-				else
-				{
-					this.RaiseThumbnailLocationUpdatedNotification(locationChange.Title);
-				}
-			}
-
-			// Hide, show, resize and move - update ZoomAnchor setting
-			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
-			{
-				IThumbnailView view = entry.Value;
-			// update ZoomAnchor regardless
-				view.ClientZoomAnchor = this._configuration.GetZoomAnchor(view.Title, this._configuration.ThumbnailZoomAnchor);
-
-				// update the solar system location label from the EVE Gamelog (no-op when disabled)
-				view.SetSystemLocation(this._gamelogMonitor.GetSystemForCharacter(this.GetCharacterName(view)));
-
-
-				if (hideAllThumbnails || this._configuration.IsThumbnailDisabled(view.Title))
-				{
-					if (view.IsActive)
-					{
-						view.Hide();
-					}
-					continue;
-				}
-
-				if (this._configuration.HideActiveClientThumbnail && (view.Id == this._activeClient.Handle))
-				{
-					if (view.IsActive)
-					{
-						view.Hide();
-					}
-					continue;
-				}
-
-				if (this._configuration.HideLoginClientThumbnail && (view.Title == DEFAULT_CLIENT_TITLE ))
-				{
-					if (view.IsActive)
-					{
-						view.Hide();
-					}
-					continue;
-				}
-
+				// Snap thumbnail
 				// No need to update Thumbnails while one of them is highlighted
-				if (!this._isHoverEffectActive)
+				if ((!this._isHoverEffectActive) && this.TryDequeueLocationChange(out var locationChange))
 				{
-					// Do not even move thumbnails with default caption
-					if (this.IsManageableThumbnail(view))
+					if ((locationChange.ActiveClient == this._activeClient.Title) && this._thumbnailViews.TryGetValue(locationChange.Handle, out var view))
 					{
-						view.ThumbnailLocation = this._configuration.GetThumbnailLocation(view.Title, this._activeClient.Title, view.ThumbnailLocation);
-						view.ThumbnailSize = this._configuration.GetThumbnailSize(view.Title, this._activeClient.Title, view.ThumbnailSize);
+						this.SnapThumbnailView(view);
+
+						this.RaiseThumbnailLocationUpdatedNotification(view.Title);
+					}
+					else
+					{
+						this.RaiseThumbnailLocationUpdatedNotification(locationChange.Title);
+					}
+				}
+
+				// Hide, show, resize and move - update ZoomAnchor setting
+				foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+				{
+					IThumbnailView view = entry.Value;
+					// update ZoomAnchor regardless
+					view.ClientZoomAnchor = this._configuration.GetZoomAnchor(view.Title, this._configuration.ThumbnailZoomAnchor);
+
+					// update the solar system location and the latest event label from the EVE Gamelogs
+					string characterName = this.GetCharacterName(view);
+					view.SetSystemLocation(this._gamelogMonitor.GetSystemForCharacter(characterName));
+
+					EventLabelSnapshot latestEvent = this._eventLogMonitor.GetLatestEventForCharacter(characterName);
+					view.SetEventLabel(latestEvent?.Text, latestEvent?.Color ?? Color.White);
+
+
+					if (hideAllThumbnails || this._configuration.IsThumbnailDisabled(view.Title))
+					{
+						if (view.IsActive)
+						{
+							view.Hide();
+						}
+						continue;
 					}
 
-					view.SetOpacity(this._configuration.ThumbnailOpacity);
-					view.SetTopMost(this._configuration.ShowThumbnailsAlwaysOnTop);
-				}
+					if (this._configuration.HideActiveClientThumbnail && (view.Id == this._activeClient.Handle))
+					{
+						if (view.IsActive)
+						{
+							view.Hide();
+						}
+						continue;
+					}
 
-				view.IsOverlayEnabled = this._configuration.ShowThumbnailOverlays;
+					if (this._configuration.HideLoginClientThumbnail && (view.Title == DEFAULT_CLIENT_TITLE ))
+					{
+						if (view.IsActive)
+						{
+							view.Hide();
+						}
+						continue;
+					}
 
-				view.SetHighlight(
-					this._configuration.EnableActiveClientHighlight && (view.Id == this._activeClient.Handle), 
-					this._configuration.ActiveClientHighlightThickness);
+					// No need to update Thumbnails while one of them is highlighted
+					if (!this._isHoverEffectActive)
+					{
+						// Do not even move thumbnails with default caption
+						if (this.IsManageableThumbnail(view))
+						{
+							Point targetLocation = this._configuration.GetThumbnailLocation(view.Title, this._activeClient.Title, view.ThumbnailLocation);
+							if (view.ThumbnailLocation != targetLocation)
+							{
+								view.ThumbnailLocation = targetLocation;
+							}
 
-				if (!view.IsActive)
-				{
-					view.Show();
-				}
-				else
-				{
-					view.Refresh(forceRefresh);
+							Size targetSize = this._configuration.GetThumbnailSize(view.Title, this._activeClient.Title, view.ThumbnailSize);
+							if (view.ThumbnailSize != targetSize)
+							{
+								view.ThumbnailSize = targetSize;
+							}
+						}
+
+						view.SetOpacity(this._configuration.ThumbnailOpacity);
+						view.SetTopMost(this._configuration.ShowThumbnailsAlwaysOnTop);
+					}
+
+					view.IsOverlayEnabled = this._configuration.ShowThumbnailOverlays;
+
+					view.SetHighlight(
+						this._configuration.EnableActiveClientHighlight && (view.Id == this._activeClient.Handle), 
+						this._configuration.ActiveClientHighlightThickness);
+
+					if (!view.IsActive)
+					{
+						view.Show();
+					}
+					else
+					{
+						view.Refresh(forceRefresh);
+					}
 				}
 			}
-
-			this.EnableViewEvents();
+			finally
+			{
+				this.EnableViewEvents();
+			}
 		}
 
 		// Checks whether currently active window belongs to an EVE client or its thumbnail

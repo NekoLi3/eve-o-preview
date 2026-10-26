@@ -42,8 +42,8 @@ We have migrated to a unified source code where Windows and Linux share the same
 
 ## System Requirements
 
-* Windows 7, Windows 8/8.1, Windows 10, Windows 11, Linux Wine
-* Microsoft .NET Framework 4.8+
+* Windows 8/8.1, Windows 10, Windows 11, Linux Wine
+* Microsoft .NET 8 Desktop Runtime (los builds self-contained de Linux/Windows incluyen el runtime)
 * EVE clients Display Mode should be set to **Fixed Window** or **Window Mode**. **Fullscreen** mode is not supported.
 
 <div style="page-break-after: always;"></div>
@@ -386,8 +386,8 @@ Release builds are generated using github actions when a release is created from
 
 You can build using : 
 
-* dotnet build src\\Eve-O-Preview\\Eve-O-Preview.csproj --configuration Release -p:EVEOTARGET="Linux" -p:AssemblyVersion="8.0.2.0"
-* dotnet build src\\Eve-O-Preview\\Eve-O-Preview.csproj --configuration Release   -p:EVEOTARGET="Windows" -p:AssemblyVersion="8.0.2.0"
+* dotnet build src\\Eve-O-Preview\\Eve-O-Preview.csproj --configuration Release -p:EVEOTARGET="Linux" -p:AssemblyVersion="8.0.4.6"
+* dotnet build src\\Eve-O-Preview\\Eve-O-Preview.csproj --configuration Release   -p:EVEOTARGET="Windows" -p:AssemblyVersion="8.0.4.6"
 
 <div style="page-break-after: always;"></div>
 

@@ -58,6 +58,8 @@ namespace EveOPreview.View
 			Label ProfileNameLabel;
 			TabPage SystemTabPage;
 			Panel SystemSettingsPanel;
+			TabPage EventsTabPage;
+			Panel EventsSettingsPanel;
 			TabPage AboutTabPage;
 			Panel AboutPanel;
 			Label CreditMaintLabel;
@@ -138,6 +140,14 @@ namespace EveOPreview.View
 			SystemLabelColorButton = new Panel();
 			SystemLabelPositionLabel = new Label();
 			SystemLabelPositionCombo = new ComboBox();
+			ShowEventLabelsCheckBox = new CheckBox();
+			LabelEventLabelDuration = new Label();
+			EventLabelDurationNumeric = new NumericUpDown();
+			btnEventLabelFont = new Button();
+			LabelEventLabelFont = new Label();
+			btnResetEventLabelFont = new Button();
+			EventLabelAnchorLabel = new Label();
+			EventLabelAnchorCombo = new ComboBox();
 			ThumbnailsList = new CheckedListBox();
 			VersionLabel = new Label();
 			DocumentationLink = new LinkLabel();
@@ -174,6 +184,8 @@ namespace EveOPreview.View
 			DeleteProfileButton = new Button();
 			SystemTabPage = new TabPage();
 			SystemSettingsPanel = new Panel();
+			EventsTabPage = new TabPage();
+			EventsSettingsPanel = new Panel();
 			AboutTabPage = new TabPage();
 			AboutPanel = new Panel();
 			CreditMaintLabel = new Label();
@@ -204,6 +216,9 @@ namespace EveOPreview.View
 			ProfilesSettingsPanel.SuspendLayout();
 			SystemTabPage.SuspendLayout();
 			SystemSettingsPanel.SuspendLayout();
+			EventsTabPage.SuspendLayout();
+			EventsSettingsPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)EventLabelDurationNumeric).BeginInit();
 			AboutTabPage.SuspendLayout();
 			AboutPanel.SuspendLayout();
 			TrayMenu.SuspendLayout();
@@ -243,6 +258,7 @@ namespace EveOPreview.View
 			ContentTabControl.Controls.Add(ZoomTabPage);
 			ContentTabControl.Controls.Add(OverlayTabPage);
 			ContentTabControl.Controls.Add(SystemTabPage);
+			ContentTabControl.Controls.Add(EventsTabPage);
 			ContentTabControl.Controls.Add(ClientsTabPage);
 			ContentTabControl.Controls.Add(ProfilesTabPage);
 			ContentTabControl.Controls.Add(AboutTabPage);
@@ -1367,6 +1383,127 @@ namespace EveOPreview.View
 			SystemLabelPositionCombo.TabIndex = 53;
 			SystemLabelPositionCombo.SelectedIndexChanged += OptionChanged_Handler;
 			// 
+			// EventsTabPage
+			// 
+			EventsTabPage.BackColor = SystemColors.Control;
+			EventsTabPage.Controls.Add(EventsSettingsPanel);
+			EventsTabPage.Location = new Point(124, 4);
+			EventsTabPage.Margin = new Padding(4);
+			EventsTabPage.Name = "EventsTabPage";
+			EventsTabPage.Padding = new Padding(4);
+			EventsTabPage.Size = new Size(327, 243);
+			EventsTabPage.TabIndex = 8;
+			EventsTabPage.Text = "Events";
+			// 
+			// EventsSettingsPanel
+			// 
+			EventsSettingsPanel.BorderStyle = BorderStyle.FixedSingle;
+			EventsSettingsPanel.Controls.Add(ShowEventLabelsCheckBox);
+			EventsSettingsPanel.Controls.Add(LabelEventLabelDuration);
+			EventsSettingsPanel.Controls.Add(EventLabelDurationNumeric);
+			EventsSettingsPanel.Controls.Add(btnEventLabelFont);
+			EventsSettingsPanel.Controls.Add(LabelEventLabelFont);
+			EventsSettingsPanel.Controls.Add(btnResetEventLabelFont);
+			EventsSettingsPanel.Controls.Add(EventLabelAnchorLabel);
+			EventsSettingsPanel.Controls.Add(EventLabelAnchorCombo);
+			EventsSettingsPanel.Dock = DockStyle.Fill;
+			EventsSettingsPanel.Location = new Point(4, 4);
+			EventsSettingsPanel.Margin = new Padding(4);
+			EventsSettingsPanel.Name = "EventsSettingsPanel";
+			EventsSettingsPanel.Size = new Size(319, 235);
+			EventsSettingsPanel.TabIndex = 55;
+			// 
+			// ShowEventLabelsCheckBox
+			// 
+			ShowEventLabelsCheckBox.AutoSize = true;
+			ShowEventLabelsCheckBox.Checked = true;
+			ShowEventLabelsCheckBox.CheckState = CheckState.Checked;
+			ShowEventLabelsCheckBox.Location = new Point(9, 8);
+			ShowEventLabelsCheckBox.Margin = new Padding(4);
+			ShowEventLabelsCheckBox.Name = "ShowEventLabelsCheckBox";
+			ShowEventLabelsCheckBox.Size = new Size(120, 19);
+			ShowEventLabelsCheckBox.TabIndex = 30;
+			ShowEventLabelsCheckBox.Text = "Show event labels";
+			ShowEventLabelsCheckBox.UseVisualStyleBackColor = true;
+			ShowEventLabelsCheckBox.CheckedChanged += OptionChanged_Handler;
+			// 
+			// LabelEventLabelDuration
+			// 
+			LabelEventLabelDuration.AutoSize = true;
+			LabelEventLabelDuration.Location = new Point(9, 38);
+			LabelEventLabelDuration.Margin = new Padding(4, 0, 4, 0);
+			LabelEventLabelDuration.Name = "LabelEventLabelDuration";
+			LabelEventLabelDuration.Size = new Size(66, 15);
+			LabelEventLabelDuration.TabIndex = 31;
+			LabelEventLabelDuration.Text = "Duration (s)";
+			// 
+			// EventLabelDurationNumeric
+			// 
+			EventLabelDurationNumeric.DecimalPlaces = 1;
+			EventLabelDurationNumeric.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
+			EventLabelDurationNumeric.Location = new Point(82, 35);
+			EventLabelDurationNumeric.Margin = new Padding(4);
+			EventLabelDurationNumeric.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+			EventLabelDurationNumeric.Minimum = new decimal(new int[] { 5, 0, 0, 65536 });
+			EventLabelDurationNumeric.Name = "EventLabelDurationNumeric";
+			EventLabelDurationNumeric.Size = new Size(60, 23);
+			EventLabelDurationNumeric.TabIndex = 32;
+			EventLabelDurationNumeric.Value = new decimal(new int[] { 15, 0, 0, 65536 });
+			EventLabelDurationNumeric.ValueChanged += OptionChanged_Handler;
+			// 
+			// btnEventLabelFont
+			// 
+			btnEventLabelFont.Location = new Point(9, 64);
+			btnEventLabelFont.Margin = new Padding(2);
+			btnEventLabelFont.Name = "btnEventLabelFont";
+			btnEventLabelFont.Size = new Size(75, 26);
+			btnEventLabelFont.TabIndex = 33;
+			btnEventLabelFont.Text = "Event Font";
+			btnEventLabelFont.UseVisualStyleBackColor = true;
+			btnEventLabelFont.Click += EventLabelFontButton_Click;
+			// 
+			// LabelEventLabelFont
+			// 
+			LabelEventLabelFont.AutoSize = true;
+			LabelEventLabelFont.Location = new Point(90, 69);
+			LabelEventLabelFont.Margin = new Padding(4, 0, 4, 0);
+			LabelEventLabelFont.Name = "LabelEventLabelFont";
+			LabelEventLabelFont.Size = new Size(41, 15);
+			LabelEventLabelFont.TabIndex = 34;
+			LabelEventLabelFont.Text = "Inherit";
+			// 
+			// btnResetEventLabelFont
+			// 
+			btnResetEventLabelFont.Location = new Point(250, 64);
+			btnResetEventLabelFont.Margin = new Padding(2);
+			btnResetEventLabelFont.Name = "btnResetEventLabelFont";
+			btnResetEventLabelFont.Size = new Size(60, 26);
+			btnResetEventLabelFont.TabIndex = 35;
+			btnResetEventLabelFont.Text = "Reset";
+			btnResetEventLabelFont.UseVisualStyleBackColor = true;
+			btnResetEventLabelFont.Click += ResetEventLabelFontButton_Click;
+			// 
+			// EventLabelAnchorLabel
+			// 
+			EventLabelAnchorLabel.AutoSize = true;
+			EventLabelAnchorLabel.Location = new Point(9, 108);
+			EventLabelAnchorLabel.Margin = new Padding(4, 0, 4, 0);
+			EventLabelAnchorLabel.Name = "EventLabelAnchorLabel";
+			EventLabelAnchorLabel.Size = new Size(50, 15);
+			EventLabelAnchorLabel.TabIndex = 36;
+			EventLabelAnchorLabel.Text = "Position";
+			// 
+			// EventLabelAnchorCombo
+			// 
+			EventLabelAnchorCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+			EventLabelAnchorCombo.FormattingEnabled = true;
+			EventLabelAnchorCombo.Location = new Point(82, 106);
+			EventLabelAnchorCombo.Margin = new Padding(4);
+			EventLabelAnchorCombo.Name = "EventLabelAnchorCombo";
+			EventLabelAnchorCombo.Size = new Size(200, 23);
+			EventLabelAnchorCombo.TabIndex = 37;
+			EventLabelAnchorCombo.SelectedIndexChanged += OptionChanged_Handler;
+			// 
 			// ClientsTabPage
 			// 
 			ClientsTabPage.BackColor = SystemColors.Control;
@@ -1669,6 +1806,10 @@ namespace EveOPreview.View
 			SystemTabPage.ResumeLayout(false);
 			SystemSettingsPanel.ResumeLayout(false);
 			SystemSettingsPanel.PerformLayout();
+			EventsTabPage.ResumeLayout(false);
+			EventsSettingsPanel.ResumeLayout(false);
+			EventsSettingsPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)EventLabelDurationNumeric).EndInit();
 			AboutTabPage.ResumeLayout(false);
 			AboutPanel.ResumeLayout(false);
 			AboutPanel.PerformLayout();
@@ -1761,5 +1902,13 @@ namespace EveOPreview.View
 		private RadioButton CycleGroupIndicatorSRadioButton;
 		private RadioButton CycleGroupIndicatorERadioButton;
 		private RadioButton CycleGroupIndicatorSWRadioButton;
+		private CheckBox ShowEventLabelsCheckBox;
+		private Label LabelEventLabelDuration;
+		private NumericUpDown EventLabelDurationNumeric;
+		private Button btnEventLabelFont;
+		private Label LabelEventLabelFont;
+		private Button btnResetEventLabelFont;
+		private Label EventLabelAnchorLabel;
+		private ComboBox EventLabelAnchorCombo;
 	}
 }

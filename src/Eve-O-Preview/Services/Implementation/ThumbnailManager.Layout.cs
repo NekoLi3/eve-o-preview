@@ -23,23 +23,21 @@ namespace EveOPreview.Services
 		#region Client layout, window position, snap and zoom
 		private void ThumbnailZoomIn(IThumbnailView view)
 		{
-			this.DisableViewEvents();
-
-			view.ZoomIn(ViewZoomAnchorConverter.Convert(view.ClientZoomAnchor), this._configuration.ThumbnailZoomFactor);
-			view.Refresh(false);
-
-			this.EnableViewEvents();
+			this.WithoutViewEvents(() =>
+			{
+				view.ZoomIn(ViewZoomAnchorConverter.Convert(view.ClientZoomAnchor), this._configuration.ThumbnailZoomFactor);
+				view.Refresh(false);
+			});
 		}
 
 
 		private void ThumbnailZoomOut(IThumbnailView view)
 		{
-			this.DisableViewEvents();
-
-			view.ZoomOut();
-			view.Refresh(false);
-
-			this.EnableViewEvents();
+			this.WithoutViewEvents(() =>
+			{
+				view.ZoomOut();
+				view.Refresh(false);
+			});
 		}
 
 
@@ -283,7 +281,14 @@ namespace EveOPreview.Services
 				return;
 			}
 
-			await this._mediator.Send(new SaveConfiguration());
+			try
+			{
+				await this._mediator.Send(new SaveConfiguration());
+			}
+			catch (Exception exception)
+			{
+				System.Diagnostics.Debug.WriteLine(exception);
+			}
 		}
 
 		// Quick sanity check that the window is not minimized

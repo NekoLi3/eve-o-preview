@@ -16,9 +16,11 @@ namespace EveOPreview.Services.Implementation
 		#endregion
 
 		#region Private fields
+#if LINUX
 		private readonly bool _enableWineCompatabilityMode;
 		private string _bashLocation;
 		private string _wmctrlLocation;
+#endif
 		private const string EXCEPTION_DUMP_FILE_NAME = "EVE-O-Preview.log";
 		#endregion
 
@@ -100,12 +102,17 @@ namespace EveOPreview.Services.Implementation
 
 		public void RestoreAnimation()
 		{
-			var currentAnimationSetup = User32NativeMethods.SystemParametersInfo(User32NativeMethods.SPI_GETANIMATION, (System.Int32)Marshal.SizeOf(typeof(ANIMATIONINFO)), ref _animationParam, 0);
-			// Restore current Animation Settings
-			if (_animationParam.iMinAnimate != (int)_currentAnimationSetting)
+			if (!this._currentAnimationSetting.HasValue)
 			{
-				_animationParam.iMinAnimate = (int)_currentAnimationSetting;
-				var animationResetReturn = User32NativeMethods.SystemParametersInfo(User32NativeMethods.SPI_SETANIMATION, (System.Int32)Marshal.SizeOf(typeof(ANIMATIONINFO)), ref _animationParam, 0);
+				return;
+			}
+
+			User32NativeMethods.SystemParametersInfo(User32NativeMethods.SPI_GETANIMATION, (System.Int32)Marshal.SizeOf(typeof(ANIMATIONINFO)), ref _animationParam, 0);
+			// Restore current Animation Settings
+			if (_animationParam.iMinAnimate != this._currentAnimationSetting.Value)
+			{
+				_animationParam.iMinAnimate = this._currentAnimationSetting.Value;
+				User32NativeMethods.SystemParametersInfo(User32NativeMethods.SPI_SETANIMATION, (System.Int32)Marshal.SizeOf(typeof(ANIMATIONINFO)), ref _animationParam, 0);
 			}
 		}
 
@@ -296,34 +303,67 @@ namespace EveOPreview.Services.Implementation
 
 		public Image GetStaticThumbnail(IntPtr source)
 		{
-			var sourceContext = User32NativeMethods.GetDC(source);
-
-			User32NativeMethods.GetClientRect(source, out RECT windowRect);
-
-			var width = windowRect.Right - windowRect.Left;
-			var height = windowRect.Bottom - windowRect.Top;
-
-			// Check if there is anything to make thumbnail of
-			if ((width < WINDOW_SIZE_THRESHOLD) || (height < WINDOW_SIZE_THRESHOLD))
+			IntPtr sourceContext = User32NativeMethods.GetDC(source);
+			if (sourceContext == IntPtr.Zero)
 			{
-                User32NativeMethods.ReleaseDC(source, sourceContext);
-
-                return null;
+				return null;
 			}
 
-			var destContext = Gdi32NativeMethods.CreateCompatibleDC(sourceContext);
-			var bitmap = Gdi32NativeMethods.CreateCompatibleBitmap(sourceContext, width, height);
+			IntPtr destContext = IntPtr.Zero;
+			IntPtr bitmap = IntPtr.Zero;
 
-			var oldBitmap = Gdi32NativeMethods.SelectObject(destContext, bitmap);
-			Gdi32NativeMethods.BitBlt(destContext, 0, 0, width, height, sourceContext, 0, 0, Gdi32NativeMethods.SRCCOPY);
-			Gdi32NativeMethods.SelectObject(destContext, oldBitmap);
-			Gdi32NativeMethods.DeleteDC(destContext);
-			User32NativeMethods.ReleaseDC(source, sourceContext);
+			try
+			{
+				User32NativeMethods.GetClientRect(source, out RECT windowRect);
 
-			Image image = Image.FromHbitmap(bitmap);
-			Gdi32NativeMethods.DeleteObject(bitmap);
+				var width = windowRect.Right - windowRect.Left;
+				var height = windowRect.Bottom - windowRect.Top;
 
-			return image;
+				// Check if there is anything to make thumbnail of
+				if ((width < WINDOW_SIZE_THRESHOLD) || (height < WINDOW_SIZE_THRESHOLD))
+				{
+					return null;
+				}
+
+				destContext = Gdi32NativeMethods.CreateCompatibleDC(sourceContext);
+				if (destContext == IntPtr.Zero)
+				{
+					return null;
+				}
+
+				bitmap = Gdi32NativeMethods.CreateCompatibleBitmap(sourceContext, width, height);
+				if (bitmap == IntPtr.Zero)
+				{
+					return null;
+				}
+
+				IntPtr oldBitmap = Gdi32NativeMethods.SelectObject(destContext, bitmap);
+				try
+				{
+					Gdi32NativeMethods.BitBlt(destContext, 0, 0, width, height, sourceContext, 0, 0, Gdi32NativeMethods.SRCCOPY);
+
+					return Image.FromHbitmap(bitmap);
+				}
+				finally
+				{
+					// Always deselect the bitmap before it is deleted below.
+					Gdi32NativeMethods.SelectObject(destContext, oldBitmap);
+				}
+			}
+			finally
+			{
+				if (bitmap != IntPtr.Zero)
+				{
+					Gdi32NativeMethods.DeleteObject(bitmap);
+				}
+
+				if (destContext != IntPtr.Zero)
+				{
+					Gdi32NativeMethods.DeleteDC(destContext);
+				}
+
+				User32NativeMethods.ReleaseDC(source, sourceContext);
+			}
 		}
 	}
 }

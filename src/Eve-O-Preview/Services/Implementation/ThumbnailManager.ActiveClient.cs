@@ -23,7 +23,7 @@ namespace EveOPreview.Services
 		#region Active client management (switch, highlight, border colour)
 		public IThumbnailView GetClientByPointer(IntPtr ptr)
 		{
-			return _thumbnailViews.FirstOrDefault(x => x.Key == ptr).Value;
+			return this._thumbnailViews.TryGetValue(ptr, out IThumbnailView view) ? view : null;
 		}
 
 		public IThumbnailView GetActiveClient()
@@ -52,17 +52,16 @@ namespace EveOPreview.Services
 
 		public void UpdateActiveColour()
 		{
-			this.DisableViewEvents();
-
-			var view = GetActiveClient();
-			if (view != null)
+			this.WithoutViewEvents(() =>
 			{
-				view.SetDefaultBorderColor();
-				view.SetHighlight(false, 0);
-				view.SetHighlight();
-			}
-
-			this.EnableViewEvents();
+				var view = GetActiveClient();
+				if (view != null)
+				{
+					view.SetDefaultBorderColor();
+					view.SetHighlight(false, 0);
+					view.SetHighlight();
+				}
+			});
 		}
 
 		private void SwitchActiveClient(IntPtr foregroundClientHandle, string foregroundClientTitle)

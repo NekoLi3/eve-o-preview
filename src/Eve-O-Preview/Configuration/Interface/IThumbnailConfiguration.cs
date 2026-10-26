@@ -34,6 +34,13 @@ namespace EveOPreview.Configuration
 		string SystemLabelColor { get; set; }
 		SystemLabelPosition SystemLabelPosition { get; set; }
 
+		bool ShowEventLabelsInThumbnail { get; set; }
+		int EventLabelDurationMs { get; set; }
+		string EventLabelFont { get; set; }
+		ZoomAnchor EventLabelAnchor { get; set; }
+		string GamelogsPath { get; set; }
+		List<EventLabelRule> EventLabelRules { get; set; }
+
 		Dictionary<string, Color> PerClientActiveClientHighlightColor { get; set; }
 		Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
 		Dictionary<string, bool> PerClientPreventPreviews { get; set; }
@@ -107,6 +114,7 @@ namespace EveOPreview.Configuration
 		Keys StringToKey(string hotkey);
 		bool IsPriorityClient(string currentClient);
 		bool IsExecutableToPreview(string processName);
+		IEnumerable<string> GetExecutablesToPreview();
 
 		bool IsThumbnailDisabled(string currentClient);
 		void ToggleThumbnail(string currentClient, bool isDisabled);

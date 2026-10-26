@@ -19,6 +19,13 @@ namespace EveOPreview.View
 		private readonly Action<object, MouseEventArgs> _areaMouseMoveAction;
 		private bool _showOverlayText = true;
 		private SystemLabelPosition _systemLabelPosition = SystemLabelPosition.BelowName;
+
+		private string _eventLabelText = "";
+		private Color _eventLabelColor = Color.White;
+		private Font _eventLabelFont;
+		private ZoomAnchor _eventLabelAnchor = ZoomAnchor.C;
+		private Size _eventLabelSize;
+		private int _eventLabelMeasuredWidth = -1;
 		#endregion
 
 		public ThumbnailOverlay(Form owner,
@@ -210,10 +217,52 @@ namespace EveOPreview.View
 
 		public void SetPropertiesSystemLabel(Font f, System.Drawing.Color c, SystemLabelPosition position)
 		{
+			if (f == null)
+			{
+				return;
+			}
+
+			if (this.SystemLabel.Font.Equals(f) && this.SystemLabel.ForeColor == c && this._systemLabelPosition == position)
+			{
+				return;
+			}
+
 			this.SystemLabel.Font = f;
 			this.SystemLabel.ForeColor = c;
 			this._systemLabelPosition = position;
 			this.UpdateSystemLabelLayout();
+		}
+
+		public void SetEventLabel(string label, Color color)
+		{
+			label = label ?? "";
+			if (this._eventLabelText == label && this._eventLabelColor == color)
+			{
+				return;
+			}
+
+			this._eventLabelText = label;
+			this._eventLabelColor = color;
+			this._eventLabelSize = Size.Empty;
+			this._eventLabelMeasuredWidth = -1;
+			this.OverlayAreaPictureBox.Invalidate();
+		}
+
+		public void SetPropertiesEventLabel(Font font, ZoomAnchor anchor)
+		{
+			if (font == null || (ReferenceEquals(this._eventLabelFont, font) && this._eventLabelAnchor == anchor))
+			{
+				return;
+			}
+
+			this._eventLabelFont = font;
+			this._eventLabelAnchor = anchor;
+			this._eventLabelSize = Size.Empty;
+			this._eventLabelMeasuredWidth = -1;
+			if (this._eventLabelText.Length > 0)
+			{
+				this.OverlayAreaPictureBox.Invalidate();
+			}
 		}
 
 		private void UpdateSystemLabelLayout()
@@ -332,10 +381,87 @@ namespace EveOPreview.View
 			TextRenderer.DrawText(e.Graphics, l.Text, l.Font, new Rectangle(l.Left, l.Top, l.Width, l.Height), l.ForeColor, flags);
 		}
 
+		private void PaintEventLabel(PaintEventArgs e)
+		{
+			if (this._eventLabelText.Length == 0 || this._eventLabelFont == null)
+			{
+				return;
+			}
+
+			const int margin = 8;
+			int pictureWidth = this.OverlayAreaPictureBox.ClientSize.Width;
+			int pictureHeight = this.OverlayAreaPictureBox.ClientSize.Height;
+			int maxWidth = Math.Max(1, pictureWidth - (margin * 2));
+			if (this._eventLabelSize.IsEmpty || this._eventLabelMeasuredWidth != maxWidth)
+			{
+				// Measuring on every paint would be wasteful: the thumbnail
+				// refreshes several times per second.
+				this._eventLabelSize = TextRenderer.MeasureText(this._eventLabelText, this._eventLabelFont,
+					new Size(maxWidth, 1000), TextFormatFlags.WordBreak | TextFormatFlags.NoPadding);
+				this._eventLabelMeasuredWidth = maxWidth;
+			}
+
+			int width = Math.Min(this._eventLabelSize.Width, maxWidth);
+			int height = this._eventLabelSize.Height;
+			int left;
+			int top;
+
+			switch (this._eventLabelAnchor)
+			{
+				case ZoomAnchor.NW:
+					left = margin;
+					top = margin;
+					break;
+				case ZoomAnchor.N:
+					left = (pictureWidth - width) / 2;
+					top = margin;
+					break;
+				case ZoomAnchor.NE:
+					left = pictureWidth - width - margin;
+					top = margin;
+					break;
+				case ZoomAnchor.W:
+					left = margin;
+					top = (pictureHeight - height) / 2;
+					break;
+				case ZoomAnchor.E:
+					left = pictureWidth - width - margin;
+					top = (pictureHeight - height) / 2;
+					break;
+				case ZoomAnchor.SW:
+					left = margin;
+					top = pictureHeight - height - margin;
+					break;
+				case ZoomAnchor.S:
+					left = (pictureWidth - width) / 2;
+					top = pictureHeight - height - margin;
+					break;
+				case ZoomAnchor.SE:
+					left = pictureWidth - width - margin;
+					top = pictureHeight - height - margin;
+					break;
+				default:
+					left = (pictureWidth - width) / 2;
+					top = (pictureHeight - height) / 2;
+					break;
+			}
+
+			left = Math.Max(0, Math.Min(left, pictureWidth - width));
+			top = Math.Max(0, Math.Min(top, pictureHeight - height));
+
+			e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+			TextRenderer.DrawText(e.Graphics, this._eventLabelText, this._eventLabelFont,
+				new Rectangle(left, top, width, height), this._eventLabelColor,
+				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
+				TextFormatFlags.WordBreak | TextFormatFlags.NoPadding);
+		}
+
 		private void OverlayAreaPictureBox_Paint(object sender, PaintEventArgs e)
 		{
 			if (this._showOverlayText) PaintDrawText(e, OverlayLabel);
 			if (this._showOverlayText && !string.IsNullOrEmpty(this.SystemLabel.Text)) PaintDrawText(e, SystemLabel);
+			PaintEventLabel(e);
 		}
 
 		protected override CreateParams CreateParams

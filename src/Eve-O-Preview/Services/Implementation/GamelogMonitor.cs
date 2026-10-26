@@ -39,7 +39,8 @@ namespace EveOPreview.Services.Implementation
 
 		private FileSystemWatcher _watcher;
 		private Timer _refreshTimer;
-		private bool _stopped;
+		private volatile bool _stopped;
+		private int _isRefreshing;
 		#endregion
 
 		private sealed class ChatlogFileState
@@ -47,6 +48,9 @@ namespace EveOPreview.Services.Implementation
 			// Null when the file has no Listener header (i.e. it is not a valid Local chatlog)
 			public string CharacterName;
 			public long Offset;
+			public long HeaderLength;
+			public bool HeaderChecked;
+			public long CreationTicks;
 		}
 
 		public GamelogMonitor(IThumbnailConfiguration configuration)
@@ -172,7 +176,41 @@ namespace EveOPreview.Services.Implementation
 
 		private void Refresh()
 		{
-			lock (this._syncRoot)
+			if (this._stopped || Interlocked.Exchange(ref this._isRefreshing, 1) != 0)
+			{
+				return;
+			}
+
+			try
+			{
+				this.RefreshCore();
+			}
+			catch (Exception)
+			{
+				// A file may be locked or the folder temporarily unavailable;
+				// the periodic timer will retry
+			}
+			finally
+			{
+				Interlocked.Exchange(ref this._isRefreshing, 0);
+			}
+		}
+
+		private void RefreshCore()
+		{
+			if (this._stopped || !Directory.Exists(this._chatlogsPath))
+			{
+				return;
+			}
+
+			FileInfo[] files = new DirectoryInfo(this._chatlogsPath)
+				.GetFiles(GamelogMonitor.CHATLOG_FILE_PATTERN, SearchOption.TopDirectoryOnly)
+				.OrderBy(file => file.LastWriteTimeUtc)
+				.ToArray();
+
+			// Oldest files first: the newest file for a character is processed
+			// last, so its system value wins.
+			foreach (FileInfo file in files)
 			{
 				if (this._stopped)
 				{
@@ -181,49 +219,53 @@ namespace EveOPreview.Services.Implementation
 
 				try
 				{
-					if (!Directory.Exists(this._chatlogsPath))
-					{
-						return;
-					}
-
-					// Oldest files first: the newest file for a character is
-					// processed last, so its system value wins
-					string[] files = Directory.GetFiles(this._chatlogsPath, GamelogMonitor.CHATLOG_FILE_PATTERN)
-						.OrderBy(file => File.GetLastWriteTime(file))
-						.ToArray();
-
-					foreach (string filePath in files)
-					{
-						this.ProcessFile(filePath);
-					}
-
-					this.CleanupFileStates(files);
+					this.ProcessFile(file);
 				}
-				catch (Exception)
+				catch (Exception exception)
 				{
-					// A file may be locked or the folder temporarily unavailable;
-					// the periodic timer will retry
+					// A chatlog can rotate or disappear between enumeration and
+					// reading. Do not let that skip the remaining files.
+					System.Diagnostics.Debug.WriteLine(exception);
 				}
 			}
+
+			this.CleanupFileStates(files.Select(file => file.FullName));
 		}
 
-		private void ProcessFile(string filePath)
+		private void ProcessFile(FileInfo file)
 		{
+			string filePath = file.FullName;
 			if (!this._fileStates.TryGetValue(filePath, out ChatlogFileState state))
 			{
-				state = new ChatlogFileState();
+				state = new ChatlogFileState
+				{
+					CreationTicks = file.CreationTimeUtc.Ticks
+				};
 				this._fileStates[filePath] = state;
 			}
 
-			DateTime fileWriteTime;
-			try
+			long length = file.Length;
+			if (state.CreationTicks != file.CreationTimeUtc.Ticks)
 			{
-				fileWriteTime = File.GetLastWriteTime(filePath);
+				// The file was replaced under the same name - start over.
+				state.Offset = 0;
+				state.CharacterName = null;
+				state.HeaderChecked = false;
+				state.CreationTicks = file.CreationTimeUtc.Ticks;
 			}
-			catch (IOException)
+
+			if (state.Offset == length && state.CharacterName != null)
+			{
+				// Nothing was appended since the last refresh.
+				return;
+			}
+
+			if (state.CharacterName == null && state.HeaderChecked && length <= state.HeaderLength)
 			{
 				return;
 			}
+
+			DateTime fileWriteTime = file.LastWriteTimeUtc;
 
 			try
 			{
@@ -234,6 +276,13 @@ namespace EveOPreview.Services.Implementation
 					{
 						state.Offset = 0;
 						state.CharacterName = null;
+						state.HeaderChecked = false;
+					}
+
+					if (state.CharacterName == null)
+					{
+						state.HeaderChecked = true;
+						state.HeaderLength = stream.Length;
 					}
 
 					stream.Seek(state.Offset, SeekOrigin.Begin);
@@ -316,14 +365,18 @@ namespace EveOPreview.Services.Implementation
 			}
 
 			// Only the most recently written file may update a character's system,
-			// so a stale (rotated) file can never overwrite the value from a newer one
-			if (this._characterSystemSources.TryGetValue(character, out long sourceTicks) && sourceTicks > fileWriteTime.Ticks)
+			// so a stale (rotated) file can never overwrite the value from a newer one.
+			// The lock is held only for this short dictionary update, not for I/O.
+			lock (this._syncRoot)
 			{
-				return;
-			}
+				if (this._characterSystemSources.TryGetValue(character, out long sourceTicks) && sourceTicks > fileWriteTime.Ticks)
+				{
+					return;
+				}
 
-			this._characterSystems[character] = system;
-			this._characterSystemSources[character] = fileWriteTime.Ticks;
+				this._characterSystems[character] = system;
+				this._characterSystemSources[character] = fileWriteTime.Ticks;
+			}
 		}
 
 		private void CleanupFileStates(IEnumerable<string> existingFiles)

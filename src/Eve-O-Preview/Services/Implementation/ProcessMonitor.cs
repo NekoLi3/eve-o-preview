@@ -36,8 +36,10 @@ namespace EveOPreview.Services.Implementation
 
 		private IProcessInfo GetCurrentProcessInfo()
 		{
-			var currentProcess = Process.GetCurrentProcess();
-			return new ProcessInfo(currentProcess.MainWindowHandle, currentProcess.MainWindowTitle);
+			using (Process currentProcess = Process.GetCurrentProcess())
+			{
+				return new ProcessInfo(currentProcess.MainWindowHandle, currentProcess.MainWindowTitle);
+			}
 		}
 
 		public IProcessInfo GetMainProcess()
@@ -76,40 +78,73 @@ namespace EveOPreview.Services.Implementation
 			removedProcesses = new List<IProcessInfo>(16);
 
 			IList<IntPtr> knownProcesses = new List<IntPtr>(this._processCache.Keys);
-			foreach (Process process in Process.GetProcesses())
-			{
-				string processName = process.ProcessName;
+			HashSet<IntPtr> seenProcesses = new HashSet<IntPtr>();
 
-				if (!this.IsMonitoredProcess(processName))
+			// Ask Windows only for the configured executable names instead of
+			// enumerating every process on the machine on every refresh tick.
+			foreach (string executable in this._configuration.GetExecutablesToPreview())
+			{
+				if (string.IsNullOrWhiteSpace(executable))
 				{
 					continue;
 				}
 
-				IntPtr mainWindowHandle = process.MainWindowHandle;
-				if (mainWindowHandle == IntPtr.Zero)
+				Process[] processes;
+				try
 				{
-					continue; // No need to monitor non-visual processes
+					processes = Process.GetProcessesByName(executable);
+				}
+				catch (Exception)
+				{
+					// The process list can change while it is being enumerated.
+					continue;
 				}
 
-				string mainWindowTitle = process.MainWindowTitle.Replace("—", "-");
-				this._processCache.TryGetValue(mainWindowHandle, out string cachedTitle);
-
-				if (cachedTitle == null)
+				foreach (Process process in processes)
 				{
-					// This is a new process in the list
-					this._processCache.Add(mainWindowHandle, mainWindowTitle);
-					addedProcesses.Add(new ProcessInfo(mainWindowHandle, mainWindowTitle));
-				}
-				else
-				{
-					// This is an already known process
-					if (cachedTitle != mainWindowTitle)
+					try
 					{
-						this._processCache[mainWindowHandle] = mainWindowTitle;
-						updatedProcesses.Add(new ProcessInfo(mainWindowHandle, mainWindowTitle));
-					}
+						using (process)
+						{
+							string processName = process.ProcessName;
+							if (!this.IsMonitoredProcess(processName))
+							{
+								continue;
+							}
 
-					knownProcesses.Remove(mainWindowHandle);
+							IntPtr mainWindowHandle = process.MainWindowHandle;
+							if (mainWindowHandle == IntPtr.Zero || !seenProcesses.Add(mainWindowHandle))
+							{
+								continue; // No need to monitor non-visual or duplicate processes
+							}
+
+							string mainWindowTitle = process.MainWindowTitle.Replace("—", "-");
+							this._processCache.TryGetValue(mainWindowHandle, out string cachedTitle);
+
+							if (cachedTitle == null)
+							{
+								// This is a new process in the list
+								this._processCache.Add(mainWindowHandle, mainWindowTitle);
+								addedProcesses.Add(new ProcessInfo(mainWindowHandle, mainWindowTitle));
+							}
+							else
+							{
+								// This is an already known process
+								if (cachedTitle != mainWindowTitle)
+								{
+									this._processCache[mainWindowHandle] = mainWindowTitle;
+									updatedProcesses.Add(new ProcessInfo(mainWindowHandle, mainWindowTitle));
+								}
+
+								knownProcesses.Remove(mainWindowHandle);
+							}
+						}
+					}
+					catch (Exception)
+					{
+						// A process can exit between enumeration and reading its
+						// properties. Ignore it; the next refresh will clean it up.
+					}
 				}
 			}
 

@@ -62,6 +62,13 @@ namespace EveOPreview.Configuration.Implementation
 			this.SystemLabelColor = "";
 			this.SystemLabelPosition = SystemLabelPosition.BelowName;
 
+			this.ShowEventLabelsInThumbnail = true;
+			this.EventLabelDurationMs = 1500;
+			this.EventLabelFont = "";
+			this.EventLabelAnchor = ZoomAnchor.C;
+			this.GamelogsPath = "";
+			this.EventLabelRules = ThumbnailConfiguration.CreateDefaultEventLabelRules();
+
 			this.PerClientActiveClientHighlightColor = new Dictionary<string, Color>
 			{
 				{"EVE - Example Toon 1", Color.Red},
@@ -231,6 +238,25 @@ namespace EveOPreview.Configuration.Implementation
 		[JsonProperty("SystemLabelPosition")]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public SystemLabelPosition SystemLabelPosition { get; set; }
+
+		[JsonProperty("ShowEventLabelsInThumbnail")]
+		public bool ShowEventLabelsInThumbnail { get; set; }
+
+		[JsonProperty("EventLabelDurationMs")]
+		public int EventLabelDurationMs { get; set; }
+
+		[JsonProperty("EventLabelFont")]
+		public string EventLabelFont { get; set; }
+
+		[JsonProperty("EventLabelAnchor")]
+		[JsonConverter(typeof(StringEnumConverter))]
+		public ZoomAnchor EventLabelAnchor { get; set; }
+
+		[JsonProperty("GamelogsPath")]
+		public string GamelogsPath { get; set; }
+
+		[JsonProperty("EventLabelRules")]
+		public List<EventLabelRule> EventLabelRules { get; set; }
 
 		[JsonProperty("PerClientPreventPreviewColor")]
 		public Dictionary<string, Color> PerClientPreventPreviewColor { get; set; }
@@ -459,6 +485,11 @@ namespace EveOPreview.Configuration.Implementation
 			return this.ExecutablesToPreview.Any(s => s.Equals(processName, StringComparison.OrdinalIgnoreCase));
 		}
 
+		public IEnumerable<string> GetExecutablesToPreview()
+		{
+			return this.ExecutablesToPreview ?? Enumerable.Empty<string>();
+		}
+
 		public bool IsThumbnailDisabled(string currentClient)
 		{
 			return this.DisableThumbnail.TryGetValue(currentClient, out bool isDisabled) && isDisabled;
@@ -485,6 +516,45 @@ namespace EveOPreview.Configuration.Implementation
 			this.ThumbnailOpacity = ThumbnailConfiguration.ApplyRestrictions((int)(this.ThumbnailOpacity * 100.00), 20, 100) / 100.00;
 			this.ThumbnailZoomFactor = ThumbnailConfiguration.ApplyRestrictions(this.ThumbnailZoomFactor, 2, 10);
 			this.ActiveClientHighlightThickness = ThumbnailConfiguration.ApplyRestrictions(this.ActiveClientHighlightThickness, 1, 6);
+			this.EventLabelDurationMs = ThumbnailConfiguration.ApplyRestrictions(this.EventLabelDurationMs, 500, 10000);
+			if (this.EventLabelRules == null)
+			{
+				// Older configuration files do not have the rules section.
+				this.EventLabelRules = ThumbnailConfiguration.CreateDefaultEventLabelRules();
+			}
+		}
+
+		private static List<EventLabelRule> CreateDefaultEventLabelRules()
+		{
+			return new List<EventLabelRule>
+			{
+				new EventLabelRule
+				{
+					Pattern = "Your cloak deactivates",
+					Label = "DECLOAK",
+					Color = "Orange"
+				},
+				new EventLabelRule
+				{
+					Pattern = "Following (?<name>.+?) in warp",
+					Label = "WARP {name}",
+					Color = "DeepSkyBlue"
+				},
+				new EventLabelRule
+				{
+					Pattern = "Warp scramble attempt",
+					Label = "SCRAM",
+					Color = "Red",
+					SelfOnly = true
+				},
+				new EventLabelRule
+				{
+					Pattern = "Warp disruption attempt",
+					Label = "DISRUPT",
+					Color = "Red",
+					SelfOnly = true
+				}
+			};
 		}
 
 		private static int ApplyRestrictions(int value, int minimum, int maximum)

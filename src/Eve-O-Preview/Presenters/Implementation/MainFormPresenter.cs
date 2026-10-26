@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading.Tasks;
 using EveOPreview.Configuration;
 using EveOPreview.Mediator.Messages;
 using EveOPreview.Services;
@@ -85,7 +86,7 @@ namespace EveOPreview.Presenters
 		{
 			if (this._exitApplication || !this.View.MinimizeToTray)
 			{
-				this._mediator.Send(new StopService()).Wait();
+				this._mediator.Send(new StopService()).GetAwaiter().GetResult();
 
 				this._configurationStorage.Save();
 				request.Allow = true;
@@ -97,6 +98,18 @@ namespace EveOPreview.Presenters
 		}
 
 		private async void UpdateThumbnailsSize()
+		{
+			try
+			{
+				await this.UpdateThumbnailsSizeCore();
+			}
+			catch (Exception exception)
+			{
+				Debug.WriteLine(exception);
+			}
+		}
+
+		private async Task UpdateThumbnailsSizeCore()
 		{
 			if (!this._suppressSizeNotifications)
 			{
@@ -157,9 +170,13 @@ namespace EveOPreview.Presenters
 			this.View.OverlayLabelFont = this._configuration.OverlayLabelFont;
 
 			this.View.SystemLabelPosition = this._configuration.SystemLabelPosition;
-			this.View.SystemLabelFont = this.ParseSystemLabelFont(this._configuration.SystemLabelFont);
+			this.View.SystemLabelFont = this.ParseFont(this._configuration.SystemLabelFont);
 			this.View.SystemLabelColor = this.ParseSystemLabelColor(this._configuration.SystemLabelColor);
 
+			this.View.ShowEventLabelsInThumbnail = this._configuration.ShowEventLabelsInThumbnail;
+			this.View.EventLabelDurationMs = this._configuration.EventLabelDurationMs;
+			this.View.EventLabelFont = this.ParseFont(this._configuration.EventLabelFont);
+			this.View.EventLabelAnchor = ViewZoomAnchorConverter.Convert(this._configuration.EventLabelAnchor);
 
 			this.View.IconName = this._configuration.IconName;
 		}
@@ -183,6 +200,18 @@ namespace EveOPreview.Presenters
 
 		private async void LoadProfile()
 		{
+			try
+			{
+				await this.LoadProfileCore();
+			}
+			catch (Exception exception)
+			{
+				Debug.WriteLine(exception);
+			}
+		}
+
+		private async Task LoadProfileCore()
+		{
 			string profileName = this.View.SelectedProfileName;
 			if (!this._profileManager.IsProfileNameValid(profileName))
 			{
@@ -199,8 +228,14 @@ namespace EveOPreview.Presenters
 			this._profileManager.LoadProfile(profileName);
 
 			this._suppressSizeNotifications = true;
-			this.ApplyConfigurationToView();
-			this._suppressSizeNotifications = false;
+			try
+			{
+				this.ApplyConfigurationToView();
+			}
+			finally
+			{
+				this._suppressSizeNotifications = false;
+			}
 
 			await this._mediator.Publish(new ThumbnailFrameSettingsUpdated());
 			await this._mediator.Publish(new ThumbnailConfiguredSizeUpdated());
@@ -209,7 +244,6 @@ namespace EveOPreview.Presenters
 			await this._mediator.Publish(new ThumbnailClientHotkeysUpdated());
 
 			// Persist the applied profile as the active configuration
-			this._configurationStorage.Save();
 			await this._mediator.Send(new SaveConfiguration());
 		}
 
@@ -225,7 +259,7 @@ namespace EveOPreview.Presenters
 			this.RefreshProfileList();
 		}
 
-		private Font ParseSystemLabelFont(string fontString)
+		private Font ParseFont(string fontString)
 		{
 			if (string.IsNullOrEmpty(fontString))
 			{
@@ -265,6 +299,18 @@ namespace EveOPreview.Presenters
 		}
 
 		private async void SaveApplicationSettings()
+		{
+			try
+			{
+				await this.SaveApplicationSettingsCore();
+			}
+			catch (Exception exception)
+			{
+				Debug.WriteLine(exception);
+			}
+		}
+
+		private async Task SaveApplicationSettingsCore()
 		{
 			this._configuration.MinimizeToTray = this.View.MinimizeToTray;
 			this._configuration.ShowSystemInThumbnail = this.View.ShowSystemInThumbnail;
@@ -343,9 +389,12 @@ namespace EveOPreview.Presenters
 			this._configuration.SystemLabelFont = this.View.SystemLabelFont == null ? "" : new FontConverter().ConvertToInvariantString(this.View.SystemLabelFont);
 			this._configuration.SystemLabelColor = this.View.SystemLabelColor == null ? "" : new ColorConverter().ConvertToInvariantString(this.View.SystemLabelColor.Value);
 
-			this._configuration.IconName = this.View.IconName;
+			this._configuration.ShowEventLabelsInThumbnail = this.View.ShowEventLabelsInThumbnail;
+			this._configuration.EventLabelDurationMs = this.View.EventLabelDurationMs;
+			this._configuration.EventLabelFont = this.View.EventLabelFont == null ? "" : new FontConverter().ConvertToInvariantString(this.View.EventLabelFont);
+			this._configuration.EventLabelAnchor = ViewZoomAnchorConverter.Convert(this.View.EventLabelAnchor);
 
-			this._configurationStorage.Save();
+			this._configuration.IconName = this.View.IconName;
 
 			this.View.RefreshZoomSettings();
 
@@ -399,6 +448,18 @@ namespace EveOPreview.Presenters
 		}
 
 		private async void UpdateThumbnailState(String title)
+		{
+			try
+			{
+				await this.UpdateThumbnailStateCore(title);
+			}
+			catch (Exception exception)
+			{
+				Debug.WriteLine(exception);
+			}
+		}
+
+		private async Task UpdateThumbnailStateCore(String title)
 		{
 			if (this._descriptionsCache.TryGetValue(title, out IThumbnailDescription description))
 			{

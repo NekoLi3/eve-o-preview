@@ -24,6 +24,7 @@ namespace EveOPreview.View
 		private Size _minimumSize;
 		private Size _maximumSize;
 		private string _iconName;
+		private Font _eventLabelFont;
 		#endregion
 
 		public MainForm(ApplicationContext context)
@@ -51,6 +52,11 @@ namespace EveOPreview.View
 			this.SystemLabelPositionCombo.Items.AddRange(new object[]
 			{
 				"Below name", "Top left", "Top", "Top right", "Left", "Center", "Right", "Bottom left", "Bottom", "Bottom right"
+			});
+
+			this.EventLabelAnchorCombo.Items.AddRange(new object[]
+			{
+				"Top left", "Top", "Top right", "Left", "Center", "Right", "Bottom left", "Bottom", "Bottom right"
 			});
 
 			this.UpdateProfileButtons();
@@ -125,7 +131,7 @@ namespace EveOPreview.View
 						this.NotifyIcon.Icon = this.Icon;
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					// Log ?
 				}
@@ -401,6 +407,7 @@ namespace EveOPreview.View
 			{
 				this._OverlayLabelFont = value;
 				this.LabelOverlayLabelFont.Font = value;
+				this.UpdateEventLabelFontPreview();
 			}
 		}
 		private Font _OverlayLabelFont;
@@ -434,14 +441,47 @@ namespace EveOPreview.View
 			set => this.SystemLabelPositionCombo.SelectedIndex = (int)value;
 		}
 
+		public bool ShowEventLabelsInThumbnail
+		{
+			get => this.ShowEventLabelsCheckBox.Checked;
+			set => this.WithoutEvents(() => this.ShowEventLabelsCheckBox.Checked = value);
+		}
+
+		public int EventLabelDurationMs
+		{
+			get => (int)Math.Round(this.EventLabelDurationNumeric.Value * 1000m);
+			set
+			{
+				decimal seconds = Math.Min(Math.Max(value, 500), 10000) / 1000m;
+				this.WithoutEvents(() => this.EventLabelDurationNumeric.Value = seconds);
+			}
+		}
+
+		// Null means "inherit from the character name label"
+		public Font EventLabelFont
+		{
+			get => this._eventLabelFont;
+			set
+			{
+				this._eventLabelFont = value;
+				this.UpdateEventLabelFontPreview();
+			}
+		}
+
+		public ViewZoomAnchor EventLabelAnchor
+		{
+			get => this.EventLabelAnchorCombo.SelectedIndex < 0
+				? ViewZoomAnchor.C
+				: (ViewZoomAnchor)this.EventLabelAnchorCombo.SelectedIndex;
+			set => this.WithoutEvents(() => this.EventLabelAnchorCombo.SelectedIndex = (int)value);
+		}
+
 		public new void Show()
 		{
 			// Registers the current instance as the application's Main Form
 			this._context.MainForm = this;
 
-			this._suppressEvents = true;
-			this.FormActivated?.Invoke();
-			this._suppressEvents = false;
+			this.WithoutEvents(() => this.FormActivated?.Invoke());
 
 			Application.Run(this._context);
 		}
@@ -523,21 +563,24 @@ namespace EveOPreview.View
 
 			Graphics graphics = e.Graphics;
 
-			Brush textBrush = new SolidBrush(SystemColors.ActiveCaptionText);
-			Brush backgroundBrush = (e.State == DrawItemState.Selected)
-										? new SolidBrush(SystemColors.Control)
-										: new SolidBrush(SystemColors.ControlDark);
-			graphics.FillRectangle(backgroundBrush, e.Bounds);
+			using (Brush textBrush = new SolidBrush(SystemColors.ActiveCaptionText))
+			using (Brush backgroundBrush = new SolidBrush(e.State == DrawItemState.Selected
+				? SystemColors.Control
+				: SystemColors.ControlDark))
+			{
+				graphics.FillRectangle(backgroundBrush, e.Bounds);
 
-			// Use our own font
-			Font font = new Font("Arial", this.Font.Size * 1.5f, FontStyle.Bold, GraphicsUnit.Pixel);
+				// Use our own font
+				using (Font font = new Font("Arial", this.Font.Size * 1.5f, FontStyle.Bold, GraphicsUnit.Pixel))
+				using (StringFormat stringFlags = new StringFormat())
+				{
+					// Draw string and center the text
+					stringFlags.Alignment = StringAlignment.Center;
+					stringFlags.LineAlignment = StringAlignment.Center;
 
-			// Draw string and center the text
-			StringFormat stringFlags = new StringFormat();
-			stringFlags.Alignment = StringAlignment.Center;
-			stringFlags.LineAlignment = StringAlignment.Center;
-
-			graphics.DrawString(page.Text, font, textBrush, bounds, stringFlags);
+					graphics.DrawString(page.Text, font, textBrush, bounds, stringFlags);
+				}
+			}
 		}
 
 		private void OptionChanged_Handler(object sender, EventArgs e)
@@ -558,14 +601,61 @@ namespace EveOPreview.View
 			}
 
 			// Perform some View work that is not properly done in the Control
-			this._suppressEvents = true;
-			Size thumbnailSize = this.ThumbnailSize;
-			thumbnailSize.Width = Math.Min(Math.Max(thumbnailSize.Width, this._minimumSize.Width), this._maximumSize.Width);
-			thumbnailSize.Height = Math.Min(Math.Max(thumbnailSize.Height, this._minimumSize.Height), this._maximumSize.Height);
-			this.ThumbnailSize = thumbnailSize;
-			this._suppressEvents = false;
+			this.WithoutEvents(() =>
+			{
+				Size thumbnailSize = this.ThumbnailSize;
+				thumbnailSize.Width = Math.Min(Math.Max(thumbnailSize.Width, this._minimumSize.Width), this._maximumSize.Width);
+				thumbnailSize.Height = Math.Min(Math.Max(thumbnailSize.Height, this._minimumSize.Height), this._maximumSize.Height);
+				this.ThumbnailSize = thumbnailSize;
+			});
 
 			this.ThumbnailsSizeChanged?.Invoke();
+		}
+
+		private void WithoutEvents(Action action)
+		{
+			bool previous = this._suppressEvents;
+			this._suppressEvents = true;
+			try
+			{
+				action();
+			}
+			finally
+			{
+				this._suppressEvents = previous;
+			}
+		}
+
+		private void UpdateEventLabelFontPreview()
+		{
+			this.LabelEventLabelFont.Font = this._eventLabelFont ?? this.OverlayLabelFont;
+			this.LabelEventLabelFont.Text = this._eventLabelFont == null ? "Inherit" : "Event";
+		}
+
+		private void EventLabelFontButton_Click(object sender, EventArgs e)
+		{
+			using (FontDialog fontSelector = new FontDialog())
+			{
+				fontSelector.Font = this.EventLabelFont ?? this.OverlayLabelFont;
+				fontSelector.ShowColor = false;
+				fontSelector.ShowApply = false;
+				fontSelector.ShowHelp = false;
+
+				if (fontSelector.ShowDialog() == DialogResult.Cancel)
+				{
+					return;
+				}
+
+				this.EventLabelFont = fontSelector.Font;
+			}
+
+			this.OptionChanged_Handler(sender, e);
+		}
+
+		private void ResetEventLabelFontButton_Click(object sender, EventArgs e)
+		{
+			this.EventLabelFont = null;
+			this.OptionChanged_Handler(sender, e);
 		}
 
 		private void ActiveClientHighlightColorButton_Click(object sender, EventArgs e)
@@ -709,7 +799,13 @@ namespace EveOPreview.View
 		{
 			const int BUFFER_PIXEL_AMOUNT = 8;
 			// resize form height based on tabbed control item height
-			var tabControl = (System.Windows.Forms.TabControl)this.Controls.Find("ContentTabControl", false).First();
+			Control[] tabControls = this.Controls.Find("ContentTabControl", false);
+			if (tabControls.Length == 0)
+			{
+				return;
+			}
+
+			var tabControl = tabControls[0] as System.Windows.Forms.TabControl;
 			if (tabControl != null)
 			{
 				var furnitureSize = this.Height - tabControl.Height;
@@ -723,31 +819,35 @@ namespace EveOPreview.View
 
 		private void btnLabelFont_Click(object sender, EventArgs e)
 		{
-			FontDialog fontSelector = new FontDialog();
-			fontSelector.Font = OverlayLabelFont;
-			fontSelector.ShowColor = false;
-			fontSelector.ShowApply = false;
-			fontSelector.ShowHelp = false;
-			if (fontSelector.ShowDialog() != DialogResult.Cancel)
+			using (FontDialog fontSelector = new FontDialog())
 			{
-				OverlayLabelFont = fontSelector.Font;
-				LabelOverlayLabelFont.Font = fontSelector.Font;
-				this.OptionChanged_Handler(sender, e);
+				fontSelector.Font = OverlayLabelFont;
+				fontSelector.ShowColor = false;
+				fontSelector.ShowApply = false;
+				fontSelector.ShowHelp = false;
+				if (fontSelector.ShowDialog() != DialogResult.Cancel)
+				{
+					OverlayLabelFont = fontSelector.Font;
+					LabelOverlayLabelFont.Font = fontSelector.Font;
+					this.OptionChanged_Handler(sender, e);
+				}
 			}
 		}
 
 		private void SystemLabelFontButton_Click(object sender, EventArgs e)
 		{
-			FontDialog fontSelector = new FontDialog();
-			fontSelector.Font = this.SystemLabelFont ?? OverlayLabelFont;
-			fontSelector.ShowColor = false;
-			fontSelector.ShowApply = false;
-			fontSelector.ShowHelp = false;
-			if (fontSelector.ShowDialog() != DialogResult.Cancel)
+			using (FontDialog fontSelector = new FontDialog())
 			{
-				this.SystemLabelFont = fontSelector.Font;
-				LabelSystemLabelFont.Font = fontSelector.Font;
-				this.OptionChanged_Handler(sender, e);
+				fontSelector.Font = this.SystemLabelFont ?? OverlayLabelFont;
+				fontSelector.ShowColor = false;
+				fontSelector.ShowApply = false;
+				fontSelector.ShowHelp = false;
+				if (fontSelector.ShowDialog() != DialogResult.Cancel)
+				{
+					this.SystemLabelFont = fontSelector.Font;
+					LabelSystemLabelFont.Font = fontSelector.Font;
+					this.OptionChanged_Handler(sender, e);
+				}
 			}
 		}
 

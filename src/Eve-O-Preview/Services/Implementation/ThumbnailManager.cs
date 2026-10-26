@@ -36,6 +36,7 @@ namespace EveOPreview.Services
 		private readonly IWindowManager _windowManager;
 		private readonly IThumbnailConfiguration _configuration;
 		private readonly IGamelogMonitor _gamelogMonitor;
+		private readonly IEventLogMonitor _eventLogMonitor;
 		private readonly DispatcherTimer _thumbnailUpdateTimer;
 		private readonly IThumbnailViewFactory _thumbnailViewFactory;
 		private readonly Dictionary<IntPtr, IThumbnailView> _thumbnailViews;
@@ -57,13 +58,14 @@ namespace EveOPreview.Services
 		private List<HotkeyHandler> _minimizeAllClientsHotkeyHandlers = new List<HotkeyHandler>();
 		#endregion
 
-		public ThumbnailManager(IMediator mediator, IThumbnailConfiguration configuration, IProcessMonitor processMonitor, IWindowManager windowManager, IThumbnailViewFactory factory, IGamelogMonitor gamelogMonitor)
+		public ThumbnailManager(IMediator mediator, IThumbnailConfiguration configuration, IProcessMonitor processMonitor, IWindowManager windowManager, IThumbnailViewFactory factory, IGamelogMonitor gamelogMonitor, IEventLogMonitor eventLogMonitor)
 		{
 			this._mediator = mediator;
 			this._processMonitor = processMonitor;
 			this._windowManager = windowManager;
 			this._configuration = configuration;
 			this._gamelogMonitor = gamelogMonitor;
+			this._eventLogMonitor = eventLogMonitor;
 			this._thumbnailViewFactory = factory;
 
 			this._activeClient = (IntPtr.Zero, ThumbnailManager.DEFAULT_CLIENT_TITLE);
@@ -215,7 +217,7 @@ namespace EveOPreview.Services
 					this._excludedClientOrder,
 					handle => this._thumbnailViews.TryGetValue(handle, out IThumbnailView view) && view.IsExcludedFromCycleGroup,
 					isForwards)
-				.Select(handle => new KeyValuePair<IntPtr, IThumbnailView>(handle, this._thumbnailViews[handle]))
+				.Select(handle => new KeyValuePair<IntPtr, IThumbnailView>(handle, this.GetClientByPointer(handle)))
 				.ToList();
 
 			if (orderedClients.Count == 0)
@@ -402,6 +404,7 @@ namespace EveOPreview.Services
 		{
 			this._thumbnailUpdateTimer.Start();
 			this._gamelogMonitor.Start();
+			this._eventLogMonitor.Start();
 
 			this.RefreshThumbnails();
 		}
@@ -410,12 +413,22 @@ namespace EveOPreview.Services
 		{
 			this._thumbnailUpdateTimer.Stop();
 			this._gamelogMonitor.Stop();
+			this._eventLogMonitor.Stop();
 		}
 
 		private void ThumbnailUpdateTimerTick(object sender, EventArgs e)
 		{
-			this.UpdateThumbnailsList();
-			this.RefreshThumbnails();
+			try
+			{
+				this.UpdateThumbnailsList();
+				this.RefreshThumbnails();
+			}
+			catch (Exception exception)
+			{
+				// A client can disappear while Windows is enumerating it. Never let
+				// that kill the refresh timer.
+				System.Diagnostics.Debug.WriteLine(exception);
+			}
 		}
 
 
@@ -431,42 +444,39 @@ namespace EveOPreview.Services
 
 		private void SetCycleGroupIndicator(ZoomAnchor anchor)
 		{
-			this.DisableViewEvents();
-
-			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+			this.WithoutViewEvents(() =>
 			{
-				entry.Value.SetCycleGroupIndicator(entry.Value.IsExcludedFromCycleGroup, anchor);
-				entry.Value.Refresh(false);
-			}
-
-			this.EnableViewEvents();
+				foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+				{
+					entry.Value.SetCycleGroupIndicator(entry.Value.IsExcludedFromCycleGroup, anchor);
+					entry.Value.Refresh(false);
+				}
+			});
 		}
 
 		private void SetThumbnailsSize(Size size)
 		{
-			this.DisableViewEvents();
-
-			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+			this.WithoutViewEvents(() =>
 			{
-				entry.Value.ThumbnailSize = size;
-				entry.Value.Refresh(false);
-			}
-
-			this.EnableViewEvents();
+				foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+				{
+					entry.Value.ThumbnailSize = size;
+					entry.Value.Refresh(false);
+				}
+			});
 		}
 
 		public void UpdateThumbnailFrames()
 		{
-			this.DisableViewEvents();
-
-			foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+			this.WithoutViewEvents(() =>
 			{
-				entry.Value.SetFrames(this._configuration.ShowThumbnailFrames);
-				ApplyCaptionBar(entry.Value);
-				entry.Value.SetPreventPreviews();
-			}
-
-			this.EnableViewEvents();
+				foreach (KeyValuePair<IntPtr, IThumbnailView> entry in this._thumbnailViews)
+				{
+					entry.Value.SetFrames(this._configuration.ShowThumbnailFrames);
+					ApplyCaptionBar(entry.Value);
+					entry.Value.SetPreventPreviews();
+				}
+			});
 		}
 
 		private void EnableViewEvents()
@@ -477,6 +487,20 @@ namespace EveOPreview.Services
 		private void DisableViewEvents()
 		{
 			this._ignoreViewEvents = true;
+		}
+
+		private void WithoutViewEvents(Action action)
+		{
+			bool previous = this._ignoreViewEvents;
+			this._ignoreViewEvents = true;
+			try
+			{
+				action();
+			}
+			finally
+			{
+				this._ignoreViewEvents = previous;
+			}
 		}
 
 

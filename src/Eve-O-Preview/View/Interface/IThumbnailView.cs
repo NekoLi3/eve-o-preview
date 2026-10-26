@@ -25,6 +25,7 @@ namespace EveOPreview.View
 		void SetFrames(bool enable);
 		void SetOverlayLabel();
 		void SetSystemLocation(string system);
+		void SetEventLabel(string text, Color color);
 		void SetCycleGroupIndicator(bool displayCycleGroup, ZoomAnchor anchor);
 		void SetTopMost(bool enableTopmost);
 		void SetHighlight();
