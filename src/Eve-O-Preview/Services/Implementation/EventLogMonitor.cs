@@ -21,8 +21,8 @@ namespace EveOPreview.Services.Implementation
 		#region Private constants
 		private const string GAMELOGS_SUBDIRECTORY = @"EVE\logs\Gamelogs";
 		private const string GAMELOG_FILE_PATTERN = "*.txt";
-		private const int TIMER_PERIOD_MS = 1000;
-		private const int TIMER_DUE_TIME_MS = 250;
+		private const int TIMER_PERIOD_MS = 250;
+		private const int TIMER_DUE_TIME_MS = 100;
 		private const int DISCOVERY_INTERVAL_MS = 30000;
 		private const int RECENT_FILE_WINDOW_MINUTES = 10;
 		private const int MAX_EVENT_AGE_MS = 5000;

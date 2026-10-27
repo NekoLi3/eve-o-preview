@@ -83,6 +83,62 @@ namespace EveOPreview.Tests
         }
 
         [Fact]
+        public void Following_Rule_Default_Label_Includes_Character_Name()
+        {
+            var parser = new EventLogParser(new[]
+            {
+                Rule("Following (?<name>.+?) in warp", "Following {name} in warp", "DeepSkyBlue")
+            });
+
+            Assert.True(parser.TryMatch("Following NekoLi in warp", "Pilot", out string label, out _));
+            Assert.Equal("Following NekoLi in warp", label);
+        }
+
+        [Fact]
+        public void Disruption_Rule_Uses_The_Pilot_Name_From_Raw_Markup()
+        {
+            const string line =
+                "[ 2026.10.27 02:15:22 ] (combat) <color=0xffffffff><b>Warp disruption attempt</b> " +
+                "<color=0x77ffffff><font size=10>from</font> <color=0xffffffff><b>" +
+                "<font size=12><color=0xFFFFFF40><b>Vedmak</b></color></font> " +
+                "<font size=11><color=0xFF40FFCF>NekoLi</color></font></b> " +
+                "<color=0x77ffffff><font size=10>to <b><color=0xffffffff></font>you!";
+
+            var parser = new EventLogParser(new[]
+            {
+                Rule("Warp disruption attempt", "Disrupted by {name}", "Red", selfOnly: true)
+            });
+
+            Assert.True(EventLogParser.TryParseLine(line, out _, out string message));
+            Assert.True(parser.TryMatch(message, "Iryin", out string label, out _));
+            Assert.Equal("Disrupted by NekoLi", label);
+
+            Assert.True(EventLogParser.TryExtractAttackerName(message, out string attacker));
+            Assert.Equal("NekoLi", attacker);
+        }
+
+        [Fact]
+        public void Scramble_Rule_Uses_The_Attacker_Name()
+        {
+            var parser = new EventLogParser(new[]
+            {
+                Rule("Warp scramble attempt", "Scrambled by {name}", "Red", selfOnly: true)
+            });
+
+            Assert.True(EventLogParser.TryParseLine(ScrambleLine, out _, out string message));
+            Assert.True(parser.TryMatch(message, "Target", out string label, out _));
+            Assert.Equal("Scrambled by Attacker", label);
+        }
+
+        [Fact]
+        public void Attacker_Extraction_Works_For_Clean_Text()
+        {
+            Assert.True(EventLogParser.TryExtractAttackerName(
+                "Warp disruption attempt from Attacker to Target", out string attacker));
+            Assert.Equal("Attacker", attacker);
+        }
+
+        [Fact]
         public void Raw_Markup_Fast_Path_Matches_Without_Cleaning()
         {
             var parser = new EventLogParser(new[]

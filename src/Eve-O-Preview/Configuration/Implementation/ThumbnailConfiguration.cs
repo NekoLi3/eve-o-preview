@@ -522,6 +522,42 @@ namespace EveOPreview.Configuration.Implementation
 				// Older configuration files do not have the rules section.
 				this.EventLabelRules = ThumbnailConfiguration.CreateDefaultEventLabelRules();
 			}
+			else
+			{
+				ThumbnailConfiguration.MigrateDefaultEventLabelRules(this.EventLabelRules);
+			}
+		}
+
+		/// <summary>
+		/// Updates the labels of the original built-in rules without touching
+		/// user-customized rules. Existing configuration files keep the old
+		/// defaults, so this migration must run every time the file is loaded.
+		/// </summary>
+		private static void MigrateDefaultEventLabelRules(List<EventLabelRule> rules)
+		{
+			foreach (EventLabelRule rule in rules)
+			{
+				if (rule == null)
+				{
+					continue;
+				}
+
+				if (string.Equals(rule.Pattern, "Following (?<name>.+?) in warp", StringComparison.Ordinal) &&
+					string.Equals(rule.Label, "WARP {name}", StringComparison.Ordinal))
+				{
+					rule.Label = "Following {name} in warp";
+				}
+				else if (string.Equals(rule.Pattern, "Warp scramble attempt", StringComparison.Ordinal) &&
+					string.Equals(rule.Label, "SCRAM", StringComparison.Ordinal))
+				{
+					rule.Label = "Scrambled by {name}";
+				}
+				else if (string.Equals(rule.Pattern, "Warp disruption attempt", StringComparison.Ordinal) &&
+					string.Equals(rule.Label, "DISRUPT", StringComparison.Ordinal))
+				{
+					rule.Label = "Disrupted by {name}";
+				}
+			}
 		}
 
 		private static List<EventLabelRule> CreateDefaultEventLabelRules()
@@ -537,20 +573,20 @@ namespace EveOPreview.Configuration.Implementation
 				new EventLabelRule
 				{
 					Pattern = "Following (?<name>.+?) in warp",
-					Label = "WARP {name}",
+					Label = "Following {name} in warp",
 					Color = "DeepSkyBlue"
 				},
 				new EventLabelRule
 				{
 					Pattern = "Warp scramble attempt",
-					Label = "SCRAM",
+					Label = "Scrambled by {name}",
 					Color = "Red",
 					SelfOnly = true
 				},
 				new EventLabelRule
 				{
 					Pattern = "Warp disruption attempt",
-					Label = "DISRUPT",
+					Label = "Disrupted by {name}",
 					Color = "Red",
 					SelfOnly = true
 				}

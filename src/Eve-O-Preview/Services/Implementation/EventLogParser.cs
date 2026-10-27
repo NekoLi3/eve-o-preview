@@ -71,24 +71,26 @@ namespace EveOPreview.Services.Implementation
 				return false;
 			}
 
+			TryExtractAttackerName(rawMessage, out string fallbackName);
+
 			if (rawMessage.IndexOf('<') < 0)
 			{
-				return this.TryMatchCore(rawMessage, characterName, true, out label, out color);
+				return this.TryMatchCore(rawMessage, characterName, true, fallbackName, out label, out color);
 			}
 
 			// Combat lines are full of markup, so a rule written against the clean
 			// text cannot match the raw line. Do not run self-only rules against
 			// the raw form: the target cannot be determined reliably there.
-			if (this.TryMatchCore(rawMessage, characterName, false, out label, out color))
+			if (this.TryMatchCore(rawMessage, characterName, false, fallbackName, out label, out color))
 			{
 				return true;
 			}
 
 			string cleanMessage = StripMarkup(rawMessage);
-			return this.TryMatchCore(cleanMessage, characterName, true, out label, out color);
+			return this.TryMatchCore(cleanMessage, characterName, true, fallbackName, out label, out color);
 		}
 
-		private bool TryMatchCore(string message, string characterName, bool allowSelfOnly, out string label, out Color color)
+		private bool TryMatchCore(string message, string characterName, bool allowSelfOnly, string fallbackName, out string label, out Color color)
 		{
 			label = null;
 			color = Color.White;
@@ -119,7 +121,8 @@ namespace EveOPreview.Services.Implementation
 				if (text.Contains("{name}", StringComparison.Ordinal))
 				{
 					Group nameGroup = match.Groups["name"];
-					text = text.Replace("{name}", nameGroup.Success ? Sanitize(nameGroup.Value) : "");
+					string name = nameGroup.Success ? nameGroup.Value : fallbackName;
+					text = text.Replace("{name}", Sanitize(name));
 				}
 
 				text = Sanitize(text);
@@ -197,6 +200,85 @@ namespace EveOPreview.Services.Implementation
 
 			string withoutTags = MarkupRegex.Replace(value.Replace("<br>", " ", StringComparison.OrdinalIgnoreCase), " ");
 			return WhitespaceRegex.Replace(withoutTags, " ").Trim();
+		}
+
+		/// <summary>
+		/// Extracts the attacker pilot from combat lines such as
+		/// "Warp disruption attempt from [ship] [pilot] to [target]".
+		/// Raw EVE markup keeps the ship and the character in separate text
+		/// nodes, so the last text node before "to" is the pilot, not the ship.
+		/// </summary>
+		internal static bool TryExtractAttackerName(string rawMessage, out string name)
+		{
+			name = null;
+			if (string.IsNullOrEmpty(rawMessage))
+			{
+				return false;
+			}
+
+			if (rawMessage.IndexOf('<') >= 0)
+			{
+				return TryExtractAttackerNameFromMarkup(rawMessage, out name);
+			}
+
+			int fromIndex = rawMessage.IndexOf(" from ", StringComparison.OrdinalIgnoreCase);
+			if (fromIndex < 0)
+			{
+				return false;
+			}
+
+			int start = fromIndex + 6;
+			int toIndex = rawMessage.IndexOf(" to ", start, StringComparison.OrdinalIgnoreCase);
+			if (toIndex < 0)
+			{
+				return false;
+			}
+
+			name = Sanitize(rawMessage.Substring(start, toIndex - start));
+			return name.Length > 0;
+		}
+
+		private static bool TryExtractAttackerNameFromMarkup(string rawMessage, out string name)
+		{
+			name = null;
+			bool inAttacker = false;
+			string candidate = null;
+
+			foreach (string part in MarkupRegex.Split(rawMessage))
+			{
+				string text = WhitespaceRegex.Replace(part, " ").Trim();
+				if (text.Length == 0)
+				{
+					continue;
+				}
+
+				if (!inAttacker)
+				{
+					if (text.Equals("from", StringComparison.OrdinalIgnoreCase) ||
+						text.StartsWith("from ", StringComparison.OrdinalIgnoreCase))
+					{
+						inAttacker = true;
+					}
+
+					continue;
+				}
+
+				if (text.Equals("to", StringComparison.OrdinalIgnoreCase) ||
+					text.StartsWith("to ", StringComparison.OrdinalIgnoreCase))
+				{
+					break;
+				}
+
+				candidate = text;
+			}
+
+			if (string.IsNullOrEmpty(candidate))
+			{
+				return false;
+			}
+
+			name = Sanitize(candidate.Trim(' ', '!', '.', ',', ';', ':'));
+			return name.Length > 0;
 		}
 
 		internal static bool IsSelfTarget(string message, string characterName)

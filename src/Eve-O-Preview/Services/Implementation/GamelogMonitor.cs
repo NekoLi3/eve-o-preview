@@ -1,5 +1,6 @@
 using EveOPreview.Configuration;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,7 +23,10 @@ namespace EveOPreview.Services.Implementation
 		#region Private constants
 		private const string CHATLOGS_SUBDIRECTORY = @"EVE\logs\Chatlogs";
 		private const string CHATLOG_FILE_PATTERN = "Local_*.txt";
-		private const int REFRESH_PERIOD_MS = 3000;
+		private const int REFRESH_PERIOD_MS = 500;
+		private const int MAX_READ_BYTES = 256 * 1024;
+		private const int READ_OVERLAP_BYTES = 4 * 1024;
+		private const int HEADER_READ_BYTES = 64 * 1024;
 
 		private const string LISTENER_PREFIX = "Listener:";
 		private const string CHANNEL_CHANGED_MARKER = "EVE System > Channel changed to Local : ";
@@ -33,6 +37,7 @@ namespace EveOPreview.Services.Implementation
 		private readonly object _syncRoot;
 		private readonly Dictionary<string, string> _characterSystems;
 		private readonly Dictionary<string, long> _characterSystemSources;
+		private readonly Dictionary<string, string> _characterSystemFiles;
 		private readonly Dictionary<string, ChatlogFileState> _fileStates;
 
 		private readonly string _chatlogsPath;
@@ -40,7 +45,9 @@ namespace EveOPreview.Services.Implementation
 		private FileSystemWatcher _watcher;
 		private Timer _refreshTimer;
 		private volatile bool _stopped;
-		private int _isRefreshing;
+		private readonly object _refreshGate;
+		private bool _refreshActive;
+		private bool _refreshPending;
 		#endregion
 
 		private sealed class ChatlogFileState
@@ -48,8 +55,6 @@ namespace EveOPreview.Services.Implementation
 			// Null when the file has no Listener header (i.e. it is not a valid Local chatlog)
 			public string CharacterName;
 			public long Offset;
-			public long HeaderLength;
-			public bool HeaderChecked;
 			public long CreationTicks;
 		}
 
@@ -57,8 +62,10 @@ namespace EveOPreview.Services.Implementation
 		{
 			this._configuration = configuration;
 			this._syncRoot = new object();
+			this._refreshGate = new object();
 			this._characterSystems = new Dictionary<string, string>();
 			this._characterSystemSources = new Dictionary<string, long>();
+			this._characterSystemFiles = new Dictionary<string, string>();
 			this._fileStates = new Dictionary<string, ChatlogFileState>();
 
 			this._chatlogsPath = string.IsNullOrEmpty(this._configuration.ChatlogsPath)
@@ -174,25 +181,80 @@ namespace EveOPreview.Services.Implementation
 			this.Refresh();
 		}
 
-		private void Refresh()
+		internal void Refresh()
 		{
-			if (this._stopped || Interlocked.Exchange(ref this._isRefreshing, 1) != 0)
+			lock (this._refreshGate)
 			{
-				return;
+				if (this._stopped)
+				{
+					return;
+				}
+
+				if (this._refreshActive)
+				{
+					// A watcher event arrived while a read was in progress.
+					// Do not drop it: run one more pass after the current one.
+					this._refreshPending = true;
+					return;
+				}
+
+				this._refreshActive = true;
 			}
 
 			try
 			{
-				this.RefreshCore();
-			}
-			catch (Exception)
-			{
-				// A file may be locked or the folder temporarily unavailable;
-				// the periodic timer will retry
+				while (true)
+				{
+					try
+					{
+						this.RefreshCore();
+					}
+					catch (Exception exception)
+					{
+						// A file may be locked or the folder temporarily unavailable;
+						// the periodic timer will retry
+						System.Diagnostics.Debug.WriteLine(exception);
+					}
+
+					lock (this._refreshGate)
+					{
+						if (!this._refreshPending || this._stopped)
+						{
+							this._refreshActive = false;
+							this._refreshPending = false;
+							return;
+						}
+
+						this._refreshPending = false;
+					}
+				}
 			}
 			finally
 			{
-				Interlocked.Exchange(ref this._isRefreshing, 0);
+				lock (this._refreshGate)
+				{
+					if (this._refreshActive)
+					{
+						this._refreshActive = false;
+						this._refreshPending = false;
+					}
+				}
+			}
+		}
+
+		// Deterministic refresh for tests: does not depend on the watcher or the
+		// periodic timer having fired.
+		internal void RefreshNow()
+		{
+			bool wasStopped = this._stopped;
+			this._stopped = false;
+			try
+			{
+				this.RefreshCore();
+			}
+			finally
+			{
+				this._stopped = wasStopped;
 			}
 		}
 
@@ -237,120 +299,224 @@ namespace EveOPreview.Services.Implementation
 			string filePath = file.FullName;
 			if (!this._fileStates.TryGetValue(filePath, out ChatlogFileState state))
 			{
-				state = new ChatlogFileState
-				{
-					CreationTicks = file.CreationTimeUtc.Ticks
-				};
+				state = new ChatlogFileState();
 				this._fileStates[filePath] = state;
 			}
-
-			long length = file.Length;
-			if (state.CreationTicks != file.CreationTimeUtc.Ticks)
-			{
-				// The file was replaced under the same name - start over.
-				state.Offset = 0;
-				state.CharacterName = null;
-				state.HeaderChecked = false;
-				state.CreationTicks = file.CreationTimeUtc.Ticks;
-			}
-
-			if (state.Offset == length && state.CharacterName != null)
-			{
-				// Nothing was appended since the last refresh.
-				return;
-			}
-
-			if (state.CharacterName == null && state.HeaderChecked && length <= state.HeaderLength)
-			{
-				return;
-			}
-
-			DateTime fileWriteTime = file.LastWriteTimeUtc;
 
 			try
 			{
 				using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
 				{
-					// The file was truncated or replaced since the last read - start over
-					if (stream.Length < state.Offset)
+					long length = stream.Length;
+					long creationTicks = file.CreationTimeUtc.Ticks;
+
+					if (state.CreationTicks == 0)
 					{
+						state.CreationTicks = creationTicks;
+					}
+
+					if (state.CreationTicks != creationTicks || length < state.Offset)
+					{
+						// The file was replaced or truncated under the same name - start over.
 						state.Offset = 0;
 						state.CharacterName = null;
-						state.HeaderChecked = false;
+						state.CreationTicks = creationTicks;
 					}
 
 					if (state.CharacterName == null)
 					{
-						state.HeaderChecked = true;
-						state.HeaderLength = stream.Length;
+						state.CharacterName = GamelogMonitor.ReadListener(stream);
+						if (state.CharacterName == null)
+						{
+							// The header may still be written; retry on the next refresh.
+							return;
+						}
+
+						state.Offset = 0;
 					}
 
-					stream.Seek(state.Offset, SeekOrigin.Begin);
-
-					using (StreamReader reader = new StreamReader(stream, Encoding.Unicode, true, 4096, true))
+					if (length <= state.Offset)
 					{
-						// The chatlogs are UTF-16LE; ReadToEnd consumes the stream
-						// up to its end, so the offset is the exact byte position
-						string content = reader.ReadToEnd();
+						// Nothing was appended since the last read.
+						return;
+					}
 
-						if (content.Length == 0)
+					long readOffset = state.Offset;
+					bool skippedPartialFirstLine = false;
+
+					// Re-read a small overlap so a marker cannot be lost if the
+					// previous read stopped between two writes.
+					if (readOffset > 0)
+					{
+						readOffset = Math.Max(0, readOffset - GamelogMonitor.READ_OVERLAP_BYTES);
+						readOffset -= readOffset & 1;
+						skippedPartialFirstLine = true;
+					}
+
+					// A very large burst of writes is not useful for the current
+					// system label; only the tail matters.
+					if (length - readOffset > GamelogMonitor.MAX_READ_BYTES)
+					{
+						readOffset = length - GamelogMonitor.MAX_READ_BYTES;
+						readOffset -= readOffset & 1;
+						skippedPartialFirstLine = true;
+					}
+
+					int available = (int)(length - readOffset);
+					byte[] buffer = ArrayPool<byte>.Shared.Rent(available);
+					try
+					{
+						stream.Seek(readOffset, SeekOrigin.Begin);
+						int read = 0;
+						while (read < available)
+						{
+							int chunk = stream.Read(buffer, read, available - read);
+							if (chunk <= 0)
+							{
+								break;
+							}
+
+							read += chunk;
+						}
+
+						if (read <= 0)
 						{
 							return;
 						}
 
-						// Only complete lines are processed; an incomplete trailing
-						// line (no newline yet) is left for the next refresh
-						int lastNewline = content.LastIndexOf('\n');
+						int start = 0;
+						if (readOffset == 0 && read >= 2 && buffer[0] == 0xFF && buffer[1] == 0xFE)
+						{
+							// UTF-16LE BOM. Do not count it as part of the content.
+							start = 2;
+						}
+
+						// Find the last complete UTF-16LE line. A newline is 0A 00.
+						int lastNewline = -1;
+						for (int i = start; i + 1 < read; i += 2)
+						{
+							if (buffer[i] == 0x0A && buffer[i + 1] == 0x00)
+							{
+								lastNewline = i;
+							}
+						}
+
 						if (lastNewline < 0)
 						{
+							// No complete line yet; keep the offset and retry later.
 							return;
 						}
 
-						// UTF-16: every char is 2 bytes
-						long newOffset = state.Offset + (long)(lastNewline + 1) * 2;
-						string textToProcess = content.Substring(0, lastNewline + 1);
+						int completeBytes = lastNewline + 2 - start;
+						string text = Encoding.Unicode.GetString(buffer, start, completeBytes);
+						string[] lines = text.Split('\n');
+						int firstLine = skippedPartialFirstLine ? 1 : 0;
 
-						bool parsingHeader = (state.Offset == 0) && (state.CharacterName == null);
-						foreach (string rawLine in textToProcess.Split('\n'))
+						for (int i = firstLine; i < lines.Length; i++)
 						{
-							string line = rawLine.TrimEnd('\r');
-
-							if (parsingHeader)
-							{
-								string trimmed = line.Trim();
-								if (trimmed.StartsWith(GamelogMonitor.LISTENER_PREFIX, StringComparison.Ordinal))
-								{
-									state.CharacterName = trimmed.Substring(GamelogMonitor.LISTENER_PREFIX.Length).Trim();
-								}
-								else if (trimmed.StartsWith("[", StringComparison.Ordinal))
-								{
-									// The header ended without a Listener line;
-									// this is not a valid Local chatlog - ignore it
-									parsingHeader = false;
-								}
-							}
-
-							if (state.CharacterName != null)
-							{
-								this.ProcessEventLine(fileWriteTime, state.CharacterName, line);
-							}
+							string line = lines[i].TrimEnd('\r');
+							this.ProcessEventLine(filePath, file.LastWriteTimeUtc, state.CharacterName, line);
 						}
 
-						state.Offset = newOffset;
+						long newOffset = readOffset + start + completeBytes;
+						if (newOffset > state.Offset)
+						{
+							state.Offset = newOffset;
+						}
+					}
+					finally
+					{
+						ArrayPool<byte>.Shared.Return(buffer);
 					}
 				}
 			}
-			catch (IOException)
+			catch (IOException exception)
 			{
 				// The file may be locked by EVE right now; the next refresh will retry
+				System.Diagnostics.Debug.WriteLine(exception);
 			}
-			catch (UnauthorizedAccessException)
+			catch (UnauthorizedAccessException exception)
 			{
 				// Same as above
+				System.Diagnostics.Debug.WriteLine(exception);
 			}
 		}
 
-		private void ProcessEventLine(DateTime fileWriteTime, string character, string line)
+		private static string ReadListener(FileStream stream)
+		{
+			long originalPosition = stream.Position;
+			byte[] buffer = null;
+			try
+			{
+				long length = stream.Length;
+				if (length <= 0)
+				{
+					return null;
+				}
+
+				int available = (int)Math.Min(length, GamelogMonitor.HEADER_READ_BYTES);
+				buffer = ArrayPool<byte>.Shared.Rent(available);
+				stream.Seek(0, SeekOrigin.Begin);
+
+				int read = 0;
+				while (read < available)
+				{
+					int chunk = stream.Read(buffer, read, available - read);
+					if (chunk <= 0)
+					{
+						break;
+					}
+
+					read += chunk;
+				}
+
+				if (read <= 0)
+				{
+					return null;
+				}
+
+				int start = (read >= 2 && buffer[0] == 0xFF && buffer[1] == 0xFE) ? 2 : 0;
+				string text = Encoding.Unicode.GetString(buffer, start, read - start);
+
+				// Do not parse a header line that EVE is still writing. A
+				// truncated Listener line would otherwise poison the character
+				// name for the whole session.
+				int lastNewline = text.LastIndexOf('\n');
+				if (lastNewline < 0)
+				{
+					return null;
+				}
+
+				foreach (string rawLine in text.Substring(0, lastNewline + 1).Split('\n'))
+				{
+					string line = rawLine.Trim();
+					if (line.StartsWith(GamelogMonitor.LISTENER_PREFIX, StringComparison.Ordinal))
+					{
+						return line.Substring(GamelogMonitor.LISTENER_PREFIX.Length).Trim();
+					}
+
+					if (line.StartsWith("[", StringComparison.Ordinal))
+					{
+						// The header ended without a Listener line; this is not
+						// a valid Local chatlog.
+						return null;
+					}
+				}
+
+				return null;
+			}
+			finally
+			{
+				if (buffer != null)
+				{
+					ArrayPool<byte>.Shared.Return(buffer);
+				}
+
+				stream.Seek(originalPosition, SeekOrigin.Begin);
+			}
+		}
+
+		private void ProcessEventLine(string filePath, DateTime fileWriteTime, string character, string line)
 		{
 			int markerIndex = line.IndexOf(GamelogMonitor.CHANNEL_CHANGED_MARKER, StringComparison.Ordinal);
 			if (markerIndex < 0)
@@ -364,18 +530,28 @@ namespace EveOPreview.Services.Implementation
 				return;
 			}
 
-			// Only the most recently written file may update a character's system,
-			// so a stale (rotated) file can never overwrite the value from a newer one.
-			// The lock is held only for this short dictionary update, not for I/O.
+			// A rotated, older file must not overwrite the value from a newer
+			// file. The same file is always allowed to advance, even when the
+			// file system reports an older or unchanged write timestamp.
 			lock (this._syncRoot)
 			{
-				if (this._characterSystemSources.TryGetValue(character, out long sourceTicks) && sourceTicks > fileWriteTime.Ticks)
+				if (this._characterSystemFiles.TryGetValue(character, out string sourceFile) &&
+					!string.Equals(sourceFile, filePath, StringComparison.OrdinalIgnoreCase))
 				{
-					return;
+					// The timestamp embedded in the Local_yyyyMMdd_HHmmss name is
+					// more reliable than file-system metadata, which can be cached
+					// while EVE keeps the log open.
+					int nameOrder = string.CompareOrdinal(Path.GetFileName(filePath), Path.GetFileName(sourceFile));
+					this._characterSystemSources.TryGetValue(character, out long sourceTicks);
+					if (nameOrder < 0 || (nameOrder == 0 && fileWriteTime.Ticks < sourceTicks))
+					{
+						return;
+					}
 				}
 
 				this._characterSystems[character] = system;
 				this._characterSystemSources[character] = fileWriteTime.Ticks;
+				this._characterSystemFiles[character] = filePath;
 			}
 		}
 

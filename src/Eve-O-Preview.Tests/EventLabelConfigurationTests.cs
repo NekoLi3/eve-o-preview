@@ -28,11 +28,11 @@ namespace EveOPreview.Tests
             Assert.Equal(4, configuration.EventLabelRules.Count);
 
             Assert.Equal("DECLOAK", configuration.EventLabelRules[0].Label);
-            Assert.Equal("WARP {name}", configuration.EventLabelRules[1].Label);
+            Assert.Equal("Following {name} in warp", configuration.EventLabelRules[1].Label);
             Assert.False(configuration.EventLabelRules[1].SelfOnly);
-            Assert.Equal("SCRAM", configuration.EventLabelRules[2].Label);
+            Assert.Equal("Scrambled by {name}", configuration.EventLabelRules[2].Label);
             Assert.True(configuration.EventLabelRules[2].SelfOnly);
-            Assert.Equal("DISRUPT", configuration.EventLabelRules[3].Label);
+            Assert.Equal("Disrupted by {name}", configuration.EventLabelRules[3].Label);
             Assert.True(configuration.EventLabelRules[3].SelfOnly);
             Assert.All(configuration.EventLabelRules, rule => Assert.True(rule.Enabled));
         }
@@ -101,6 +101,32 @@ namespace EveOPreview.Tests
             configuration.ApplyRestrictions();
 
             Assert.Equal(10000, configuration.EventLabelDurationMs);
+        }
+
+        [Fact]
+        public void ApplyRestrictions_Migrates_Old_Default_Labels_And_Preserves_Custom_Rules()
+        {
+            var configuration = new ThumbnailConfiguration
+            {
+                EventLabelRules = new List<EventLabelRule>
+                {
+                    new EventLabelRule { Pattern = "Following (?<name>.+?) in warp", Label = "WARP {name}", Color = "DeepSkyBlue" },
+                    new EventLabelRule { Pattern = "Warp scramble attempt", Label = "SCRAM", Color = "Red", SelfOnly = true },
+                    new EventLabelRule { Pattern = "Warp disruption attempt", Label = "DISRUPT", Color = "Red", SelfOnly = true },
+                    new EventLabelRule { Pattern = "custom", Label = "CUSTOM {name}", Color = "Green" }
+                }
+            };
+
+            configuration.ApplyRestrictions();
+
+            Assert.Equal("Following {name} in warp", configuration.EventLabelRules[0].Label);
+            Assert.Equal("Scrambled by {name}", configuration.EventLabelRules[1].Label);
+            Assert.Equal("Disrupted by {name}", configuration.EventLabelRules[2].Label);
+            Assert.Equal("CUSTOM {name}", configuration.EventLabelRules[3].Label);
+
+            // Applying restrictions again must not change already migrated rules.
+            configuration.ApplyRestrictions();
+            Assert.Equal("Following {name} in warp", configuration.EventLabelRules[0].Label);
         }
     }
 }
